@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply overflow-x-hidden bg-background text-foreground;
+  }
+  :root {
+    --auth-sidebar-width: 17rem;
+  }
+}
+
+.ReactCollapse--collapse {
+  transition: height 300ms;
+}
+
+.sidebar-wrapper {
+  @apply transition-[width] duration-300 min-w-[80px];
+}
+
+.sidebar-wrapper.sidebar-hovered {
+  width: var(--auth-sidebar-width) !important;
+}
+
+.menu-header {
+  @apply relative w-full px-8 py-0;
+}
+
+.menu-header:before {
+  @apply content-[""] absolute -translate-x-2/4 -translate-y-2/4 w-6 h-px left-0 top-2/4 transition-all duration-300 ease-in-out bg-ring bg-foreground/60;
+}
+
+.sidebar-wrapper.close_sidebar:not(.sidebar-hovered) .menu-header:before {
+  @apply -translate-x-2/4 -translate-y-2/4 left-[calc((80px)_/_2)];
+}
+
+.sidebar-wrapper .menu-header-text {
+  @apply transition-opacity duration-200 delay-100 opacity-100 indent-0;
+}
+
+.sidebar-wrapper.close_sidebar:not(.sidebar-hovered) .menu-header-text {
+  @apply indent-[-9999px] opacity-0;
+}
+
+.menu-item {
+  @apply transition-[width] duration-500 relative before:content-[''] before:w-1 before:left-0 before:absolute before:h-10 before:rounded-r-lg duration-300 uppercase w-[calc(var(--auth-sidebar-width)-2rem)];
+}
+
+.menu-sub .menu-item {
+  @apply before:bg-card before:rounded-none hover:bg-transparent;
+}
+
+.menu-link {
+  @apply relative flex flex-1 font-medium text-base rounded-lg capitalize items-center py-2.5 px-4 mx-4 transition-[width] justify-start duration-300 ease-in-out w-full hover:bg-gradient-to-r	hover:from-primary hover:to-[#FE6E9A] hover:text-primary-foreground;
+}
+
+.close_sidebar:not(.sidebar-hovered) .menu-link {
+  @apply transition-[width] w-12 overflow-hidden whitespace-nowrap;
+}
+
+.menu-text {
+  transition:
+    transform 500ms,
+    opacity 100ms;
+  @apply text-sm translate-x-2 opacity-100 whitespace-nowrap;
+}
+
+.close_sidebar:not(.sidebar-hovered) .menu-text {
+  @apply translate-x-0 opacity-0;
+}
+
+.close_sidebar:not(.sidebar-hovered) .menu-sub {
+  @apply hidden;
+}
+
+.menu-sub .menu-link {
+  @apply hover:bg-none hover:text-inherit;
+}
+
+/* .close_sidebar:not(.sidebar-hovered) .single-sidebar-menu .text-box {
+  @apply absolute top-0 invisible opacity-0 left-full;
+}
+
+.close_sidebar:not(.sidebar-hovered) .text-box:hover {
+  @apply visible opacity-100;
+}
+
+.close_sidebar .menu-header {
+  @apply hidden;
+}
+
+.close_sidebar:not(.sidebar-hovered) .menu-arrow {
+  @apply hidden;
+}
+
+.close_sidebar:not(.sidebar-hovered) .item-has-children .text-box {
+  @apply hidden;
+}
+
+.close_sidebar:not(.sidebar-hovered) ul.sub-menu {
+  @apply absolute top-0 invisible opacity-0 left-full;
+}
+
+.close_sidebar:not(.sidebar-hovered) > ul:hover {
+  @apply visible opacity-100;
+} */
