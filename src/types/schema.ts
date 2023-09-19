@@ -51,53 +51,13 @@ type organization = {
   readonly updated_at: Date | string;
 };
 
-type organization_pic = {
-  readonly id: string;
-  organization_pic_name: string;
-  organization_pic_phone: string;
-  organization_pic_ktp: string;
-  readonly created_at: Date | string;
-  readonly updated_at: Date | string;
-};
+type branch_status = "active" | "inactive";
 
-type organization_review_status = "accepted" | "revised" | "declined";
-
-type organization_review = {
+type branch = {
   readonly id: string;
-  organization_review_message: string;
-  organization_review_status: organization_review_status;
+  branch_name: string;
+  branch_status: branch_status;
   organization_id: string;
   readonly created_at: Date | string;
   readonly updated_at: Date | string;
-};
-
-type user_organization_type = "founder" | "member";
-
-type user_organization = {
-  readonly id: string;
-  user_id: string;
-  organization_id: string;
-  user_organization_type: user_organization_type;
-  readonly created_at: Date | string;
-  readonly updated_at: Date | string;
-};
-
-type user_session_device = "desktop" | "mobile" | "bot" | "unknown";
-
-type user_session = {
-  readonly id: string;
-  user_id: string;
-  user_session_access_token: string | null;
-  user_session_device: user_session_device | "unknown" | null;
-  user_session_browser: string | "unknown" | null;
-  user_session_browser_version: string | "unknown" | null;
-  user_session_os: string | "unknown" | null;
-  user_session_platform: string | "unknown" | null;
-  user_session_source: string | "unknown" | null;
-  user_session_ip_address: string | null;
-  organization_id: string | null;
-  readonly expired_at: Date | string | null;
-  readonly created_at: Date | string;
-  readonly updated_at: Date | string;
-  organization?: organization | null;
 };

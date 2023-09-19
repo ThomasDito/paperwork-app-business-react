@@ -5,11 +5,10 @@ import HistoryIndex from "@/pages/history";
 import PageLayout from "@/pages/layout";
 import ProfileIndex from "@/pages/profile";
 import SecurityIndex from "@/pages/security";
-import { useLazyMeQuery } from "@/redux/api/auth-api";
 import { useAppDispatch } from "@/redux/hooks";
 import { login } from "@/redux/slices/auth-slice";
 import { useEffect } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import OrganizationListIndex from "@/pages/organization/organization-list";
 import OrganizationSubmissionIndex from "@/pages/organization/submission";
 import DashboardIndex from "@/pages/dashboard";
@@ -19,25 +18,65 @@ import TransactionInvoiceIndex from "@/pages/transaction/invoice";
 import TransactionPaymentIndex from "@/pages/transaction/payment";
 import UserIndex from "@/pages/user";
 import UserShow from "@/pages/user/show";
+import OnboardingIndex from "@/pages/onboarding";
+import OnboardingWelcomeIndex from "@/pages/onboarding/welcome";
+import { useLazyMeQuery } from "@/redux/api/paperwork/auth-api";
+import { setOrganization } from "@/redux/slices/organization-slice";
+import SettingIndex from "@/pages/setting";
+import BranchIndex from "@/pages/setting/branch";
+import OrganizationIndex from "@/pages/setting/organization";
+import DivisionIndex from "@/pages/setting/division";
+import PositionIndex from "@/pages/setting/position";
+import LevelIndex from "@/pages/setting/level";
+import EmployeeStatusIndex from "@/pages/setting/employee-status";
+import { useLazyBusinessOrganizationGetQuery } from "@/redux/api/business/organization-api";
+import BranchForm from "@/pages/setting/branch/form";
 
 export default function App() {
+  // hooks
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const previousLocation = location.state?.previousLocation;
 
-  const [getMe, { data: me, isSuccess }] = useLazyMeQuery();
+  const [getMe, { data: me, isSuccess: getMeIsSuccess }] = useLazyMeQuery();
+  const [
+    getOrganization,
+    { data: organization, isSuccess: getOrganizationIsSuccess },
+  ] = useLazyBusinessOrganizationGetQuery();
 
   useEffect(() => {
     getMe();
+    getOrganization();
   }, []);
 
   useEffect(() => {
     if (me) dispatch(login(me));
   }, [me]);
 
-  if (isSuccess) {
+  useEffect(() => {
+    if (organization) dispatch(setOrganization(organization));
+  }, [organization]);
+
+  // return <OnboardingIndex />;
+
+  if (getMeIsSuccess || getOrganizationIsSuccess) {
     return (
       <Layout>
-        <Routes>
+        <Routes location={previousLocation || location}>
           <Route element={<PageLayout />}>
+            <Route path="setting" element={<SettingIndex />}>
+              <Route
+                index
+                element={<Navigate to={"/setting/organization"} />}
+              />
+              <Route path="organization" element={<OrganizationIndex />} />
+              <Route path="branch" element={<BranchIndex />} />
+              <Route path="division" element={<DivisionIndex />} />
+              <Route path="position" element={<PositionIndex />} />
+              <Route path="level" element={<LevelIndex />} />
+              <Route path="employee-status" element={<EmployeeStatusIndex />} />
+            </Route>
+
             <Route>
               <Route index element={<Navigate to="/dashboard" />} />
               <Route path="dashboard" element={<DashboardIndex />} />
@@ -83,6 +122,15 @@ export default function App() {
           </Route>
           <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>
+
+        {/* Modals */}
+        {previousLocation && (
+          <Routes>
+            <Route path="setting">
+              <Route path="branch/form/:id?" element={<BranchForm />} />
+            </Route>
+          </Routes>
+        )}
       </Layout>
     );
   } else {

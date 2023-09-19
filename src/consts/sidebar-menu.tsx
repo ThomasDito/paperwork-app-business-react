@@ -8,51 +8,62 @@ import {
 
 export const sidebarMenus: SidebarMenuItem[] = [
   {
-    title: "menu",
+    title: "bisnis",
     isHeader: true,
   },
   {
-    title: "Dashboard",
+    title: "Beranda",
     icon: <LucideHome className="w-5 h-5" />,
     link: "/dashboard",
   },
   {
     title: "Organisasi",
     icon: <LucideLayoutGrid className="w-5 h-5" />,
-    link: "/organization",
     children: [
       {
-        title: "Daftar Organisasi",
+        title: "Anggota",
         link: "/organization/organization-list",
       },
       {
-        title: "Form Pengajuan",
+        title: "Hak Akses",
         link: "/organization/submission",
+      },
+      {
+        title: "Pengaturan",
+        link: "/setting",
       },
     ],
   },
   {
-    title: "Pengguna",
+    title: "Aplikasi",
     icon: <LucideUsers className="w-5 h-5" />,
     link: "/user",
   },
   {
-    title: "Transaksi",
+    title: "Pengelolaan",
     icon: <LucideDollarSign className="w-5 h-5" />,
     link: "/transaction",
     children: [
       {
-        title: "Penagihan",
+        title: "Kalender",
         link: "/transaction/invoice",
       },
       {
-        title: "Pembayaran",
+        title: "Informasi",
         link: "/transaction/payment",
+      },
+      {
+        title: "Inventaris",
+        link: "/transaction/1",
+      },
+      {
+        title: "Landing Page",
+        link: "/transaction/2",
       },
     ],
   },
   {
-    title: "akun",
+    title: "pekerja",
     isHeader: true,
   },
   {

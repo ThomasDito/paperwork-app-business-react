@@ -1,6 +1,18 @@
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, Button, Textarea, cn } from "paperwork-ui";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  Button,
+  Textarea,
+  cn,
+} from "paperwork-ui";
 import { toastError, toastSuccess } from "@/components/ui/toast";
-import { useApprovalOrganizationMutation, useLazyShowOrganizationQuery } from "@/redux/api/superadmin/manage-organization/organization-api";
+import {
+  useApprovalOrganizationMutation,
+  useLazyShowOrganizationQuery,
+} from "@/redux/api/superadmin/manage-organization/organization-api";
 import { Form, Formik } from "formik";
 import { withZodSchema } from "formik-validator-zod";
 import { Loader2 } from "lucide-react";
@@ -22,8 +34,14 @@ const formSchema = z.object({
 
 export type ApprovalSchema = z.infer<typeof formSchema>;
 
-export default function ApprovalModal({ isOpen, setIsOpen, organization_id, status }: Props) {
-  const [approvalOrganization, { isLoading }] = useApprovalOrganizationMutation();
+export default function ApprovalModal({
+  isOpen,
+  setIsOpen,
+  organization_id,
+  status,
+}: Props) {
+  const [approvalOrganization, { isLoading }] =
+    useApprovalOrganizationMutation();
 
   const [refetchOrganization] = useLazyShowOrganizationQuery();
 
@@ -38,16 +56,25 @@ export default function ApprovalModal({ isOpen, setIsOpen, organization_id, stat
       .unwrap()
       .then((response) => {
         refetchOrganization(organization_id);
-        toastSuccess(response?.message || "Pengajuan organisasi berhasil ditinjau");
+        toastSuccess(
+          response?.message || "Pengajuan organisasi berhasil ditinjau"
+        );
         setIsOpen(false);
       })
       .catch((rejected: { message?: string; data?: ApiResponse<unknown> }) => {
-        toastError(rejected?.data?.message || "Terjadi kesalahan ketika menyimpan data");
+        toastError(
+          rejected?.data?.message || "Terjadi kesalahan ketika menyimpan data"
+        );
       });
   };
 
   return (
-    <Formik initialValues={initialValues} validate={withZodSchema(formSchema)} onSubmit={onSubmit} enableReinitialize={true}>
+    <Formik
+      initialValues={initialValues}
+      validate={withZodSchema(formSchema)}
+      onSubmit={onSubmit}
+      enableReinitialize={true}
+    >
       {(formik) => {
         return (
           <Form>
@@ -58,16 +85,37 @@ export default function ApprovalModal({ isOpen, setIsOpen, organization_id, stat
                   <div className="py-5">
                     <Textarea
                       value={formik.values.organization_review_message}
-                      onChange={(e) => formik.setFieldValue("organization_review_message", e.target.value)}
-                      onBlur={(e) => formik.setFieldValue("organization_review_message", e.target.value)}
+                      onChange={(e) =>
+                        formik.setFieldValue(
+                          "organization_review_message",
+                          e.target.value
+                        )
+                      }
+                      onBlur={(e) =>
+                        formik.setFieldValue(
+                          "organization_review_message",
+                          e.target.value
+                        )
+                      }
                       rows={15}
-                      className={cn("max-h-96", formik.errors.organization_review_message && "border border-destructive ring-destructive focus-visible:ring-0")}
+                      className={cn(
+                        "max-h-96",
+                        formik.errors.organization_review_message &&
+                          "border border-destructive ring-destructive focus-visible:ring-0"
+                      )}
                     />
-                    <p className="mt-2 text-xs text-destructive">{formik.errors.organization_review_message}</p>
+                    <p className="mt-2 text-xs text-destructive">
+                      {formik.errors.organization_review_message}
+                    </p>
                   </div>
                 </DialogHeader>
                 <DialogFooter>
-                  <Button className="w-full mt-2 mr-1 bg-card sm:mt-0" type="button" variant={"outline"} onClick={() => setIsOpen(false)}>
+                  <Button
+                    className="w-full mt-2 mr-1 bg-card sm:mt-0"
+                    type="button"
+                    variant={"outline"}
+                    onClick={() => setIsOpen(false)}
+                  >
                     Batal
                   </Button>
                   <Button

@@ -1,6 +1,6 @@
-import { mainApi } from "@/redux/api/main-api";
+import { paperworkBaseApi } from "@/redux/api/paperwork/base-api";
 
-const authApi = mainApi.injectEndpoints({
+const paperworkAuthApi = paperworkBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     me: builder.query<user, void>({
       query: () => ({
@@ -20,4 +20,4 @@ const authApi = mainApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useLazyMeQuery, useLogoutMutation } = authApi;
+export const { useLazyMeQuery, useLogoutMutation } = paperworkAuthApi;
