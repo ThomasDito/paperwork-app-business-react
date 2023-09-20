@@ -34,6 +34,8 @@ import BranchForm from "@/pages/setting/branch/form";
 import BranchDelete from "@/pages/setting/branch/delete";
 import DivisionForm from "@/pages/setting/division/form";
 import DivisionDelete from "@/pages/setting/division/delete";
+import PositionForm from "@/pages/setting/position/form";
+import PositionDelete from "@/pages/setting/position/delete";
 
 export default function App() {
   // hooks
@@ -137,6 +139,10 @@ export default function App() {
               <Route path="division">
                 <Route path="form/:id?" element={<DivisionForm />} />
                 <Route path="delete/:id" element={<DivisionDelete />} />
+              </Route>
+              <Route path="position">
+                <Route path="form/:id?" element={<PositionForm />} />
+                <Route path="delete/:id" element={<PositionDelete />} />
               </Route>
             </Route>
           </Routes>

@@ -71,3 +71,13 @@ type division = {
   readonly created_at: Date | string;
   readonly updated_at: Date | string;
 };
+
+type position_status = "active" | "inactive";
+type position = {
+  readonly id: string;
+  position_name: string;
+  position_status: position_status;
+  organization_id: string;
+  readonly created_at: Date | string;
+  readonly updated_at: Date | string;
+};
