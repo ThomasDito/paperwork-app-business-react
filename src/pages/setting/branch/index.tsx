@@ -1,13 +1,9 @@
+import BranchSkeleton from "@/pages/setting/branch/components/skeleton";
 import { useLazyBusinessBranchGetBranchesQuery } from "@/redux/api/business/branch-api";
-import {
-  LucideEdit,
-  LucidePlus,
-  LucideSearch,
-  LucideTrash,
-} from "lucide-react";
+import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
   Button,
-  Input,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -15,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "paperwork-ui";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 export default function BranchIndex() {
@@ -25,8 +21,10 @@ export default function BranchIndex() {
   // RTK Query
   const [
     getBranches,
-    { data: branches = [], isSuccess: getBranchesIsSuccess },
+    { data: branches = [], isError, isFetching, isLoading, isUninitialized },
   ] = useLazyBusinessBranchGetBranchesQuery();
+
+  const tableIsLoading = isError || isFetching || isLoading || isUninitialized;
 
   useEffect(() => {
     getBranches();
@@ -39,16 +37,19 @@ export default function BranchIndex() {
           Cabang
         </h3>
         <div className="flex items-center space-x-4">
-          <div className="relative flex items-center">
+          {/* <div className="relative flex items-center">
             <div className="absolute inset-y-0 flex items-center pointer-events-none left-3">
-              <LucideSearch size={18} className="text-muted-foreground" />
+              <LucideSearch
+                size={18}
+                className="text-muted-foreground opacity-50"
+              />
             </div>
             <Input
               className="w-full pl-10 min-w-[300px]"
               type="search"
               placeholder="Pencarian..."
             />
-          </div>
+          </div> */}
           <Link
             to={"/setting/branch/form"}
             state={{ previousLocation: location }}
@@ -65,38 +66,58 @@ export default function BranchIndex() {
             <TableHeader>
               <TableRow>
                 <TableHead className="py-4 px-5">Nama Cabang</TableHead>
-                <TableHead className="py-4 px-5">Status</TableHead>
+                <TableHead className="py-4 px-5 text-center">Aktif</TableHead>
                 <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
+              {tableIsLoading && <BranchSkeleton />}
+
+              {!tableIsLoading && !branches?.length && (
+                <TableRow>
+                  <TableCell className="p-5 text-center" colSpan={3}>
+                    Tidak ada data
+                  </TableCell>
+                </TableRow>
+              )}
+
               {branches.map((branch) => {
                 return (
                   <TableRow key={branch.id}>
                     <TableCell className="py-2 px-5">
                       {branch.branch_name}
                     </TableCell>
-                    <TableCell className="py-2 px-5">
-                      {branch.branch_status}
+                    <TableCell className="py-2 px-5 text-center">
+                      <Switch checked={branch.branch_status === "active"} />
                     </TableCell>
                     <TableCell className="py-2 px-5 text-center">
                       <div className="flex justify-center space-x-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="relative"
+                        <Link
+                          to={`/setting/branch/form/${branch.id}`}
+                          state={{ previousLocation: location }}
                         >
-                          <LucideEdit className="w-4 h-4" />
-                          <span className="sr-only">Ubah</span>
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="relative text-destructive hover:text-destructive"
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="relative"
+                          >
+                            <LucideEdit className="w-4 h-4" />
+                            <span className="sr-only">Ubah</span>
+                          </Button>
+                        </Link>
+                        <Link
+                          to={`/setting/branch/delete/${branch.id}`}
+                          state={{ previousLocation: location }}
                         >
-                          <LucideTrash className="w-4 h-4" />
-                          <span className="sr-only">Hapus</span>
-                        </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="relative text-destructive hover:text-destructive"
+                          >
+                            <LucideTrash className="w-4 h-4" />
+                            <span className="sr-only">Hapus</span>
+                          </Button>
+                        </Link>
                       </div>
                     </TableCell>
                   </TableRow>

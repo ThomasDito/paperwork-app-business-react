@@ -12,11 +12,39 @@ const businessBranchApi = businessBaseApi.injectEndpoints({
         response.data,
       transformErrorResponse: (response) => response.data,
     }),
-    businessBranchStore: builder.mutation<ApiResponse<branch>, any>({
-      query: (payload) => ({
-        url: `branch`,
-        method: "POST",
+    businessBranchShow: builder.query<branch, string>({
+      query: (id) => ({
+        url: `branch/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["Branch"],
+      transformResponse: (response: ApiResponse<branch>) => response.data,
+    }),
+    businessBranchStore: builder.mutation<ApiResponse<branch>, Partial<branch>>(
+      {
+        query: (payload) => ({
+          url: `branch`,
+          method: "POST",
+          body: payload,
+        }),
+        invalidatesTags: ["Branch"],
+      }
+    ),
+    businessBranchUpdate: builder.mutation<
+      ApiResponse<branch>,
+      { id: string; payload: Partial<branch> }
+    >({
+      query: ({ id, payload }) => ({
+        url: `branch/${id}`,
+        method: "PUT",
         body: payload,
+      }),
+      invalidatesTags: ["Branch"],
+    }),
+    businessBranchDelete: builder.mutation<ApiResponse<branch>, string>({
+      query: (id) => ({
+        url: `branch/${id}`,
+        method: "DELETE",
       }),
       invalidatesTags: ["Branch"],
     }),
@@ -25,6 +53,11 @@ const businessBranchApi = businessBaseApi.injectEndpoints({
 });
 
 export const {
+  useBusinessBranchGetBranchesQuery,
+  useBusinessBranchShowQuery,
+  useLazyBusinessBranchShowQuery,
   useLazyBusinessBranchGetBranchesQuery,
   useBusinessBranchStoreMutation,
+  useBusinessBranchDeleteMutation,
+  useBusinessBranchUpdateMutation,
 } = businessBranchApi;

@@ -1,5 +1,9 @@
 import { toastError, toastSuccess } from "@/components/ui/toast";
-import { useBusinessBranchStoreMutation } from "@/redux/api/business/branch-api";
+import {
+  useBusinessBranchStoreMutation,
+  useBusinessBranchUpdateMutation,
+  useLazyBusinessBranchShowQuery,
+} from "@/redux/api/business/branch-api";
 import { Form, Formik } from "formik";
 import { withZodSchema } from "formik-validator-zod";
 import { LucideLoader2 } from "lucide-react";
@@ -7,14 +11,14 @@ import {
   Button,
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   FormikInput,
+  Label,
+  Switch,
 } from "paperwork-ui";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 
@@ -24,6 +28,7 @@ const formSchema = z.object({
     .min(1, "Harus diisi")
     .max(150, "Maksimal 150 karakter")
     .trim(),
+  branch_status: z.enum(["active", "inactive"]),
 });
 
 export type BranchFormSchema = z.infer<typeof formSchema>;
@@ -35,15 +40,43 @@ export default function BranchForm() {
   const { id } = useParams();
 
   // RTK Query
+  const [showBranch, { isLoading: showIsLoading }] =
+    useLazyBusinessBranchShowQuery();
+
   const [storeBranch, { isLoading: storeIsLoading }] =
     useBusinessBranchStoreMutation();
 
-  const isLoading = storeIsLoading;
+  const [updateBranch, { isLoading: updateIsLoading }] =
+    useBusinessBranchUpdateMutation();
+
+  const isLoading = showIsLoading || storeIsLoading || updateIsLoading;
 
   // States
-  const [initialValues] = useState<BranchFormSchema>({
+  const [initialValues, setInitialValues] = useState<BranchFormSchema>({
     branch_name: "",
+    branch_status: "active",
   });
+
+  useEffect(() => {
+    if (id) detailBranch(id);
+  }, [id]);
+
+  const detailBranch = async (id: string) => {
+    await showBranch(id)
+      .unwrap()
+      .then((branch) => {
+        setInitialValues({
+          branch_name: branch.branch_name,
+          branch_status: branch.branch_status,
+        });
+      })
+      .catch((rejected: { message?: string; data?: ApiResponse<unknown> }) => {
+        toastError(
+          rejected?.data?.message || "Terjadi kesalahan ketika mengambil data"
+        );
+        closeModal();
+      });
+  };
 
   const onSubmit = async (values: BranchFormSchema) => {
     if (!id) {
@@ -51,6 +84,21 @@ export default function BranchForm() {
         .unwrap()
         .then((response) => {
           toastSuccess(response?.message || "Cabang berhasil ditambahkan");
+          closeModal();
+        })
+        .catch(
+          (rejected: { message?: string; data?: ApiResponse<unknown> }) => {
+            toastError(
+              rejected?.data?.message ||
+                "Terjadi kesalahan ketika menyimpan data"
+            );
+          }
+        );
+    } else {
+      await updateBranch({ id, payload: values })
+        .unwrap()
+        .then((response) => {
+          toastSuccess(response?.message || "Cabang berhasil diubah");
           closeModal();
         })
         .catch(
@@ -89,6 +137,19 @@ export default function BranchForm() {
                       id="branch_name"
                       placeholder="Nama Cabang"
                     />
+                    <div className="mt-7 flex flex-col space-y-5">
+                      <Label>Aktif</Label>
+                      <Switch
+                        checked={formik.values.branch_status === "active"}
+                        onCheckedChange={(checked) => {
+                          formik.setFieldTouched("branch_status", true);
+                          formik.setFieldValue(
+                            "branch_status",
+                            checked ? "active" : "inactive"
+                          );
+                        }}
+                      />
+                    </div>
                   </div>
                 </DialogHeader>
                 <DialogFooter className="pt-8">
