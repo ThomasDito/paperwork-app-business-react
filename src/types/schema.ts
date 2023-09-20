@@ -81,3 +81,23 @@ type position = {
   readonly created_at: Date | string;
   readonly updated_at: Date | string;
 };
+
+type level_status = "active" | "inactive";
+type level = {
+  readonly id: string;
+  level_name: string;
+  level_status: level_status;
+  organization_id: string;
+  readonly created_at: Date | string;
+  readonly updated_at: Date | string;
+};
+
+type employee_status_status = "active" | "inactive";
+type employee_status = {
+  readonly id: string;
+  employee_status_name: string;
+  employee_status_status: employee_status_status;
+  organization_id: string;
+  readonly created_at: Date | string;
+  readonly updated_at: Date | string;
+};

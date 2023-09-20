@@ -36,6 +36,10 @@ import DivisionForm from "@/pages/setting/division/form";
 import DivisionDelete from "@/pages/setting/division/delete";
 import PositionForm from "@/pages/setting/position/form";
 import PositionDelete from "@/pages/setting/position/delete";
+import LevelForm from "@/pages/setting/level/form";
+import LevelDelete from "@/pages/setting/level/delete";
+import EmployeeStatusForm from "@/pages/setting/employee-status/form";
+import EmployeeStatusDelete from "@/pages/setting/employee-status/delete";
 
 export default function App() {
   // hooks
@@ -143,6 +147,14 @@ export default function App() {
               <Route path="position">
                 <Route path="form/:id?" element={<PositionForm />} />
                 <Route path="delete/:id" element={<PositionDelete />} />
+              </Route>
+              <Route path="level">
+                <Route path="form/:id?" element={<LevelForm />} />
+                <Route path="delete/:id" element={<LevelDelete />} />
+              </Route>
+              <Route path="employee-status">
+                <Route path="form/:id?" element={<EmployeeStatusForm />} />
+                <Route path="delete/:id" element={<EmployeeStatusDelete />} />
               </Route>
             </Route>
           </Routes>

@@ -38,5 +38,5 @@ export const businessBaseApi = createApi({
   reducerPath: "business-api",
   baseQuery: baseQueryWithReauth,
   endpoints: () => ({}),
-  tagTypes: ["Branch", "Division", "Position"],
+  tagTypes: ["Branch", "Division", "Position", "Level", "Employee Status"],
 });
