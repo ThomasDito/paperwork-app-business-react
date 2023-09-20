@@ -32,6 +32,8 @@ import EmployeeStatusIndex from "@/pages/setting/employee-status";
 import { useLazyBusinessOrganizationGetQuery } from "@/redux/api/business/organization-api";
 import BranchForm from "@/pages/setting/branch/form";
 import BranchDelete from "@/pages/setting/branch/delete";
+import DivisionForm from "@/pages/setting/division/form";
+import DivisionDelete from "@/pages/setting/division/delete";
 
 export default function App() {
   // hooks
@@ -128,8 +130,14 @@ export default function App() {
         {previousLocation && (
           <Routes>
             <Route path="setting">
-              <Route path="branch/form/:id?" element={<BranchForm />} />
-              <Route path="branch/delete/:id" element={<BranchDelete />} />
+              <Route path="branch">
+                <Route path="form/:id?" element={<BranchForm />} />
+                <Route path="delete/:id" element={<BranchDelete />} />
+              </Route>
+              <Route path="division">
+                <Route path="form/:id?" element={<DivisionForm />} />
+                <Route path="delete/:id" element={<DivisionDelete />} />
+              </Route>
             </Route>
           </Routes>
         )}

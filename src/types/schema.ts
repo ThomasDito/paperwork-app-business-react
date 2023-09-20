@@ -52,11 +52,21 @@ type organization = {
 };
 
 type branch_status = "active" | "inactive";
-
 type branch = {
   readonly id: string;
   branch_name: string;
   branch_status: branch_status;
+  organization_id: string;
+  readonly created_at: Date | string;
+  readonly updated_at: Date | string;
+};
+
+type division_status = "active" | "inactive";
+type division = {
+  readonly id: string;
+  division_name: string;
+  division_status: division_status;
+  division_parent_id: string | null;
   organization_id: string;
   readonly created_at: Date | string;
   readonly updated_at: Date | string;
