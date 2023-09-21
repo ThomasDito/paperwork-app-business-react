@@ -1,5 +1,5 @@
-import PositionSkeleton from "@/pages/setting/position/components/skeleton";
-import { useLazyBusinessPositionGetPositionsQuery } from "@/redux/api/business/position-api";
+import DivisionSkeleton from "@/pages/business/organization/setting/division/components/skeleton";
+import { useLazyBusinessDivisionGetDivisionsQuery } from "@/redux/api/business/division-api";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
   Button,
@@ -14,48 +14,35 @@ import {
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-export default function PositionIndex() {
+export default function RoleIndex() {
   // Hooks
   const location = useLocation();
 
   // RTK Query
   const [
-    getPositions,
-    { data: positions = [], isError, isFetching, isLoading, isUninitialized },
-  ] = useLazyBusinessPositionGetPositionsQuery();
+    getDivisions,
+    { data: divisions = [], isError, isFetching, isLoading, isUninitialized },
+  ] = useLazyBusinessDivisionGetDivisionsQuery();
 
   const tableIsLoading = isError || isFetching || isLoading || isUninitialized;
 
   useEffect(() => {
-    getPositions();
+    getDivisions();
   }, []);
 
   return (
-    <div className="bg-card border rounded-md shadow">
+    <div className="bg-card border rounded-md">
       <div className="p-5 flex flex-col items-center justify-between space-y-6 border-0 md:space-y-0 md:flex-row">
         <h3 className="text-2xl font-semibold tracking-tight scroll-m-20">
-          Jabatan
+          Hak Akses
         </h3>
         <div className="flex items-center space-x-4">
-          {/* <div className="relative flex items-center">
-            <div className="absolute inset-y-0 flex items-center pointer-events-none left-3">
-              <LucideSearch
-                size={18}
-                className="text-muted-foreground opacity-50"
-              />
-            </div>
-            <Input
-              className="w-full pl-10 min-w-[300px]"
-              type="search"
-              placeholder="Pencarian..."
-            />
-          </div> */}
           <Link
-            to={"/setting/position/form"}
+            to={"/modal/division/form"}
             state={{ previousLocation: location }}
           >
             <Button>
-              <LucidePlus className="w-5 h-5 mr-2" /> Tambah Jabatan
+              <LucidePlus className="w-5 h-5 mr-2" /> Tambah Hak Akses
             </Button>
           </Link>
         </div>
@@ -71,9 +58,9 @@ export default function PositionIndex() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {tableIsLoading && <PositionSkeleton />}
+              {tableIsLoading && <DivisionSkeleton />}
 
-              {!tableIsLoading && !positions?.length && (
+              {!tableIsLoading && !divisions?.length && (
                 <TableRow>
                   <TableCell className="p-5 text-center" colSpan={3}>
                     Tidak ada data
@@ -81,19 +68,19 @@ export default function PositionIndex() {
                 </TableRow>
               )}
 
-              {positions.map((position) => {
+              {divisions.map((division) => {
                 return (
-                  <TableRow key={position.id}>
+                  <TableRow key={division.id}>
                     <TableCell className="py-2 px-5">
-                      {position.position_name}
+                      {division.division_name}
                     </TableCell>
                     <TableCell className="py-2 px-5 text-center">
-                      <Switch checked={position.position_status === "active"} />
+                      <Switch checked={division.division_status === "active"} />
                     </TableCell>
                     <TableCell className="py-2 px-5 text-center">
                       <div className="flex justify-center space-x-2">
                         <Link
-                          to={`/setting/position/form/${position.id}`}
+                          to={`/modal/division/form/${division.id}`}
                           state={{ previousLocation: location }}
                         >
                           <Button
@@ -106,7 +93,7 @@ export default function PositionIndex() {
                           </Button>
                         </Link>
                         <Link
-                          to={`/setting/position/delete/${position.id}`}
+                          to={`/modal/division/delete/${division.id}`}
                           state={{ previousLocation: location }}
                         >
                           <Button

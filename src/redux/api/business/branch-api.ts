@@ -41,6 +41,17 @@ const businessBranchApi = businessBaseApi.injectEndpoints({
       }),
       invalidatesTags: ["Branch"],
     }),
+    businessBranchChangeStatus: builder.mutation<
+      ApiResponse<branch>,
+      { id: string; payload: Pick<branch, "branch_status"> }
+    >({
+      query: ({ id, payload }) => ({
+        url: `branch/${id}/change-status`,
+        method: "PUT",
+        body: payload,
+      }),
+      invalidatesTags: ["Branch"],
+    }),
     businessBranchDelete: builder.mutation<ApiResponse<branch>, string>({
       query: (id) => ({
         url: `branch/${id}`,
@@ -60,4 +71,5 @@ export const {
   useBusinessBranchStoreMutation,
   useBusinessBranchDeleteMutation,
   useBusinessBranchUpdateMutation,
+  useBusinessBranchChangeStatusMutation,
 } = businessBranchApi;

@@ -49,6 +49,8 @@ type organization = {
   founder_id: string;
   readonly created_at: Date | string;
   readonly updated_at: Date | string;
+  province: region;
+  city: region;
 };
 
 type branch_status = "active" | "inactive";

@@ -1,5 +1,5 @@
-import LevelSkeleton from "@/pages/setting/level/components/skeleton";
-import { useLazyBusinessLevelGetLevelsQuery } from "@/redux/api/business/level-api";
+import PositionSkeleton from "@/pages/business/organization/setting/position/components/skeleton";
+import { useLazyBusinessPositionGetPositionsQuery } from "@/redux/api/business/position-api";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
   Button,
@@ -14,27 +14,27 @@ import {
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-export default function LevelIndex() {
+export default function PositionIndex() {
   // Hooks
   const location = useLocation();
 
   // RTK Query
   const [
-    getLevels,
-    { data: levels = [], isError, isFetching, isLoading, isUninitialized },
-  ] = useLazyBusinessLevelGetLevelsQuery();
+    getPositions,
+    { data: positions = [], isError, isFetching, isLoading, isUninitialized },
+  ] = useLazyBusinessPositionGetPositionsQuery();
 
   const tableIsLoading = isError || isFetching || isLoading || isUninitialized;
 
   useEffect(() => {
-    getLevels();
+    getPositions();
   }, []);
 
   return (
-    <div className="bg-card border rounded-md shadow">
+    <div className="bg-card border rounded-md">
       <div className="p-5 flex flex-col items-center justify-between space-y-6 border-0 md:space-y-0 md:flex-row">
         <h3 className="text-2xl font-semibold tracking-tight scroll-m-20">
-          Level
+          Jabatan
         </h3>
         <div className="flex items-center space-x-4">
           {/* <div className="relative flex items-center">
@@ -51,11 +51,11 @@ export default function LevelIndex() {
             />
           </div> */}
           <Link
-            to={"/setting/level/form"}
+            to={"/modal/position/form"}
             state={{ previousLocation: location }}
           >
             <Button>
-              <LucidePlus className="w-5 h-5 mr-2" /> Tambah Level
+              <LucidePlus className="w-5 h-5 mr-2" /> Tambah Jabatan
             </Button>
           </Link>
         </div>
@@ -65,15 +65,15 @@ export default function LevelIndex() {
           <Table className="whitespace-nowrap">
             <TableHeader>
               <TableRow>
-                <TableHead className="py-4 px-5">Nama Level</TableHead>
+                <TableHead className="py-4 px-5">Nama Jabatan</TableHead>
                 <TableHead className="py-4 px-5 text-center">Aktif</TableHead>
                 <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {tableIsLoading && <LevelSkeleton />}
+              {tableIsLoading && <PositionSkeleton />}
 
-              {!tableIsLoading && !levels?.length && (
+              {!tableIsLoading && !positions?.length && (
                 <TableRow>
                   <TableCell className="p-5 text-center" colSpan={3}>
                     Tidak ada data
@@ -81,19 +81,19 @@ export default function LevelIndex() {
                 </TableRow>
               )}
 
-              {levels.map((level) => {
+              {positions.map((position) => {
                 return (
-                  <TableRow key={level.id}>
+                  <TableRow key={position.id}>
                     <TableCell className="py-2 px-5">
-                      {level.level_name}
+                      {position.position_name}
                     </TableCell>
                     <TableCell className="py-2 px-5 text-center">
-                      <Switch checked={level.level_status === "active"} />
+                      <Switch checked={position.position_status === "active"} />
                     </TableCell>
                     <TableCell className="py-2 px-5 text-center">
                       <div className="flex justify-center space-x-2">
                         <Link
-                          to={`/setting/level/form/${level.id}`}
+                          to={`/modal/position/form/${position.id}`}
                           state={{ previousLocation: location }}
                         >
                           <Button
@@ -106,7 +106,7 @@ export default function LevelIndex() {
                           </Button>
                         </Link>
                         <Link
-                          to={`/setting/level/delete/${level.id}`}
+                          to={`/modal/position/delete/${position.id}`}
                           state={{ previousLocation: location }}
                         >
                           <Button

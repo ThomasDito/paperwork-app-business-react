@@ -22,24 +22,25 @@ import OnboardingIndex from "@/pages/onboarding";
 import OnboardingWelcomeIndex from "@/pages/onboarding/welcome";
 import { useLazyMeQuery } from "@/redux/api/paperwork/auth-api";
 import { setOrganization } from "@/redux/slices/organization-slice";
-import SettingIndex from "@/pages/setting";
-import BranchIndex from "@/pages/setting/branch";
-import OrganizationIndex from "@/pages/setting/organization";
-import DivisionIndex from "@/pages/setting/division";
-import PositionIndex from "@/pages/setting/position";
-import LevelIndex from "@/pages/setting/level";
-import EmployeeStatusIndex from "@/pages/setting/employee-status";
+import SettingIndex from "@/pages/business/organization/setting";
+import BranchIndex from "@/pages/business/organization/setting/branch";
+import OrganizationIndex from "@/pages/business/organization/setting/organization";
+import DivisionIndex from "@/pages/business/organization/setting/division";
+import PositionIndex from "@/pages/business/organization/setting/position";
+import LevelIndex from "@/pages/business/organization/setting/level";
+import EmployeeStatusIndex from "@/pages/business/organization/setting/employee-status";
 import { useLazyBusinessOrganizationGetQuery } from "@/redux/api/business/organization-api";
-import BranchForm from "@/pages/setting/branch/form";
-import BranchDelete from "@/pages/setting/branch/delete";
-import DivisionForm from "@/pages/setting/division/form";
-import DivisionDelete from "@/pages/setting/division/delete";
-import PositionForm from "@/pages/setting/position/form";
-import PositionDelete from "@/pages/setting/position/delete";
-import LevelForm from "@/pages/setting/level/form";
-import LevelDelete from "@/pages/setting/level/delete";
-import EmployeeStatusForm from "@/pages/setting/employee-status/form";
-import EmployeeStatusDelete from "@/pages/setting/employee-status/delete";
+import BranchForm from "@/pages/business/organization/setting/branch/form";
+import BranchDelete from "@/pages/business/organization/setting/branch/delete";
+import DivisionForm from "@/pages/business/organization/setting/division/form";
+import DivisionDelete from "@/pages/business/organization/setting/division/delete";
+import PositionForm from "@/pages/business/organization/setting/position/form";
+import PositionDelete from "@/pages/business/organization/setting/position/delete";
+import LevelForm from "@/pages/business/organization/setting/level/form";
+import LevelDelete from "@/pages/business/organization/setting/level/delete";
+import EmployeeStatusForm from "@/pages/business/organization/setting/employee-status/form";
+import EmployeeStatusDelete from "@/pages/business/organization/setting/employee-status/delete";
+import RoleIndex from "@/pages/business/organization/role";
 
 export default function App() {
   // hooks
@@ -68,22 +69,36 @@ export default function App() {
 
   // return <OnboardingIndex />;
 
-  if (getMeIsSuccess || getOrganizationIsSuccess) {
+  if (getMeIsSuccess && getOrganizationIsSuccess) {
     return (
       <Layout>
         <Routes location={previousLocation || location}>
           <Route element={<PageLayout />}>
-            <Route path="setting" element={<SettingIndex />}>
-              <Route
-                index
-                element={<Navigate to={"/setting/organization"} />}
-              />
-              <Route path="organization" element={<OrganizationIndex />} />
-              <Route path="branch" element={<BranchIndex />} />
-              <Route path="division" element={<DivisionIndex />} />
-              <Route path="position" element={<PositionIndex />} />
-              <Route path="level" element={<LevelIndex />} />
-              <Route path="employee-status" element={<EmployeeStatusIndex />} />
+            <Route path="business">
+              <Route path="organization">
+                <Route path="setting" element={<SettingIndex />}>
+                  <Route
+                    index
+                    element={
+                      <Navigate
+                        to={"/business/organization/setting/organization"}
+                      />
+                    }
+                  />
+                  <Route path="organization" element={<OrganizationIndex />} />
+                  <Route path="branch" element={<BranchIndex />} />
+                  <Route path="division" element={<DivisionIndex />} />
+                  <Route path="position" element={<PositionIndex />} />
+                  <Route path="level" element={<LevelIndex />} />
+                  <Route
+                    path="employee-status"
+                    element={<EmployeeStatusIndex />}
+                  />
+                </Route>
+                <Route path="role">
+                  <Route index element={<RoleIndex />} />
+                </Route>
+              </Route>
             </Route>
 
             <Route>
@@ -135,7 +150,7 @@ export default function App() {
         {/* Modals */}
         {previousLocation && (
           <Routes>
-            <Route path="setting">
+            <Route path="modal">
               <Route path="branch">
                 <Route path="form/:id?" element={<BranchForm />} />
                 <Route path="delete/:id" element={<BranchDelete />} />

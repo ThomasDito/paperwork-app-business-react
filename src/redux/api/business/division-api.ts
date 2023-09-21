@@ -42,6 +42,17 @@ const businessDivisionApi = businessBaseApi.injectEndpoints({
       }),
       invalidatesTags: ["Division"],
     }),
+    businessDivisionChangeStatus: builder.mutation<
+      ApiResponse<division>,
+      { id: string; payload: Pick<division, "division_status"> }
+    >({
+      query: ({ id, payload }) => ({
+        url: `division/${id}/change-status`,
+        method: "PUT",
+        body: payload,
+      }),
+      invalidatesTags: ["Division"],
+    }),
     businessDivisionDelete: builder.mutation<ApiResponse<division>, string>({
       query: (id) => ({
         url: `division/${id}`,
@@ -61,4 +72,5 @@ export const {
   useBusinessDivisionStoreMutation,
   useBusinessDivisionDeleteMutation,
   useBusinessDivisionUpdateMutation,
+  useBusinessDivisionChangeStatusMutation,
 } = businessDivisionApi;

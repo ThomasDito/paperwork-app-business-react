@@ -44,32 +44,32 @@ export function SettingSidebar(): JSX.Element {
 export const sidebarNavItems = [
   {
     title: "Organisasi",
-    href: "/setting/organization",
+    href: "/business/organization/setting/organization",
     icon: <LucideLayoutGrid className="w-5 h-5 mr-3" />,
   },
   {
     title: "Cabang",
-    href: "/setting/branch",
+    href: "/business/organization/setting/branch",
     icon: <LucideWarehouse className="w-5 h-5 mr-3 mb-0.5" />,
   },
   {
     title: "Divisi",
-    href: "/setting/division",
+    href: "/business/organization/setting/division",
     icon: <LucideNetwork className="w-5 h-5 mr-3" />,
   },
   {
     title: "Jabatan",
-    href: "/setting/position",
+    href: "/business/organization/setting/position",
     icon: <LucideHardHat className="w-5 h-5 mr-3" />,
   },
   {
     title: "Level",
-    href: "/setting/level",
+    href: "/business/organization/setting/level",
     icon: <LucideWorkflow className="w-5 h-5 mr-3" />,
   },
   {
     title: "Status Kepegawaian",
-    href: "/setting/employee-status",
+    href: "/business/organization/setting/employee-status",
     icon: <LucideFileClock className="flex-shrink-0 w-5 h-5 mr-3" />,
   },
 ];

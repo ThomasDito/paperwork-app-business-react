@@ -1,7 +1,9 @@
 import {
   LucideDollarSign,
+  LucideFolderCog,
   LucideHome,
   LucideLayoutGrid,
+  LucideLayoutPanelLeft,
   LucideUser,
   LucideUsers,
 } from "lucide-react";
@@ -26,22 +28,22 @@ export const sidebarMenus: SidebarMenuItem[] = [
       },
       {
         title: "Hak Akses",
-        link: "/organization/submission",
+        link: "/business/organization/role",
       },
       {
         title: "Pengaturan",
-        link: "/setting",
+        link: "/business/organization/setting",
       },
     ],
   },
   {
     title: "Aplikasi",
-    icon: <LucideUsers className="w-5 h-5" />,
+    icon: <LucideLayoutPanelLeft className="w-5 h-5" />,
     link: "/user",
   },
   {
     title: "Pengelolaan",
-    icon: <LucideDollarSign className="w-5 h-5" />,
+    icon: <LucideFolderCog className="w-5 h-5" />,
     link: "/transaction",
     children: [
       {

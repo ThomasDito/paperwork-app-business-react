@@ -4,7 +4,7 @@ export default function LoadingPage() {
       <svg
         aria-hidden="true"
         role="status"
-        className="inline w-16 h-16 text-sky-500 animate-spin"
+        className="inline w-16 h-16 text-primary animate-spin"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

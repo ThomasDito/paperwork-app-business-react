@@ -1,5 +1,5 @@
-import EmployeeStatusSkeleton from "@/pages/setting/employee-status/components/skeleton";
-import { useLazyBusinessEmployeeStatusGetEmployeeStatusesQuery } from "@/redux/api/business/employee-status-api";
+import LevelSkeleton from "@/pages/business/organization/setting/level/components/skeleton";
+import { useLazyBusinessLevelGetLevelsQuery } from "@/redux/api/business/level-api";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
   Button,
@@ -14,33 +14,27 @@ import {
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-export default function EmployeeStatusIndex() {
+export default function LevelIndex() {
   // Hooks
   const location = useLocation();
 
   // RTK Query
   const [
-    getEmployeeStatuses,
-    {
-      data: employeeStatuses = [],
-      isError,
-      isFetching,
-      isLoading,
-      isUninitialized,
-    },
-  ] = useLazyBusinessEmployeeStatusGetEmployeeStatusesQuery();
+    getLevels,
+    { data: levels = [], isError, isFetching, isLoading, isUninitialized },
+  ] = useLazyBusinessLevelGetLevelsQuery();
 
   const tableIsLoading = isError || isFetching || isLoading || isUninitialized;
 
   useEffect(() => {
-    getEmployeeStatuses();
+    getLevels();
   }, []);
 
   return (
-    <div className="bg-card border rounded-md shadow">
+    <div className="bg-card border rounded-md">
       <div className="p-5 flex flex-col items-center justify-between space-y-6 border-0 md:space-y-0 md:flex-row">
         <h3 className="text-2xl font-semibold tracking-tight scroll-m-20">
-          Status Kepegawaian
+          Level
         </h3>
         <div className="flex items-center space-x-4">
           {/* <div className="relative flex items-center">
@@ -56,12 +50,9 @@ export default function EmployeeStatusIndex() {
               placeholder="Pencarian..."
             />
           </div> */}
-          <Link
-            to={"/setting/employee-status/form"}
-            state={{ previousLocation: location }}
-          >
+          <Link to={"/modal/level/form"} state={{ previousLocation: location }}>
             <Button>
-              <LucidePlus className="w-5 h-5 mr-2" /> Tambah Status
+              <LucidePlus className="w-5 h-5 mr-2" /> Tambah Level
             </Button>
           </Link>
         </div>
@@ -71,15 +62,15 @@ export default function EmployeeStatusIndex() {
           <Table className="whitespace-nowrap">
             <TableHeader>
               <TableRow>
-                <TableHead className="py-4 px-5">Status Kepegawaian</TableHead>
+                <TableHead className="py-4 px-5">Nama Level</TableHead>
                 <TableHead className="py-4 px-5 text-center">Aktif</TableHead>
                 <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {tableIsLoading && <EmployeeStatusSkeleton />}
+              {tableIsLoading && <LevelSkeleton />}
 
-              {!tableIsLoading && !employeeStatuses?.length && (
+              {!tableIsLoading && !levels?.length && (
                 <TableRow>
                   <TableCell className="p-5 text-center" colSpan={3}>
                     Tidak ada data
@@ -87,23 +78,19 @@ export default function EmployeeStatusIndex() {
                 </TableRow>
               )}
 
-              {employeeStatuses.map((employeeStatus) => {
+              {levels.map((level) => {
                 return (
-                  <TableRow key={employeeStatus.id}>
+                  <TableRow key={level.id}>
                     <TableCell className="py-2 px-5">
-                      {employeeStatus.employee_status_name}
+                      {level.level_name}
                     </TableCell>
                     <TableCell className="py-2 px-5 text-center">
-                      <Switch
-                        checked={
-                          employeeStatus.employee_status_status === "active"
-                        }
-                      />
+                      <Switch checked={level.level_status === "active"} />
                     </TableCell>
                     <TableCell className="py-2 px-5 text-center">
                       <div className="flex justify-center space-x-2">
                         <Link
-                          to={`/setting/employee-status/form/${employeeStatus.id}`}
+                          to={`/modal/level/form/${level.id}`}
                           state={{ previousLocation: location }}
                         >
                           <Button
@@ -116,7 +103,7 @@ export default function EmployeeStatusIndex() {
                           </Button>
                         </Link>
                         <Link
-                          to={`/setting/employee-status/delete/${employeeStatus.id}`}
+                          to={`/modal/level/delete/${level.id}`}
                           state={{ previousLocation: location }}
                         >
                           <Button

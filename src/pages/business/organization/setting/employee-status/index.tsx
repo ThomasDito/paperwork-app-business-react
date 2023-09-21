@@ -1,5 +1,5 @@
-import BranchSkeleton from "@/pages/setting/branch/components/skeleton";
-import { useLazyBusinessBranchGetBranchesQuery } from "@/redux/api/business/branch-api";
+import EmployeeStatusSkeleton from "@/pages/business/organization/setting/employee-status/components/skeleton";
+import { useLazyBusinessEmployeeStatusGetEmployeeStatusesQuery } from "@/redux/api/business/employee-status-api";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
   Button,
@@ -14,27 +14,33 @@ import {
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-export default function BranchIndex() {
+export default function EmployeeStatusIndex() {
   // Hooks
   const location = useLocation();
 
   // RTK Query
   const [
-    getBranches,
-    { data: branches = [], isError, isFetching, isLoading, isUninitialized },
-  ] = useLazyBusinessBranchGetBranchesQuery();
+    getEmployeeStatuses,
+    {
+      data: employeeStatuses = [],
+      isError,
+      isFetching,
+      isLoading,
+      isUninitialized,
+    },
+  ] = useLazyBusinessEmployeeStatusGetEmployeeStatusesQuery();
 
   const tableIsLoading = isError || isFetching || isLoading || isUninitialized;
 
   useEffect(() => {
-    getBranches();
+    getEmployeeStatuses();
   }, []);
 
   return (
-    <div className="bg-card border rounded-md shadow">
+    <div className="bg-card border rounded-md">
       <div className="p-5 flex flex-col items-center justify-between space-y-6 border-0 md:space-y-0 md:flex-row">
         <h3 className="text-2xl font-semibold tracking-tight scroll-m-20">
-          Cabang
+          Status Kepegawaian
         </h3>
         <div className="flex items-center space-x-4">
           {/* <div className="relative flex items-center">
@@ -51,11 +57,11 @@ export default function BranchIndex() {
             />
           </div> */}
           <Link
-            to={"/setting/branch/form"}
+            to={"/modal/employee-status/form"}
             state={{ previousLocation: location }}
           >
             <Button>
-              <LucidePlus className="w-5 h-5 mr-2" /> Tambah Cabang
+              <LucidePlus className="w-5 h-5 mr-2" /> Tambah Status
             </Button>
           </Link>
         </div>
@@ -65,15 +71,15 @@ export default function BranchIndex() {
           <Table className="whitespace-nowrap">
             <TableHeader>
               <TableRow>
-                <TableHead className="py-4 px-5">Nama Cabang</TableHead>
+                <TableHead className="py-4 px-5">Status Kepegawaian</TableHead>
                 <TableHead className="py-4 px-5 text-center">Aktif</TableHead>
                 <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {tableIsLoading && <BranchSkeleton />}
+              {tableIsLoading && <EmployeeStatusSkeleton />}
 
-              {!tableIsLoading && !branches?.length && (
+              {!tableIsLoading && !employeeStatuses?.length && (
                 <TableRow>
                   <TableCell className="p-5 text-center" colSpan={3}>
                     Tidak ada data
@@ -81,19 +87,23 @@ export default function BranchIndex() {
                 </TableRow>
               )}
 
-              {branches.map((branch) => {
+              {employeeStatuses.map((employeeStatus) => {
                 return (
-                  <TableRow key={branch.id}>
+                  <TableRow key={employeeStatus.id}>
                     <TableCell className="py-2 px-5">
-                      {branch.branch_name}
+                      {employeeStatus.employee_status_name}
                     </TableCell>
                     <TableCell className="py-2 px-5 text-center">
-                      <Switch checked={branch.branch_status === "active"} />
+                      <Switch
+                        checked={
+                          employeeStatus.employee_status_status === "active"
+                        }
+                      />
                     </TableCell>
                     <TableCell className="py-2 px-5 text-center">
                       <div className="flex justify-center space-x-2">
                         <Link
-                          to={`/setting/branch/form/${branch.id}`}
+                          to={`/modal/employee-status/form/${employeeStatus.id}`}
                           state={{ previousLocation: location }}
                         >
                           <Button
@@ -106,7 +116,7 @@ export default function BranchIndex() {
                           </Button>
                         </Link>
                         <Link
-                          to={`/setting/branch/delete/${branch.id}`}
+                          to={`/modal/employee-status/delete/${employeeStatus.id}`}
                           state={{ previousLocation: location }}
                         >
                           <Button

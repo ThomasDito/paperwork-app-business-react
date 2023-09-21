@@ -1,4 +1,4 @@
-import { SettingSidebar } from "@/pages/setting/components/sidebar";
+import { SettingSidebar } from "@/pages/business/organization/setting/components/sidebar";
 import { Outlet } from "react-router-dom";
 
 export default function SettingIndex() {
