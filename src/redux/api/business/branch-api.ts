@@ -2,7 +2,7 @@ import { businessBaseApi } from "@/redux/api/business/base-api";
 
 const businessBranchApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({
-    businessBranchGetBranches: builder.query<Array<branch>, void>({
+    businessBranchGet: builder.query<Array<branch>, void>({
       query: () => ({
         url: `branch`,
         method: "GET",
@@ -64,10 +64,10 @@ const businessBranchApi = businessBaseApi.injectEndpoints({
 });
 
 export const {
-  useBusinessBranchGetBranchesQuery,
+  useBusinessBranchGetQuery,
   useBusinessBranchShowQuery,
   useLazyBusinessBranchShowQuery,
-  useLazyBusinessBranchGetBranchesQuery,
+  useLazyBusinessBranchGetQuery,
   useBusinessBranchStoreMutation,
   useBusinessBranchDeleteMutation,
   useBusinessBranchUpdateMutation,

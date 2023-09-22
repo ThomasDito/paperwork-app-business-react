@@ -1,5 +1,5 @@
 import DivisionSkeleton from "@/pages/business/organization/setting/division/components/skeleton";
-import { useLazyBusinessDivisionGetDivisionsQuery } from "@/redux/api/business/division-api";
+import { useLazyBusinessDivisionGetQuery } from "@/redux/api/business/division-api";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
   Button,
@@ -22,7 +22,7 @@ export default function RoleIndex() {
   const [
     getDivisions,
     { data: divisions = [], isError, isFetching, isLoading, isUninitialized },
-  ] = useLazyBusinessDivisionGetDivisionsQuery();
+  ] = useLazyBusinessDivisionGetQuery();
 
   const tableIsLoading = isError || isFetching || isLoading || isUninitialized;
 

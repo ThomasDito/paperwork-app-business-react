@@ -2,7 +2,7 @@ import { toastError, toastSuccess } from "@/components/ui/toast";
 import DivisionSkeleton from "@/pages/business/organization/setting/division/components/skeleton";
 import {
   useBusinessDivisionChangeStatusMutation,
-  useLazyBusinessDivisionGetDivisionsQuery,
+  useLazyBusinessDivisionGetQuery,
 } from "@/redux/api/business/division-api";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
@@ -26,7 +26,7 @@ export default function DivisionIndex() {
   const [
     getDivisions,
     { data: divisions = [], isError, isFetching, isLoading, isUninitialized },
-  ] = useLazyBusinessDivisionGetDivisionsQuery();
+  ] = useLazyBusinessDivisionGetQuery();
 
   const [changeStatus] = useBusinessDivisionChangeStatusMutation();
 

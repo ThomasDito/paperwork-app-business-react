@@ -24,7 +24,7 @@ export const sidebarMenus: SidebarMenuItem[] = [
     children: [
       {
         title: "Anggota",
-        link: "/organization/organization-list",
+        link: "/business/organization/employee",
       },
       {
         title: "Hak Akses",
@@ -69,8 +69,31 @@ export const sidebarMenus: SidebarMenuItem[] = [
     isHeader: true,
   },
   {
-    title: "Profil",
+    title: "Beranda",
     icon: <LucideUser className="w-5 h-5" />,
-    link: "/profile",
+    link: "/account/dashboard",
+  },
+  {
+    title: "Informasi",
+    icon: <LucideFolderCog className="w-5 h-5" />,
+    link: "/account/information",
+    children: [
+      {
+        title: "Kalender",
+        link: "/account/information/1",
+      },
+      {
+        title: "Pengumuman",
+        link: "/account/information/2",
+      },
+      {
+        title: "Aktivitas",
+        link: "/account/information/3",
+      },
+      {
+        title: "Bantuan dan Dukungan",
+        link: "/account/information/4",
+      },
+    ],
   },
 ];

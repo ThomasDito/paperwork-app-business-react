@@ -2,7 +2,7 @@ import { businessBaseApi } from "@/redux/api/business/base-api";
 
 const businessPositionApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({
-    businessPositionGetPositions: builder.query<Array<position>, void>({
+    businessPositionGet: builder.query<Array<position>, void>({
       query: () => ({
         url: `position`,
         method: "GET",
@@ -54,10 +54,10 @@ const businessPositionApi = businessBaseApi.injectEndpoints({
 });
 
 export const {
-  useBusinessPositionGetPositionsQuery,
+  useBusinessPositionGetQuery,
   useBusinessPositionShowQuery,
   useLazyBusinessPositionShowQuery,
-  useLazyBusinessPositionGetPositionsQuery,
+  useLazyBusinessPositionGetQuery,
   useBusinessPositionStoreMutation,
   useBusinessPositionDeleteMutation,
   useBusinessPositionUpdateMutation,

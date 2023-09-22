@@ -1,5 +1,5 @@
 import LevelSkeleton from "@/pages/business/organization/setting/level/components/skeleton";
-import { useLazyBusinessLevelGetLevelsQuery } from "@/redux/api/business/level-api";
+import { useLazyBusinessLevelGetQuery } from "@/redux/api/business/level-api";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
   Button,
@@ -22,7 +22,7 @@ export default function LevelIndex() {
   const [
     getLevels,
     { data: levels = [], isError, isFetching, isLoading, isUninitialized },
-  ] = useLazyBusinessLevelGetLevelsQuery();
+  ] = useLazyBusinessLevelGetQuery();
 
   const tableIsLoading = isError || isFetching || isLoading || isUninitialized;
 

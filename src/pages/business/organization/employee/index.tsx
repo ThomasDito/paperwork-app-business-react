@@ -1,5 +1,5 @@
-import EmployeeStatusSkeleton from "@/pages/business/organization/setting/employee-status/components/skeleton";
-import { useLazyBusinessEmployeeStatusGetQuery } from "@/redux/api/business/employee-status-api";
+import DivisionSkeleton from "@/pages/business/organization/setting/division/components/skeleton";
+import { useLazyBusinessDivisionGetQuery } from "@/redux/api/business/division-api";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
   Button,
@@ -14,54 +14,32 @@ import {
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-export default function EmployeeStatusIndex() {
+export default function EmployeeIndex() {
   // Hooks
   const location = useLocation();
 
   // RTK Query
   const [
-    getEmployeeStatuses,
-    {
-      data: employeeStatuses = [],
-      isError,
-      isFetching,
-      isLoading,
-      isUninitialized,
-    },
-  ] = useLazyBusinessEmployeeStatusGetQuery();
+    getDivisions,
+    { data: divisions = [], isError, isFetching, isLoading, isUninitialized },
+  ] = useLazyBusinessDivisionGetQuery();
 
   const tableIsLoading = isError || isFetching || isLoading || isUninitialized;
 
   useEffect(() => {
-    getEmployeeStatuses();
+    getDivisions();
   }, []);
 
   return (
     <div className="bg-card border rounded-md">
       <div className="p-5 flex flex-col items-center justify-between space-y-6 border-0 md:space-y-0 md:flex-row">
         <h3 className="text-2xl font-semibold tracking-tight scroll-m-20">
-          Status Kepegawaian
+          Anggota
         </h3>
         <div className="flex items-center space-x-4">
-          {/* <div className="relative flex items-center">
-            <div className="absolute inset-y-0 flex items-center pointer-events-none left-3">
-              <LucideSearch
-                size={18}
-                className="text-muted-foreground opacity-50"
-              />
-            </div>
-            <Input
-              className="w-full pl-10 min-w-[300px]"
-              type="search"
-              placeholder="Pencarian..."
-            />
-          </div> */}
-          <Link
-            to={"/modal/employee-status/form"}
-            state={{ previousLocation: location }}
-          >
+          <Link to={"/business/organization/employee/form"}>
             <Button>
-              <LucidePlus className="w-5 h-5 mr-2" /> Tambah Status
+              <LucidePlus className="w-5 h-5 mr-2" /> Tambah Anggota
             </Button>
           </Link>
         </div>
@@ -71,15 +49,24 @@ export default function EmployeeStatusIndex() {
           <Table className="whitespace-nowrap">
             <TableHeader>
               <TableRow>
+                <TableHead className="py-4 px-5">Nama Anggota</TableHead>
+                <TableHead className="py-4 px-5">Email</TableHead>
+                <TableHead className="py-4 px-5">Tanggal Masuk</TableHead>
+                <TableHead className="py-4 px-5">
+                  Tanggal Akhir Kontrak
+                </TableHead>
+                <TableHead className="py-4 px-5">Divisi</TableHead>
+                <TableHead className="py-4 px-5">Jabatan</TableHead>
+                <TableHead className="py-4 px-5">Level</TableHead>
                 <TableHead className="py-4 px-5">Status Kepegawaian</TableHead>
-                <TableHead className="py-4 px-5 text-center">Aktif</TableHead>
+                <TableHead className="py-4 px-5 text-center">Status</TableHead>
                 <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {tableIsLoading && <EmployeeStatusSkeleton />}
+              {tableIsLoading && <DivisionSkeleton />}
 
-              {!tableIsLoading && !employeeStatuses?.length && (
+              {!tableIsLoading && !divisions?.length && (
                 <TableRow>
                   <TableCell className="p-5 text-center" colSpan={3}>
                     Tidak ada data
@@ -87,23 +74,40 @@ export default function EmployeeStatusIndex() {
                 </TableRow>
               )}
 
-              {employeeStatuses.map((employeeStatus) => {
+              {divisions.map((division) => {
                 return (
-                  <TableRow key={employeeStatus.id}>
+                  <TableRow key={division.id}>
                     <TableCell className="py-2 px-5">
-                      {employeeStatus.employee_status_name}
+                      {division.division_name}
+                    </TableCell>
+                    <TableCell className="py-2 px-5">
+                      {division.division_name}
+                    </TableCell>
+                    <TableCell className="py-2 px-5">
+                      {division.division_name}
+                    </TableCell>
+                    <TableCell className="py-2 px-5">
+                      {division.division_name}
+                    </TableCell>
+                    <TableCell className="py-2 px-5">
+                      {division.division_name}
+                    </TableCell>
+                    <TableCell className="py-2 px-5">
+                      {division.division_name}
+                    </TableCell>
+                    <TableCell className="py-2 px-5">
+                      {division.division_name}
+                    </TableCell>
+                    <TableCell className="py-2 px-5">
+                      {division.division_name}
                     </TableCell>
                     <TableCell className="py-2 px-5 text-center">
-                      <Switch
-                        checked={
-                          employeeStatus.employee_status_status === "active"
-                        }
-                      />
+                      <Switch checked={division.division_status === "active"} />
                     </TableCell>
                     <TableCell className="py-2 px-5 text-center">
                       <div className="flex justify-center space-x-2">
                         <Link
-                          to={`/modal/employee-status/form/${employeeStatus.id}`}
+                          to={`/modal/division/form/${division.id}`}
                           state={{ previousLocation: location }}
                         >
                           <Button
@@ -116,7 +120,7 @@ export default function EmployeeStatusIndex() {
                           </Button>
                         </Link>
                         <Link
-                          to={`/modal/employee-status/delete/${employeeStatus.id}`}
+                          to={`/modal/division/delete/${division.id}`}
                           state={{ previousLocation: location }}
                         >
                           <Button

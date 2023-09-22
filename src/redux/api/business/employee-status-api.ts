@@ -2,10 +2,7 @@ import { businessBaseApi } from "@/redux/api/business/base-api";
 
 const businessEmployeeStatusApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({
-    businessEmployeeStatusGetEmployeeStatuses: builder.query<
-      Array<employee_status>,
-      void
-    >({
+    businessEmployeeStatusGet: builder.query<Array<employee_status>, void>({
       query: () => ({
         url: `employee-status`,
         method: "GET",
@@ -61,10 +58,10 @@ const businessEmployeeStatusApi = businessBaseApi.injectEndpoints({
 });
 
 export const {
-  useBusinessEmployeeStatusGetEmployeeStatusesQuery,
+  useBusinessEmployeeStatusGetQuery,
   useBusinessEmployeeStatusShowQuery,
   useLazyBusinessEmployeeStatusShowQuery,
-  useLazyBusinessEmployeeStatusGetEmployeeStatusesQuery,
+  useLazyBusinessEmployeeStatusGetQuery,
   useBusinessEmployeeStatusStoreMutation,
   useBusinessEmployeeStatusDeleteMutation,
   useBusinessEmployeeStatusUpdateMutation,

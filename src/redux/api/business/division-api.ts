@@ -2,7 +2,7 @@ import { businessBaseApi } from "@/redux/api/business/base-api";
 
 const businessDivisionApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({
-    businessDivisionGetDivisions: builder.query<Array<division>, void>({
+    businessDivisionGet: builder.query<Array<division>, void>({
       query: () => ({
         url: `division`,
         method: "GET",
@@ -65,10 +65,10 @@ const businessDivisionApi = businessBaseApi.injectEndpoints({
 });
 
 export const {
-  useBusinessDivisionGetDivisionsQuery,
+  useBusinessDivisionGetQuery,
   useBusinessDivisionShowQuery,
   useLazyBusinessDivisionShowQuery,
-  useLazyBusinessDivisionGetDivisionsQuery,
+  useLazyBusinessDivisionGetQuery,
   useBusinessDivisionStoreMutation,
   useBusinessDivisionDeleteMutation,
   useBusinessDivisionUpdateMutation,

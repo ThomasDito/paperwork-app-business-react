@@ -2,8 +2,7 @@ import { toastError, toastSuccess } from "@/components/ui/toast";
 import BranchSkeleton from "@/pages/business/organization/setting/branch/components/skeleton";
 import {
   useBusinessBranchChangeStatusMutation,
-  useBusinessBranchUpdateMutation,
-  useLazyBusinessBranchGetBranchesQuery,
+  useLazyBusinessBranchGetQuery,
 } from "@/redux/api/business/branch-api";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
@@ -27,7 +26,7 @@ export default function BranchIndex() {
   const [
     getBranches,
     { data: branches = [], isError, isFetching, isLoading, isUninitialized },
-  ] = useLazyBusinessBranchGetBranchesQuery();
+  ] = useLazyBusinessBranchGetQuery();
 
   const [changeStatus] = useBusinessBranchChangeStatusMutation();
 

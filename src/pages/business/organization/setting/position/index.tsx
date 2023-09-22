@@ -1,5 +1,5 @@
 import PositionSkeleton from "@/pages/business/organization/setting/position/components/skeleton";
-import { useLazyBusinessPositionGetPositionsQuery } from "@/redux/api/business/position-api";
+import { useLazyBusinessPositionGetQuery } from "@/redux/api/business/position-api";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
   Button,
@@ -22,7 +22,7 @@ export default function PositionIndex() {
   const [
     getPositions,
     { data: positions = [], isError, isFetching, isLoading, isUninitialized },
-  ] = useLazyBusinessPositionGetPositionsQuery();
+  ] = useLazyBusinessPositionGetQuery();
 
   const tableIsLoading = isError || isFetching || isLoading || isUninitialized;
 

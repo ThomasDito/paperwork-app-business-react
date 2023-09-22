@@ -2,7 +2,7 @@ import { businessBaseApi } from "@/redux/api/business/base-api";
 
 const businessLevelApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({
-    businessLevelGetLevels: builder.query<Array<level>, void>({
+    businessLevelGet: builder.query<Array<level>, void>({
       query: () => ({
         url: `level`,
         method: "GET",
@@ -50,10 +50,10 @@ const businessLevelApi = businessBaseApi.injectEndpoints({
 });
 
 export const {
-  useBusinessLevelGetLevelsQuery,
+  useBusinessLevelGetQuery,
   useBusinessLevelShowQuery,
   useLazyBusinessLevelShowQuery,
-  useLazyBusinessLevelGetLevelsQuery,
+  useLazyBusinessLevelGetQuery,
   useBusinessLevelStoreMutation,
   useBusinessLevelDeleteMutation,
   useBusinessLevelUpdateMutation,

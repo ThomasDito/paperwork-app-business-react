@@ -41,6 +41,8 @@ import LevelDelete from "@/pages/business/organization/setting/level/delete";
 import EmployeeStatusForm from "@/pages/business/organization/setting/employee-status/form";
 import EmployeeStatusDelete from "@/pages/business/organization/setting/employee-status/delete";
 import RoleIndex from "@/pages/business/organization/role";
+import EmployeeIndex from "@/pages/business/organization/employee";
+import EmployeeForm from "@/pages/business/organization/employee/form";
 
 export default function App() {
   // hooks
@@ -76,6 +78,13 @@ export default function App() {
           <Route element={<PageLayout />}>
             <Route path="business">
               <Route path="organization">
+                <Route path="employee">
+                  <Route index element={<EmployeeIndex />} />
+                  <Route path="form/:id?" element={<EmployeeForm />} />
+                </Route>
+                <Route path="role">
+                  <Route index element={<RoleIndex />} />
+                </Route>
                 <Route path="setting" element={<SettingIndex />}>
                   <Route
                     index
@@ -94,9 +103,6 @@ export default function App() {
                     path="employee-status"
                     element={<EmployeeStatusIndex />}
                   />
-                </Route>
-                <Route path="role">
-                  <Route index element={<RoleIndex />} />
                 </Route>
               </Route>
             </Route>
