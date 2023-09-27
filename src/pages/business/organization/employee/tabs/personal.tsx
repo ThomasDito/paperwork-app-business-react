@@ -1,18 +1,15 @@
 import {
+  FormikDatePicker,
+  FormikInput,
+  FormikSelect,
+} from "@/components/formik";
+import {
   EmployeeFormSchema,
   Tabs,
 } from "@/pages/business/organization/employee/form";
 import { useFormikContext } from "formik";
 import { LucideArrowRight, LucideTrash, LucideUpload } from "lucide-react";
-import {
-  Button,
-  FormikDatePicker,
-  FormikInput,
-  FormikSelect,
-  Label,
-  SelectItem,
-  cn,
-} from "paperwork-ui";
+import { Button, Label, SelectItem, cn } from "paperwork-ui";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 

@@ -1,3 +1,4 @@
+import { FormikInput } from "@/components/formik";
 import { toastError, toastSuccess } from "@/components/ui/toast";
 import {
   useBusinessBranchStoreMutation,
@@ -14,7 +15,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  FormikInput,
   Label,
   Switch,
 } from "paperwork-ui";

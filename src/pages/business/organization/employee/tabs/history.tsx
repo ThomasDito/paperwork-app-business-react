@@ -1,12 +1,11 @@
-import { Tabs } from "@/pages/business/organization/employee/form";
-import { LucideArrowLeft, LucideArrowRight } from "lucide-react";
 import {
-  Button,
   FormikDatePicker,
   FormikInput,
   FormikSelect,
-  SelectItem,
-} from "paperwork-ui";
+} from "@/components/formik";
+import { Tabs } from "@/pages/business/organization/employee/form";
+import { LucideArrowLeft, LucideArrowRight } from "lucide-react";
+import { Button, SelectItem } from "paperwork-ui";
 import { useEffect } from "react";
 
 export default function EmployeeHistoryTab({

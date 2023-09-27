@@ -1,3 +1,8 @@
+import {
+  FormikComboBox,
+  FormikDatePicker,
+  FormikInput,
+} from "@/components/formik";
 import { Tabs } from "@/pages/business/organization/employee/form";
 import { useLazyBusinessBranchGetQuery } from "@/redux/api/business/branch-api";
 import { useLazyBusinessDivisionGetQuery } from "@/redux/api/business/division-api";
@@ -5,12 +10,7 @@ import { useLazyBusinessEmployeeStatusGetQuery } from "@/redux/api/business/empl
 import { useLazyBusinessLevelGetQuery } from "@/redux/api/business/level-api";
 import { useLazyBusinessPositionGetQuery } from "@/redux/api/business/position-api";
 import { LucideArrowLeft, LucideLoader2, LucideSave } from "lucide-react";
-import {
-  Button,
-  FormikComboBox,
-  FormikDatePicker,
-  FormikInput,
-} from "paperwork-ui";
+import { Button } from "paperwork-ui";
 import { useEffect } from "react";
 
 export default function EmployeeEmployeeTab({

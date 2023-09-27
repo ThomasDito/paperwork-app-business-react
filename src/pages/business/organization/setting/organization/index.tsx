@@ -1,3 +1,4 @@
+import { FormikComboBox, FormikInput } from "@/components/formik";
 import LoadingPage from "@/components/loading-page";
 import config from "@/lib/config";
 import {
@@ -15,7 +16,7 @@ import {
   LucideTrash,
   LucideUpload,
 } from "lucide-react";
-import { Button, FormikComboBox, FormikInput, Label, cn } from "paperwork-ui";
+import { Button, Label, cn } from "paperwork-ui";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 
