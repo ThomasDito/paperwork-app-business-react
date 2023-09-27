@@ -1,9 +1,12 @@
-import DivisionSkeleton from "@/pages/business/organization/setting/division/components/skeleton";
-import { useLazyBusinessDivisionGetQuery } from "@/redux/api/business/division-api";
+import EmployeeSkeleton from "@/pages/business/organization/employee/components/skeleton";
+import { useLazyBusinessEmployeeGetQuery } from "@/redux/api/business/employee-api";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
+import moment from "moment";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   Button,
-  Switch,
   Table,
   TableBody,
   TableCell,
@@ -20,14 +23,14 @@ export default function EmployeeIndex() {
 
   // RTK Query
   const [
-    getDivisions,
-    { data: divisions = [], isError, isFetching, isLoading, isUninitialized },
-  ] = useLazyBusinessDivisionGetQuery();
+    getEmployees,
+    { data: employees = [], isError, isFetching, isLoading, isUninitialized },
+  ] = useLazyBusinessEmployeeGetQuery();
 
   const tableIsLoading = isError || isFetching || isLoading || isUninitialized;
 
   useEffect(() => {
-    getDivisions();
+    getEmployees();
   }, []);
 
   return (
@@ -51,7 +54,9 @@ export default function EmployeeIndex() {
               <TableRow>
                 <TableHead className="py-4 px-5">Nama Anggota</TableHead>
                 <TableHead className="py-4 px-5">Email</TableHead>
-                <TableHead className="py-4 px-5">Tanggal Masuk</TableHead>
+                <TableHead className="py-4 px-5">
+                  Tanggal Mulai Kontrak
+                </TableHead>
                 <TableHead className="py-4 px-5">
                   Tanggal Akhir Kontrak
                 </TableHead>
@@ -59,14 +64,14 @@ export default function EmployeeIndex() {
                 <TableHead className="py-4 px-5">Jabatan</TableHead>
                 <TableHead className="py-4 px-5">Level</TableHead>
                 <TableHead className="py-4 px-5">Status Kepegawaian</TableHead>
-                <TableHead className="py-4 px-5 text-center">Status</TableHead>
+                {/* <TableHead className="py-4 px-5 text-center">Status</TableHead> */}
                 <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {tableIsLoading && <DivisionSkeleton />}
+              {tableIsLoading && <EmployeeSkeleton />}
 
-              {!tableIsLoading && !divisions?.length && (
+              {!tableIsLoading && !employees?.length && (
                 <TableRow>
                   <TableCell className="p-5 text-center" colSpan={3}>
                     Tidak ada data
@@ -74,41 +79,71 @@ export default function EmployeeIndex() {
                 </TableRow>
               )}
 
-              {divisions.map((division) => {
+              {employees.map((employee) => {
                 return (
-                  <TableRow key={division.id}>
-                    <TableCell className="py-2 px-5">
-                      {division.division_name}
+                  <TableRow key={employee.id}>
+                    <TableCell className="py-4 px-5">
+                      <div className="flex items-center space-x-4">
+                        <Link
+                          to={`/business/organization/employee/form/${employee.id}`}
+                        >
+                          <Avatar className="w-12 h-12">
+                            <AvatarImage
+                              src={employee.employee_profile_picture || ""}
+                              alt={employee.employee_name}
+                            />
+                            <AvatarFallback className="font-medium uppercase text-muted-foreground/50">
+                              {employee.employee_name.substring(0, 2)}
+                            </AvatarFallback>
+                          </Avatar>
+                        </Link>
+                        <div className="flex flex-col flex-1 space-y-1">
+                          <Link
+                            to={`/business/organization/employee/form/${employee.id}`}
+                            className="text-sm font-medium hover:underline"
+                          >
+                            {employee.employee_name}
+                          </Link>
+                          <div className="text-sm text-muted-foreground">
+                            {employee.employee_id}
+                          </div>
+                        </div>
+                      </div>
                     </TableCell>
-                    <TableCell className="py-2 px-5">
-                      {division.division_name}
+                    <TableCell className="py-4 px-5">
+                      {employee.employee_email}
                     </TableCell>
-                    <TableCell className="py-2 px-5">
-                      {division.division_name}
+                    <TableCell className="py-4 px-5">
+                      {moment(employee.employee_contract_start_date).format(
+                        "DD MMMM YYYY"
+                      )}
                     </TableCell>
-                    <TableCell className="py-2 px-5">
-                      {division.division_name}
+                    <TableCell className="py-4 px-5">
+                      {moment(employee.employee_contract_end_date).format(
+                        "DD MMMM YYYY"
+                      )}
                     </TableCell>
-                    <TableCell className="py-2 px-5">
-                      {division.division_name}
+                    <TableCell className="py-4 px-5">
+                      {employee.division.division_name}
                     </TableCell>
-                    <TableCell className="py-2 px-5">
-                      {division.division_name}
+                    <TableCell className="py-4 px-5">
+                      {employee.position.position_name}
                     </TableCell>
-                    <TableCell className="py-2 px-5">
-                      {division.division_name}
+                    <TableCell className="py-4 px-5">
+                      {employee.level.level_name}
                     </TableCell>
-                    <TableCell className="py-2 px-5">
-                      {division.division_name}
+                    <TableCell className="py-4 px-5">
+                      {employee.employee_status.employee_status_name}
                     </TableCell>
-                    <TableCell className="py-2 px-5 text-center">
-                      <Switch checked={division.division_status === "active"} />
-                    </TableCell>
-                    <TableCell className="py-2 px-5 text-center">
+                    {/* <TableCell className="py-4 px-5 text-center">
+                      <Switch
+                        checked={employee.employee_status_id === "active"}
+                      />
+                    </TableCell> */}
+                    <TableCell className="py-4 px-5 text-center">
                       <div className="flex justify-center space-x-2">
                         <Link
-                          to={`/modal/division/form/${division.id}`}
-                          state={{ previousLocation: location }}
+                          to={`/business/organization/employee/form/${employee.id}`}
                         >
                           <Button
                             variant="ghost"
@@ -120,7 +155,7 @@ export default function EmployeeIndex() {
                           </Button>
                         </Link>
                         <Link
-                          to={`/modal/division/delete/${division.id}`}
+                          to={`/modal/employee/delete/${employee.id}`}
                           state={{ previousLocation: location }}
                         >
                           <Button

@@ -1,9 +1,6 @@
-import DivisionSkeleton from "@/pages/business/organization/setting/division/components/skeleton";
-import { useLazyBusinessDivisionGetQuery } from "@/redux/api/business/division-api";
-import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
+import { LucidePlus } from "lucide-react";
 import {
   Button,
-  Switch,
   Table,
   TableBody,
   TableCell,
@@ -11,24 +8,11 @@ import {
   TableHeader,
   TableRow,
 } from "paperwork-ui";
-import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 export default function RoleIndex() {
   // Hooks
   const location = useLocation();
-
-  // RTK Query
-  const [
-    getDivisions,
-    { data: divisions = [], isError, isFetching, isLoading, isUninitialized },
-  ] = useLazyBusinessDivisionGetQuery();
-
-  const tableIsLoading = isError || isFetching || isLoading || isUninitialized;
-
-  useEffect(() => {
-    getDivisions();
-  }, []);
 
   return (
     <div className="bg-card border rounded-md">
@@ -36,7 +20,7 @@ export default function RoleIndex() {
         <h3 className="text-2xl font-semibold tracking-tight scroll-m-20">
           Hak Akses
         </h3>
-        <div className="flex items-center space-x-4">
+        <div className="hidden items-center space-x-4">
           <Link
             to={"/modal/division/form"}
             state={{ previousLocation: location }}
@@ -53,12 +37,19 @@ export default function RoleIndex() {
             <TableHeader>
               <TableRow>
                 <TableHead className="py-4 px-5">Nama Jabatan</TableHead>
+                <TableHead className="py-4 px-5">Jumlah Modul</TableHead>
                 <TableHead className="py-4 px-5 text-center">Aktif</TableHead>
                 <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {tableIsLoading && <DivisionSkeleton />}
+              <TableRow>
+                <TableCell className="p-5 text-center" colSpan={4}>
+                  Tidak ada data
+                </TableCell>
+              </TableRow>
+
+              {/* {tableIsLoading && <DivisionSkeleton />}
 
               {!tableIsLoading && !divisions?.length && (
                 <TableRow>
@@ -109,7 +100,7 @@ export default function RoleIndex() {
                     </TableCell>
                   </TableRow>
                 );
-              })}
+              })} */}
             </TableBody>
           </Table>
         </div>

@@ -1,4 +1,5 @@
 import { businessBaseApi } from "@/redux/api/business/base-api";
+import { organization } from "@/types/schema";
 
 const businessOrganizationApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({

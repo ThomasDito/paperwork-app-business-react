@@ -1,14 +1,10 @@
 import {
-  History,
-  Key,
-  LayoutGrid,
   LucideFileClock,
   LucideHardHat,
   LucideLayoutGrid,
   LucideNetwork,
   LucideWarehouse,
   LucideWorkflow,
-  User2,
 } from "lucide-react";
 import { buttonVariants, cn } from "paperwork-ui";
 import { NavLink } from "react-router-dom";
@@ -41,7 +37,7 @@ export function SettingSidebar(): JSX.Element {
   );
 }
 
-export const sidebarNavItems = [
+const sidebarNavItems = [
   {
     title: "Organisasi",
     href: "/business/organization/setting/organization",

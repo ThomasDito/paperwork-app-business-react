@@ -1,4 +1,5 @@
 import { businessBaseApi } from "@/redux/api/business/base-api";
+import { position } from "@/types/schema";
 
 const businessPositionApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({

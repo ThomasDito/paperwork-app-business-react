@@ -1,3 +1,5 @@
+import { toastError } from "@/components/ui/toast";
+import { useLogoutMutation } from "@/redux/api/paperwork/auth-api";
 import { useAppSelector } from "@/redux/hooks";
 import { selectMe } from "@/redux/slices/auth-slice";
 import {
@@ -32,6 +34,24 @@ import { Link } from "react-router-dom";
 
 export function Navbar() {
   const me = useAppSelector(selectMe);
+
+  const [logout] = useLogoutMutation();
+
+  const doLogout = async () => {
+    await logout()
+      .unwrap()
+      .then(
+        () => {
+          window.location.assign("/");
+        },
+        (rejected: { status: number; data?: ApiResponse<null> }) => {
+          toastError(
+            rejected.data?.message ||
+              "Terjadi kesalahan ketika melakukan logout"
+          );
+        }
+      );
+  };
 
   return (
     <nav className="sticky inset-x-0 z-30 mt-6 pointer-events-none top-2 lg:top-0 lg:fixed lg:ml-10 lg:px-0">
@@ -156,7 +176,7 @@ export function Navbar() {
                     </Fragment>
                   );
                 })}
-                <Button variant="ghost" className="w-full">
+                <Button onClick={doLogout} variant="ghost" className="w-full">
                   <span className="mr-6 text-primary">Logout</span>
                   <span className="p-0.5 rounded-full text-primary-foreground ring-4 ring-primary/20 bg-primary">
                     <ArrowRight className="w-3 h-3" />

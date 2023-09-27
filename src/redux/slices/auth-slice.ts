@@ -1,17 +1,18 @@
 import config from "@/lib/config";
-import { RootState } from '@/redux/store';
-import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from "@/redux/store";
+import { user } from "@/types/schema";
+import { createSlice } from "@reduxjs/toolkit";
 
 type initialStateType = {
-  me: user | null,
+  me: user | null;
 };
 
 const initialState: initialStateType = {
   me: null,
-}
+};
 
 export const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState: initialState,
   reducers: {
     reset: () => initialState,

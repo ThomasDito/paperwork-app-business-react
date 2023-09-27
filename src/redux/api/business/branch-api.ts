@@ -1,4 +1,5 @@
 import { businessBaseApi } from "@/redux/api/business/base-api";
+import { branch } from "@/types/schema";
 
 const businessBranchApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({

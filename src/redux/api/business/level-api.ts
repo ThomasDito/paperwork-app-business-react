@@ -1,4 +1,5 @@
 import { businessBaseApi } from "@/redux/api/business/base-api";
+import { level } from "@/types/schema";
 
 const businessLevelApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({

@@ -1,4 +1,5 @@
 import { businessBaseApi } from "@/redux/api/business/base-api";
+import { region } from "@/types/schema";
 
 const regionApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({

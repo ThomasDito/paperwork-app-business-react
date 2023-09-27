@@ -1,25 +1,11 @@
 import { useAppSelector } from "@/redux/hooks";
 import { selectMe } from "@/redux/slices/auth-slice";
-import {
-  ChevronRight,
-  Bell,
-  LayoutPanelLeft,
-  Globe,
-  Search,
-  User2,
-  ArrowRight,
-} from "lucide-react";
+import { User2, ArrowRight } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  Input,
   Button,
-  SheetTrigger,
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
   Popover,
   PopoverTrigger,
   PopoverContent,

@@ -2,12 +2,16 @@ import { Link } from "react-router-dom";
 import useBreadcrumbs from "use-react-router-breadcrumbs";
 import { Breadcrumbs } from "../breadcrumbs";
 import { cn } from "paperwork-ui";
+import { useAppSelector } from "@/redux/hooks";
+import { selectOrganization } from "@/redux/slices/organization-slice";
 
 type HeaderProps = {
   className?: string;
 };
 
 export function Header({ className }: HeaderProps) {
+  const organization = useAppSelector(selectOrganization);
+
   const routes = [
     { path: "/", breadcrumb: null },
     { path: "/organization", breadcrumb: null },
@@ -33,7 +37,7 @@ export function Header({ className }: HeaderProps) {
         ))}
       </Breadcrumbs>
       <h1 className="text-2xl font-semibold tracking-tight text-center md:text-3xl md:text-left">
-        Bisnis
+        {organization?.organization_name}
       </h1>
     </header>
   );

@@ -4,6 +4,7 @@ import {
   useBusinessBranchChangeStatusMutation,
   useLazyBusinessBranchGetQuery,
 } from "@/redux/api/business/branch-api";
+import { branch_status } from "@/types/schema";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
   Button,

@@ -1,14 +1,19 @@
-import { Tabs } from "@/pages/business/organization/employee/form";
+import {
+  EmployeeFormSchema,
+  Tabs,
+} from "@/pages/business/organization/employee/form";
 import { useFormikContext } from "formik";
-import { LucideArrowRight } from "lucide-react";
+import { LucideArrowRight, LucideTrash, LucideUpload } from "lucide-react";
 import {
   Button,
-  FormikComboBox,
   FormikDatePicker,
   FormikInput,
   FormikSelect,
+  Label,
   SelectItem,
+  cn,
 } from "paperwork-ui";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function EmployeeTabPersonal({
@@ -16,7 +21,29 @@ export default function EmployeeTabPersonal({
 }: {
   setTab: (tab: Tabs) => void;
 }) {
-  const formik = useFormikContext();
+  const formik = useFormikContext<EmployeeFormSchema>();
+
+  const refProfilePicture = useRef<HTMLInputElement | null>(null);
+  const [previewProfilePicture, setPreviewProfilePicture] = useState<
+    string | null
+  >(null);
+
+  const previewImage = (image: Blob | string | null): void => {
+    if (!image) return;
+    setPreviewProfilePicture(
+      typeof image === "string" ? image : URL.createObjectURL(image)
+    );
+  };
+
+  useEffect(() => {
+    if (formik.values.employee_profile_picture) {
+      previewImage(formik.values.employee_profile_picture);
+    }
+  }, [formik]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -27,55 +54,152 @@ export default function EmployeeTabPersonal({
           </h3>
         </div>
         <div className="p-5 pb-7 space-y-8">
-          <FormikInput
-            label="Nama Lengkap"
-            placeholder="Nama Lengkap"
-            name="employee_name"
-            id="employee_name"
-            required
-          />
-          <FormikInput
-            label="Alamat Email"
-            placeholder="Alamat Email"
-            name="employee_email"
-            id="employee_email"
-            type="email"
-            required
-          />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
-            <FormikInput
-              label="Nomor Handphone"
-              placeholder="Nomor Handphone"
-              name="employee_phone"
-              id="employee_phone"
-              required
-            />
-            <FormikInput
-              label="Nomor Telepon"
-              placeholder="Nomor Telepon"
-              name="employee_telephone"
-              id="employee_telephone"
-              required
-            />
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
-            <FormikInput
-              label="Tempat Lahir"
-              placeholder="Tempat Lahir"
-              name="employee_birth_place"
-              id="employee_birth_place"
-              required
-            />
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+            <div className="space-y-8 col-span-1 lg:col-span-3">
+              <FormikInput
+                label="Nama Lengkap"
+                placeholder="Nama Lengkap"
+                name="employee_name"
+                id="employee_name"
+                required
+              />
+              <FormikInput
+                label="Alamat Email"
+                placeholder="Alamat Email"
+                name="employee_email"
+                id="employee_email"
+                type="email"
+                required
+              />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
+                <FormikInput
+                  label="Nomor Handphone"
+                  placeholder="Nomor Handphone"
+                  name="employee_phone"
+                  id="employee_phone"
+                  required
+                />
+                <FormikInput
+                  label="Nomor Telepon"
+                  placeholder="Nomor Telepon"
+                  name="employee_telephone"
+                  id="employee_telephone"
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
+                <FormikInput
+                  label="Tempat Lahir"
+                  placeholder="Tempat Lahir"
+                  name="employee_birth_place"
+                  id="employee_birth_place"
+                  required
+                />
 
-            <FormikDatePicker
-              className="!w-full !mt-4"
-              label="Tanggal Lahir"
-              placeholder="Pilih Tanggal Lahir"
-              name="employee_birth_date"
-              id="employee_birth_date"
-              required
-            />
+                <FormikDatePicker
+                  className="!w-full !mt-4"
+                  label="Tanggal Lahir"
+                  placeholder="Pilih Tanggal Lahir"
+                  name="employee_birth_date"
+                  id="employee_birth_date"
+                  required
+                />
+              </div>
+            </div>
+            <div className="col-span-1 space-y-2 lg:col-span-2">
+              <Label>Foto</Label>
+              <input
+                ref={refProfilePicture}
+                type="file"
+                name="employee_profile_picture"
+                className="hidden"
+                accept="image/*"
+                onChange={(e) => {
+                  formik.setFieldTouched("employee_profile_picture", true);
+
+                  if (e.currentTarget.files !== null) {
+                    const image = e.currentTarget.files[0];
+                    if (image) {
+                      formik.setFieldValue(
+                        "employee_profile_picture",
+                        e.currentTarget.files[0]
+                      );
+                      previewImage(e.currentTarget.files[0]);
+                    }
+                  }
+                }}
+              />
+              <div
+                className={cn(
+                  "w-full p-4 border flex-1 bg-muted/30 rounded-lg flex flex-col justify-center items-center space-y-4 relative",
+                  formik.touched.employee_profile_picture &&
+                    formik.errors.employee_profile_picture &&
+                    "border-destructive"
+                )}
+              >
+                <div className="py-5">
+                  {previewProfilePicture ? (
+                    <img
+                      src={previewProfilePicture}
+                      className="object-cover bg-white rounded-full h-28 w-28"
+                    />
+                  ) : (
+                    <div className="object-contain border rounded-full h-28 w-28 bg-muted border-input"></div>
+                  )}
+                </div>
+
+                <div className="items-center justify-center flex-1 space-x-3">
+                  <Button
+                    type="button"
+                    variant={"outline"}
+                    size={"sm"}
+                    onClick={() => {
+                      refProfilePicture.current !== null
+                        ? refProfilePicture.current.click()
+                        : null;
+                    }}
+                  >
+                    <LucideUpload className="w-4 h-4 mr-2" /> Upload
+                  </Button>
+                  {previewProfilePicture && (
+                    <Button
+                      type="button"
+                      size={"sm"}
+                      variant={"destructive"}
+                      onClick={() => {
+                        setPreviewProfilePicture(null);
+                        formik.setFieldValue("employee_profile_picture", null);
+                        if (refProfilePicture.current)
+                          refProfilePicture.current.value = "";
+                      }}
+                    >
+                      <LucideTrash className="w-4 h-4 mr-2" /> Hapus
+                    </Button>
+                  )}
+                </div>
+              </div>
+              <div>
+                {formik.touched.employee_profile_picture &&
+                  formik.errors.employee_profile_picture && (
+                    <span className="mt-2 text-xs text-destructive">
+                      {formik.errors.employee_profile_picture}
+                    </span>
+                  )}
+                <div className="w-full pt-1">
+                  <div className="mt-2 text-xs text-muted-foreground ">
+                    - Rekomendasi resolusi gambar adalah 200 x 200
+                  </div>
+                  <div className="mt-2 text-xs text-muted-foreground ">
+                    - Ukuran maksimal file adalah sebesar 3 MB
+                  </div>
+                  <div className="mt-2 text-xs text-muted-foreground">
+                    - Mendukung format file : .jpg, .jpeg, .png, .webp
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
             <FormikSelect
               label="Jenis Kelamin"
@@ -151,9 +275,11 @@ export default function EmployeeTabPersonal({
         </div>
         <div className="flex justify-between p-5 border-t">
           <Link to={"/business/organization/employee"}>
-            <Button variant="outline">Batal</Button>
+            <Button type="button" variant="outline">
+              Batal
+            </Button>
           </Link>
-          <Button type="button" onClick={() => setTab("previous_job")}>
+          <Button type="button" onClick={() => setTab("history")}>
             Selanjutnya <LucideArrowRight className="w-5 h-5 ml-2" />
           </Button>
         </div>

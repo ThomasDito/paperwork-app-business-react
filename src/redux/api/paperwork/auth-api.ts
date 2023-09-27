@@ -1,4 +1,5 @@
 import { paperworkBaseApi } from "@/redux/api/paperwork/base-api";
+import { user } from "@/types/schema";
 
 const paperworkAuthApi = paperworkBaseApi.injectEndpoints({
   endpoints: (builder) => ({

@@ -1,4 +1,5 @@
 import { businessBaseApi } from "@/redux/api/business/base-api";
+import { division } from "@/types/schema";
 
 const businessDivisionApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({

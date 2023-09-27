@@ -1,30 +1,11 @@
 import SidebarSubmenu from "@/components/partials/sidebar/submenu";
-import { toastError } from "@/components/ui/toast";
 import { cn } from "paperwork-ui";
 import { LucideChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { useLogoutMutation } from "@/redux/api/paperwork/auth-api";
 
 export default function SidebarMenu({ menus }: { menus: SidebarMenuItem[] }) {
   const [activeSubmenu, setActiveSubmenu] = useState<number | null>(null);
-  const [logout] = useLogoutMutation();
-
-  const doLogout = async () => {
-    await logout()
-      .unwrap()
-      .then(
-        () => {
-          window.location.assign("/");
-        },
-        (rejected: { status: number; data?: ApiResponse<null> }) => {
-          toastError(
-            rejected.data?.message ||
-              "Terjadi kesalahan ketika melakukan logout"
-          );
-        }
-      );
-  };
 
   const toggleSubmenu = (i: number) => {
     if (activeSubmenu === i) {

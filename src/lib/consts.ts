@@ -12,3 +12,39 @@ export const user_status = {
   active: "active",
   inactive: "inactive",
 };
+
+export const REGEX = {
+  PHONE: "^(^\\+62|62|^02|^03|^04|^05|^06|^07|^08|^09)(\\d{3,4}-?){2}\\d{3,4}$",
+  ALPHABET_ONLY: "^[a-z]+$",
+  YEAR: "^\\d{4}$",
+} as const;
+
+export const EMPLOYEE_GENDERS = ["male", "female"] as const;
+
+export const EMPLOYEE_MARITAL_STATUSES = [
+  "married",
+  "single",
+  "divorced",
+] as const;
+
+export const EMPLOYEE_RELIGIONS = [
+  "buddha",
+  "catholic",
+  "christian",
+  "hindu",
+  "islam",
+  "konghucu",
+] as const;
+
+export const EMPLOYEE_EDUCATION_LEVELS = [
+  "SD",
+  "SMP",
+  "SMA",
+  "D1",
+  "D2",
+  "D3",
+  "D4",
+  "S1",
+  "S2",
+  "S3",
+] as const;

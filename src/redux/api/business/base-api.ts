@@ -22,7 +22,7 @@ const baseQueryWithReauth: BaseQueryFn<
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
-  let result = await baseQuery(args, api, extraOptions);
+  const result = await baseQuery(args, api, extraOptions);
 
   // Perform logout if response status is 401 Unauthorized
   if (result.error) {
@@ -38,5 +38,12 @@ export const businessBaseApi = createApi({
   reducerPath: "business-api",
   baseQuery: baseQueryWithReauth,
   endpoints: () => ({}),
-  tagTypes: ["Branch", "Division", "Position", "Level", "Employee Status"],
+  tagTypes: [
+    "Branch",
+    "Division",
+    "Position",
+    "Level",
+    "Employee",
+    "Employee Status",
+  ],
 });

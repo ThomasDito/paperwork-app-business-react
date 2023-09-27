@@ -4,6 +4,7 @@ import {
   useBusinessDivisionChangeStatusMutation,
   useLazyBusinessDivisionGetQuery,
 } from "@/redux/api/business/division-api";
+import { division_status } from "@/types/schema";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
   Button,

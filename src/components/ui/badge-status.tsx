@@ -1,3 +1,5 @@
+import { organization_status } from "@/types/schema";
+
 export default function BadgeStatus({
   organization_status,
 }: {

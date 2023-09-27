@@ -1,11 +1,9 @@
 import {
-  LucideDollarSign,
   LucideFolderCog,
   LucideHome,
   LucideLayoutGrid,
   LucideLayoutPanelLeft,
   LucideUser,
-  LucideUsers,
 } from "lucide-react";
 
 export const sidebarMenus: SidebarMenuItem[] = [
@@ -16,7 +14,7 @@ export const sidebarMenus: SidebarMenuItem[] = [
   {
     title: "Beranda",
     icon: <LucideHome className="w-5 h-5" />,
-    link: "/dashboard",
+    link: "/business/dashboard",
   },
   {
     title: "Organisasi",
@@ -39,60 +37,58 @@ export const sidebarMenus: SidebarMenuItem[] = [
   {
     title: "Aplikasi",
     icon: <LucideLayoutPanelLeft className="w-5 h-5" />,
-    link: "/user",
+    link: "/business/application",
   },
   {
     title: "Pengelolaan",
     icon: <LucideFolderCog className="w-5 h-5" />,
-    link: "/transaction",
     children: [
       {
         title: "Kalender",
-        link: "/transaction/invoice",
+        link: "/business/manage/event",
       },
       {
         title: "Informasi",
-        link: "/transaction/payment",
+        link: "/business/manage/information",
       },
       {
         title: "Inventaris",
-        link: "/transaction/1",
+        link: "/business/manage/inventory",
       },
       {
         title: "Landing Page",
-        link: "/transaction/2",
+        link: "/business/manage/landing-page",
       },
     ],
   },
   {
-    title: "pekerja",
+    title: "pegawai",
     isHeader: true,
   },
   {
     title: "Beranda",
     icon: <LucideUser className="w-5 h-5" />,
-    link: "/account/dashboard",
+    link: "/user/dashboard",
   },
   {
     title: "Informasi",
     icon: <LucideFolderCog className="w-5 h-5" />,
-    link: "/account/information",
     children: [
       {
         title: "Kalender",
-        link: "/account/information/1",
+        link: "/user/information/event",
       },
       {
         title: "Pengumuman",
-        link: "/account/information/2",
+        link: "/user/information/information",
       },
       {
         title: "Aktivitas",
-        link: "/account/information/3",
+        link: "/user/information/activity",
       },
       {
         title: "Bantuan dan Dukungan",
-        link: "/account/information/4",
+        link: "/user/information/help",
       },
     ],
   },

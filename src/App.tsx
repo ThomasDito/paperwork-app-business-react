@@ -1,25 +1,11 @@
 import Layout from "@/components/layout";
 import LoadingPage from "@/components/loading-page";
-import ApplicationIndex from "@/pages/application";
-import HistoryIndex from "@/pages/history";
 import PageLayout from "@/pages/layout";
-import ProfileIndex from "@/pages/profile";
-import SecurityIndex from "@/pages/security";
 import { useAppDispatch } from "@/redux/hooks";
 import { login } from "@/redux/slices/auth-slice";
 import { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import OrganizationListIndex from "@/pages/organization/organization-list";
-import OrganizationSubmissionIndex from "@/pages/organization/submission";
-import DashboardIndex from "@/pages/dashboard";
-import OrganizationSubmissionShow from "@/pages/organization/submission/show";
-import OrganizationListShow from "@/pages/organization/organization-list/show";
-import TransactionInvoiceIndex from "@/pages/transaction/invoice";
-import TransactionPaymentIndex from "@/pages/transaction/payment";
-import UserIndex from "@/pages/user";
-import UserShow from "@/pages/user/show";
-import OnboardingIndex from "@/pages/onboarding";
-import OnboardingWelcomeIndex from "@/pages/onboarding/welcome";
+import DashboardIndex from "@/pages/business/dashboard";
 import { useLazyMeQuery } from "@/redux/api/paperwork/auth-api";
 import { setOrganization } from "@/redux/slices/organization-slice";
 import SettingIndex from "@/pages/business/organization/setting";
@@ -43,6 +29,17 @@ import EmployeeStatusDelete from "@/pages/business/organization/setting/employee
 import RoleIndex from "@/pages/business/organization/role";
 import EmployeeIndex from "@/pages/business/organization/employee";
 import EmployeeForm from "@/pages/business/organization/employee/form";
+import EmployeeDelete from "@/pages/business/organization/employee/delete";
+import ApplicationIndex from "@/pages/business/application";
+import EventIndex from "@/pages/business/manage/event";
+import InformationIndex from "@/pages/business/manage/information";
+import InventoryIndex from "@/pages/business/manage/inventory";
+import LandingPageIndex from "@/pages/business/manage/landing-page";
+import UserEventIndex from "@/pages/user/information/event";
+import UserInformationIndex from "@/pages/user/information/information";
+import UserActivityIndex from "@/pages/user/information/activity";
+import UserHelpIndex from "@/pages/user/information/help";
+import UserDashboardIndex from "@/pages/user/dashboard";
 
 export default function App() {
   // hooks
@@ -69,15 +66,21 @@ export default function App() {
     if (organization) dispatch(setOrganization(organization));
   }, [organization]);
 
-  // return <OnboardingIndex />;
-
   if (getMeIsSuccess && getOrganizationIsSuccess) {
     return (
       <Layout>
         <Routes location={previousLocation || location}>
           <Route element={<PageLayout />}>
+            <Route index element={<Navigate to={"/business/dashboard"} />} />
+
             <Route path="business">
+              <Route path="dashboard" element={<DashboardIndex />} />
+              <Route path="application" element={<ApplicationIndex />} />
               <Route path="organization">
+                <Route
+                  index
+                  element={<Navigate to={"/business/organization/employee"} />}
+                />
                 <Route path="employee">
                   <Route index element={<EmployeeIndex />} />
                   <Route path="form/:id?" element={<EmployeeForm />} />
@@ -105,48 +108,27 @@ export default function App() {
                   />
                 </Route>
               </Route>
+              <Route path="manage">
+                <Route
+                  index
+                  element={<Navigate to={"/business/manage/event"} />}
+                />
+                <Route path="event" element={<EventIndex />} />
+                <Route path="information" element={<InformationIndex />} />
+                <Route path="inventory" element={<InventoryIndex />} />
+                <Route path="landing-page" element={<LandingPageIndex />} />
+              </Route>
             </Route>
 
-            <Route>
-              <Route index element={<Navigate to="/dashboard" />} />
-              <Route path="dashboard" element={<DashboardIndex />} />
-              <Route path="profile" element={<ProfileIndex />} />
-              <Route path="security" element={<SecurityIndex />} />
-              <Route path="application" element={<ApplicationIndex />} />
-              <Route path="history" element={<HistoryIndex />} />
-            </Route>
+            <Route path="user">
+              <Route index element={<Navigate to={"/user/dashboard"} />} />
+              <Route path="dashboard" element={<UserDashboardIndex />} />
 
-            {/* <Route path="users">
-              <Route index element={<UserIndex />} />
-              <Route path="create" element={<UserCreate />} />
-              <Route path=":userId" element={<UserShow />} />
-              <Route path=":userId/edit" element={<UserEdit />} />
-            </Route> */}
-
-            <Route>
-              <Route path="organization">
-                <Route path="organization-list">
-                  <Route index element={<OrganizationListIndex />} />
-                  <Route path=":id" element={<OrganizationListShow />} />
-                </Route>
-                <Route path="submission">
-                  <Route index element={<OrganizationSubmissionIndex />} />
-                  <Route path=":id" element={<OrganizationSubmissionShow />} />
-                </Route>
-              </Route>
-
-              <Route path="user">
-                <Route index element={<UserIndex />} />
-                <Route path=":id" element={<UserShow />} />
-              </Route>
-
-              <Route path="transaction">
-                <Route path="invoice">
-                  <Route index element={<TransactionInvoiceIndex />} />
-                </Route>
-                <Route path="payment">
-                  <Route index element={<TransactionPaymentIndex />} />
-                </Route>
+              <Route path="information">
+                <Route path="event" element={<UserEventIndex />} />
+                <Route path="information" element={<UserInformationIndex />} />
+                <Route path="activity" element={<UserActivityIndex />} />
+                <Route path="help" element={<UserHelpIndex />} />
               </Route>
             </Route>
           </Route>
@@ -176,6 +158,9 @@ export default function App() {
               <Route path="employee-status">
                 <Route path="form/:id?" element={<EmployeeStatusForm />} />
                 <Route path="delete/:id" element={<EmployeeStatusDelete />} />
+              </Route>
+              <Route path="employee">
+                <Route path="delete/:id" element={<EmployeeDelete />} />
               </Route>
             </Route>
           </Routes>

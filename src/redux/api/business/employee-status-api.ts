@@ -1,4 +1,5 @@
 import { businessBaseApi } from "@/redux/api/business/base-api";
+import { employee_status } from "@/types/schema";
 
 const businessEmployeeStatusApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({

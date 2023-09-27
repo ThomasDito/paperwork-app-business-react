@@ -1,4 +1,5 @@
 import { RootState } from "@/redux/store";
+import { organization } from "@/types/schema";
 import { createSlice } from "@reduxjs/toolkit";
 
 type initialStateType = {

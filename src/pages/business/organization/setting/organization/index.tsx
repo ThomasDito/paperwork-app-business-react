@@ -135,7 +135,9 @@ export default function OrganizationIndex() {
         <Formik
           initialValues={initialValues}
           validate={withZodSchema(organizationSchema)}
-          onSubmit={() => {}}
+          onSubmit={() => {
+            console.log("submit");
+          }}
           enableReinitialize={true}
           validateOnBlur={false}
         >
@@ -168,7 +170,7 @@ export default function OrganizationIndex() {
                       );
                     }
                   }}
-                  onBlur={async (e) => {
+                  onBlur={async () => {
                     formik.setFieldTouched("organization_nicename", true);
                     // if (e.target.value) {
                     //   await checkNicename(e.target.value);
