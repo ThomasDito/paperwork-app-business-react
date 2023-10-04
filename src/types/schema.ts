@@ -163,3 +163,32 @@ export type employee = {
   readonly created_at: Date | string;
   readonly updated_at: Date | string;
 };
+
+export type module = {
+  readonly id: string;
+  module_key: string;
+  module_name: string;
+  module_index: number;
+  readonly created_at: Date | string;
+  readonly updated_at: Date | string;
+};
+
+export type role_status = "active" | "inactive";
+export type role = {
+  readonly id: string;
+  role_status: role_status;
+  position_id: string;
+  organization_id: string;
+  readonly created_at: Date | string;
+  readonly updated_at: Date | string;
+};
+
+export type role_item_type = "read" | "write" | "no_access";
+export type role_item = {
+  readonly id: string;
+  role_id: string;
+  role_item_type: role_item_type;
+  module_id: string;
+  readonly created_at: Date | string;
+  readonly updated_at: Date | string;
+};

@@ -45,5 +45,7 @@ export const businessBaseApi = createApi({
     "Level",
     "Employee",
     "Employee Status",
+    "Role",
+    "Module",
   ],
 });

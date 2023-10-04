@@ -40,6 +40,8 @@ import UserInformationIndex from "@/pages/user/information/information";
 import UserActivityIndex from "@/pages/user/information/activity";
 import UserHelpIndex from "@/pages/user/information/help";
 import UserDashboardIndex from "@/pages/user/dashboard";
+import RoleForm from "@/pages/business/organization/role/form";
+import RoleDelete from "@/pages/business/organization/role/delete";
 
 export default function App() {
   // hooks
@@ -87,6 +89,7 @@ export default function App() {
                 </Route>
                 <Route path="role">
                   <Route index element={<RoleIndex />} />
+                  <Route path="form/:id?" element={<RoleForm />} />
                 </Route>
                 <Route path="setting" element={<SettingIndex />}>
                   <Route
@@ -161,6 +164,9 @@ export default function App() {
               </Route>
               <Route path="employee">
                 <Route path="delete/:id" element={<EmployeeDelete />} />
+              </Route>
+              <Route path="role">
+                <Route path="delete/:id" element={<RoleDelete />} />
               </Route>
             </Route>
           </Routes>

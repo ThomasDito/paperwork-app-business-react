@@ -21,6 +21,7 @@
     "moment": "^2.29.4",
     "paperwork-ui": "file:../paperwork-ui/dist",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-collapse": "^5.1.1",
     "react-day-picker": "^8.8.2",
     "react-dom": "^18.2.0",

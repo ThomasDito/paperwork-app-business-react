@@ -1,6 +1,10 @@
-import { LucidePlus } from "lucide-react";
+import TableSkeleton from "@/components/ui/skeleton";
+import { useLazyBusinessRoleGetQuery } from "@/redux/api/business/role-api";
+import { role_item } from "@/types/schema";
+import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
   Button,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -8,11 +12,30 @@ import {
   TableHeader,
   TableRow,
 } from "paperwork-ui";
+import { useCallback, useEffect, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 export default function RoleIndex() {
   // Hooks
   const location = useLocation();
+
+  // RTK Query
+  const [
+    getRoles,
+    {
+      data: roles = [],
+      isLoading: getRolesIsLoading,
+      isError: getRolesIsError,
+      isFetching: getRolesIsFetching,
+    },
+  ] = useLazyBusinessRoleGetQuery();
+
+  const tableIsLoading =
+    getRolesIsLoading || getRolesIsError || getRolesIsFetching;
+
+  useEffect(() => {
+    getRoles();
+  }, []);
 
   return (
     <div className="bg-card border rounded-md">
@@ -20,11 +43,8 @@ export default function RoleIndex() {
         <h3 className="text-2xl font-semibold tracking-tight scroll-m-20">
           Hak Akses
         </h3>
-        <div className="hidden items-center space-x-4">
-          <Link
-            to={"/modal/division/form"}
-            state={{ previousLocation: location }}
-          >
+        <div className="flex items-center space-x-4">
+          <Link to={"/business/organization/role/form"}>
             <Button>
               <LucidePlus className="w-5 h-5 mr-2" /> Tambah Hak Akses
             </Button>
@@ -37,70 +57,73 @@ export default function RoleIndex() {
             <TableHeader>
               <TableRow>
                 <TableHead className="py-4 px-5">Nama Jabatan</TableHead>
-                <TableHead className="py-4 px-5">Jumlah Modul</TableHead>
+                <TableHead className="py-4 px-5 text-center">
+                  Jumlah Modul
+                </TableHead>
                 <TableHead className="py-4 px-5 text-center">Aktif</TableHead>
                 <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell className="p-5 text-center" colSpan={4}>
-                  Tidak ada data
-                </TableCell>
-              </TableRow>
+              {tableIsLoading && <TableSkeleton columns={4} />}
 
-              {/* {tableIsLoading && <DivisionSkeleton />}
-
-              {!tableIsLoading && !divisions?.length && (
+              {!tableIsLoading && !roles.length && (
                 <TableRow>
-                  <TableCell className="p-5 text-center" colSpan={3}>
+                  <TableCell className="p-5 text-center" colSpan={4}>
                     Tidak ada data
                   </TableCell>
                 </TableRow>
               )}
 
-              {divisions.map((division) => {
-                return (
-                  <TableRow key={division.id}>
-                    <TableCell className="py-2 px-5">
-                      {division.division_name}
-                    </TableCell>
-                    <TableCell className="py-2 px-5 text-center">
-                      <Switch checked={division.division_status === "active"} />
-                    </TableCell>
-                    <TableCell className="py-2 px-5 text-center">
-                      <div className="flex justify-center space-x-2">
-                        <Link
-                          to={`/modal/division/form/${division.id}`}
-                          state={{ previousLocation: location }}
-                        >
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="relative"
+              {!tableIsLoading &&
+                roles.map((role) => {
+                  return (
+                    <TableRow key={role.id}>
+                      <TableCell className="py-2 px-5">
+                        {role.position.position_name}
+                      </TableCell>
+                      <TableCell className="py-2 px-5 text-center">
+                        {
+                          role.role_items.filter(
+                            (item) => item.role_item_type !== "no_access"
+                          ).length
+                        }
+                      </TableCell>
+                      <TableCell className="py-2 px-5 text-center">
+                        <Switch checked={role.role_status === "active"} />
+                      </TableCell>
+                      <TableCell className="py-2 px-5 text-center">
+                        <div className="flex justify-center space-x-2">
+                          <Link
+                            to={`/business/organization/role/form/${role.id}`}
                           >
-                            <LucideEdit className="w-4 h-4" />
-                            <span className="sr-only">Ubah</span>
-                          </Button>
-                        </Link>
-                        <Link
-                          to={`/modal/division/delete/${division.id}`}
-                          state={{ previousLocation: location }}
-                        >
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="relative text-destructive hover:text-destructive"
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="relative"
+                            >
+                              <LucideEdit className="w-4 h-4" />
+                              <span className="sr-only">Ubah</span>
+                            </Button>
+                          </Link>
+                          <Link
+                            to={`/modal/role/delete/${role.id}`}
+                            state={{ previousLocation: location }}
                           >
-                            <LucideTrash className="w-4 h-4" />
-                            <span className="sr-only">Hapus</span>
-                          </Button>
-                        </Link>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })} */}
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="relative text-destructive hover:text-destructive"
+                            >
+                              <LucideTrash className="w-4 h-4" />
+                              <span className="sr-only">Hapus</span>
+                            </Button>
+                          </Link>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </div>

@@ -1,3 +1,4 @@
+import TableSkeleton from "@/components/ui/skeleton";
 import EmployeeSkeleton from "@/pages/business/organization/employee/components/skeleton";
 import { useLazyBusinessEmployeeGetQuery } from "@/redux/api/business/employee-api";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
@@ -69,7 +70,7 @@ export default function EmployeeIndex() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {tableIsLoading && <EmployeeSkeleton />}
+              {tableIsLoading && <TableSkeleton columns={9} />}
 
               {!tableIsLoading && !employees?.length && (
                 <TableRow>
@@ -79,99 +80,100 @@ export default function EmployeeIndex() {
                 </TableRow>
               )}
 
-              {employees.map((employee) => {
-                return (
-                  <TableRow key={employee.id}>
-                    <TableCell className="py-4 px-5">
-                      <div className="flex items-center space-x-4">
-                        <Link
-                          to={`/business/organization/employee/form/${employee.id}`}
-                        >
-                          <Avatar className="w-12 h-12">
-                            <AvatarImage
-                              src={employee.employee_profile_picture || ""}
-                              alt={employee.employee_name}
-                            />
-                            <AvatarFallback className="font-medium uppercase text-muted-foreground/50">
-                              {employee.employee_name.substring(0, 2)}
-                            </AvatarFallback>
-                          </Avatar>
-                        </Link>
-                        <div className="flex flex-col flex-1 space-y-1">
+              {!tableIsLoading &&
+                employees.map((employee) => {
+                  return (
+                    <TableRow key={employee.id}>
+                      <TableCell className="py-4 px-5">
+                        <div className="flex items-center space-x-4">
                           <Link
                             to={`/business/organization/employee/form/${employee.id}`}
-                            className="text-sm font-medium hover:underline"
                           >
-                            {employee.employee_name}
+                            <Avatar className="w-12 h-12">
+                              <AvatarImage
+                                src={employee.employee_profile_picture || ""}
+                                alt={employee.employee_name}
+                              />
+                              <AvatarFallback className="font-medium uppercase text-muted-foreground/50">
+                                {employee.employee_name.substring(0, 2)}
+                              </AvatarFallback>
+                            </Avatar>
                           </Link>
-                          <div className="text-sm text-muted-foreground">
-                            {employee.employee_id}
+                          <div className="flex flex-col flex-1 space-y-1">
+                            <Link
+                              to={`/business/organization/employee/form/${employee.id}`}
+                              className="text-sm font-medium hover:underline"
+                            >
+                              {employee.employee_name}
+                            </Link>
+                            <div className="text-sm text-muted-foreground">
+                              {employee.employee_id}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </TableCell>
-                    <TableCell className="py-4 px-5">
-                      {employee.employee_email}
-                    </TableCell>
-                    <TableCell className="py-4 px-5">
-                      {moment(employee.employee_contract_start_date).format(
-                        "DD MMMM YYYY"
-                      )}
-                    </TableCell>
-                    <TableCell className="py-4 px-5">
-                      {moment(employee.employee_contract_end_date).format(
-                        "DD MMMM YYYY"
-                      )}
-                    </TableCell>
-                    <TableCell className="py-4 px-5">
-                      {employee.division.division_name}
-                    </TableCell>
-                    <TableCell className="py-4 px-5">
-                      {employee.position.position_name}
-                    </TableCell>
-                    <TableCell className="py-4 px-5">
-                      {employee.level.level_name}
-                    </TableCell>
-                    <TableCell className="py-4 px-5">
-                      {employee.employee_status.employee_status_name}
-                    </TableCell>
-                    {/* <TableCell className="py-4 px-5 text-center">
+                      </TableCell>
+                      <TableCell className="py-4 px-5">
+                        {employee.employee_email}
+                      </TableCell>
+                      <TableCell className="py-4 px-5">
+                        {moment(employee.employee_contract_start_date).format(
+                          "DD MMMM YYYY"
+                        )}
+                      </TableCell>
+                      <TableCell className="py-4 px-5">
+                        {moment(employee.employee_contract_end_date).format(
+                          "DD MMMM YYYY"
+                        )}
+                      </TableCell>
+                      <TableCell className="py-4 px-5">
+                        {employee.division.division_name}
+                      </TableCell>
+                      <TableCell className="py-4 px-5">
+                        {employee.position.position_name}
+                      </TableCell>
+                      <TableCell className="py-4 px-5">
+                        {employee.level.level_name}
+                      </TableCell>
+                      <TableCell className="py-4 px-5">
+                        {employee.employee_status.employee_status_name}
+                      </TableCell>
+                      {/* <TableCell className="py-4 px-5 text-center">
                       <Switch
                         checked={employee.employee_status_id === "active"}
                       />
                     </TableCell> */}
-                    <TableCell className="py-4 px-5 text-center">
-                      <div className="flex justify-center space-x-2">
-                        <Link
-                          to={`/business/organization/employee/form/${employee.id}`}
-                        >
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="relative"
+                      <TableCell className="py-4 px-5 text-center">
+                        <div className="flex justify-center space-x-2">
+                          <Link
+                            to={`/business/organization/employee/form/${employee.id}`}
                           >
-                            <LucideEdit className="w-4 h-4" />
-                            <span className="sr-only">Ubah</span>
-                          </Button>
-                        </Link>
-                        <Link
-                          to={`/modal/employee/delete/${employee.id}`}
-                          state={{ previousLocation: location }}
-                        >
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="relative text-destructive hover:text-destructive"
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="relative"
+                            >
+                              <LucideEdit className="w-4 h-4" />
+                              <span className="sr-only">Ubah</span>
+                            </Button>
+                          </Link>
+                          <Link
+                            to={`/modal/employee/delete/${employee.id}`}
+                            state={{ previousLocation: location }}
                           >
-                            <LucideTrash className="w-4 h-4" />
-                            <span className="sr-only">Hapus</span>
-                          </Button>
-                        </Link>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="relative text-destructive hover:text-destructive"
+                            >
+                              <LucideTrash className="w-4 h-4" />
+                              <span className="sr-only">Hapus</span>
+                            </Button>
+                          </Link>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </div>
