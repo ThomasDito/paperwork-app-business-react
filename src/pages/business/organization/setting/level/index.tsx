@@ -78,48 +78,49 @@ export default function LevelIndex() {
                 </TableRow>
               )}
 
-              {levels.map((level) => {
-                return (
-                  <TableRow key={level.id}>
-                    <TableCell className="py-2 px-5">
-                      {level.level_name}
-                    </TableCell>
-                    <TableCell className="py-2 px-5 text-center">
-                      <Switch checked={level.level_status === "active"} />
-                    </TableCell>
-                    <TableCell className="py-2 px-5 text-center">
-                      <div className="flex justify-center space-x-2">
-                        <Link
-                          to={`/modal/level/form/${level.id}`}
-                          state={{ previousLocation: location }}
-                        >
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="relative"
+              {!tableIsLoading &&
+                levels.map((level) => {
+                  return (
+                    <TableRow key={level.id}>
+                      <TableCell className="py-2 px-5">
+                        {level.level_name}
+                      </TableCell>
+                      <TableCell className="py-2 px-5 text-center">
+                        <Switch checked={level.level_status === "active"} />
+                      </TableCell>
+                      <TableCell className="py-2 px-5 text-center">
+                        <div className="flex justify-center space-x-2">
+                          <Link
+                            to={`/modal/level/form/${level.id}`}
+                            state={{ previousLocation: location }}
                           >
-                            <LucideEdit className="w-4 h-4" />
-                            <span className="sr-only">Ubah</span>
-                          </Button>
-                        </Link>
-                        <Link
-                          to={`/modal/level/delete/${level.id}`}
-                          state={{ previousLocation: location }}
-                        >
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="relative text-destructive hover:text-destructive"
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="relative"
+                            >
+                              <LucideEdit className="w-4 h-4" />
+                              <span className="sr-only">Ubah</span>
+                            </Button>
+                          </Link>
+                          <Link
+                            to={`/modal/level/delete/${level.id}`}
+                            state={{ previousLocation: location }}
                           >
-                            <LucideTrash className="w-4 h-4" />
-                            <span className="sr-only">Hapus</span>
-                          </Button>
-                        </Link>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="relative text-destructive hover:text-destructive"
+                            >
+                              <LucideTrash className="w-4 h-4" />
+                              <span className="sr-only">Hapus</span>
+                            </Button>
+                          </Link>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </div>

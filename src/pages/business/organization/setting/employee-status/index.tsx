@@ -87,52 +87,53 @@ export default function EmployeeStatusIndex() {
                 </TableRow>
               )}
 
-              {employeeStatuses.map((employeeStatus) => {
-                return (
-                  <TableRow key={employeeStatus.id}>
-                    <TableCell className="py-2 px-5">
-                      {employeeStatus.employee_status_name}
-                    </TableCell>
-                    <TableCell className="py-2 px-5 text-center">
-                      <Switch
-                        checked={
-                          employeeStatus.employee_status_status === "active"
-                        }
-                      />
-                    </TableCell>
-                    <TableCell className="py-2 px-5 text-center">
-                      <div className="flex justify-center space-x-2">
-                        <Link
-                          to={`/modal/employee-status/form/${employeeStatus.id}`}
-                          state={{ previousLocation: location }}
-                        >
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="relative"
+              {!tableIsLoading &&
+                employeeStatuses.map((employeeStatus) => {
+                  return (
+                    <TableRow key={employeeStatus.id}>
+                      <TableCell className="py-2 px-5">
+                        {employeeStatus.employee_status_name}
+                      </TableCell>
+                      <TableCell className="py-2 px-5 text-center">
+                        <Switch
+                          checked={
+                            employeeStatus.employee_status_status === "active"
+                          }
+                        />
+                      </TableCell>
+                      <TableCell className="py-2 px-5 text-center">
+                        <div className="flex justify-center space-x-2">
+                          <Link
+                            to={`/modal/employee-status/form/${employeeStatus.id}`}
+                            state={{ previousLocation: location }}
                           >
-                            <LucideEdit className="w-4 h-4" />
-                            <span className="sr-only">Ubah</span>
-                          </Button>
-                        </Link>
-                        <Link
-                          to={`/modal/employee-status/delete/${employeeStatus.id}`}
-                          state={{ previousLocation: location }}
-                        >
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="relative text-destructive hover:text-destructive"
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="relative"
+                            >
+                              <LucideEdit className="w-4 h-4" />
+                              <span className="sr-only">Ubah</span>
+                            </Button>
+                          </Link>
+                          <Link
+                            to={`/modal/employee-status/delete/${employeeStatus.id}`}
+                            state={{ previousLocation: location }}
                           >
-                            <LucideTrash className="w-4 h-4" />
-                            <span className="sr-only">Hapus</span>
-                          </Button>
-                        </Link>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="relative text-destructive hover:text-destructive"
+                            >
+                              <LucideTrash className="w-4 h-4" />
+                              <span className="sr-only">Hapus</span>
+                            </Button>
+                          </Link>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </div>

@@ -44,6 +44,8 @@ import RoleForm from "@/pages/business/organization/role/form";
 import RoleDelete from "@/pages/business/organization/role/delete";
 import InformationForm from "@/pages/business/manage/information/form";
 import InformationDelete from "@/pages/business/manage/information/delete";
+import InventoryDelete from "@/pages/business/manage/inventory/delete";
+import InventoryForm from "@/pages/business/manage/inventory/form";
 
 export default function App() {
   // hooks
@@ -125,7 +127,11 @@ export default function App() {
                   <Route path="form/:id?" element={<InformationForm />} />
                 </Route>
 
-                <Route path="inventory" element={<InventoryIndex />} />
+                <Route path="inventory">
+                  <Route index element={<InventoryIndex />} />
+                  <Route path="form/:id?" element={<InventoryForm />} />
+                </Route>
+
                 <Route path="landing-page" element={<LandingPageIndex />} />
               </Route>
             </Route>
@@ -177,6 +183,9 @@ export default function App() {
               </Route>
               <Route path="information">
                 <Route path="delete/:id" element={<InformationDelete />} />
+              </Route>
+              <Route path="inventory">
+                <Route path="delete/:id" element={<InventoryDelete />} />
               </Route>
             </Route>
           </Routes>

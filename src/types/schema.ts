@@ -203,3 +203,17 @@ export type information = {
   readonly created_at: Date | string;
   readonly updated_at: Date | string;
 };
+
+export type inventory = {
+  readonly id: string;
+  organization_id: string;
+  employee_id?: string | null;
+  inventory_name: string;
+  inventory_number: string;
+  inventory_buy_date: Date | string;
+  inventory_start_date: Date | string | null;
+  inventory_end_date: Date | string | null;
+  readonly created_at: Date | string;
+  readonly updated_at: Date | string;
+  employee?: employee;
+};

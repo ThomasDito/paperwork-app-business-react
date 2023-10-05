@@ -272,9 +272,7 @@ export default function EmployeeForm() {
         setInitialValues({
           ...employee,
           employee_telephone: employee.employee_telephone ?? "",
-          employee_birth_date: moment
-            .utc(employee.employee_birth_date)
-            .toDate(),
+          employee_birth_date: moment(employee.employee_birth_date).toDate(),
           employee_education_graduate:
             employee.employee_education_graduate.toString(),
           employee_previous_job_division:
@@ -289,19 +287,19 @@ export default function EmployeeForm() {
             employee.employee_previous_job_office_phone ?? "",
           employee_previous_job_start_date:
             employee.employee_previous_job_start_date
-              ? moment.utc(employee.employee_previous_job_start_date).toDate()
+              ? moment(employee.employee_previous_job_start_date).toDate()
               : new Date(),
           employee_previous_job_end_date:
             employee.employee_previous_job_end_date
-              ? moment.utc(employee.employee_previous_job_end_date).toDate()
+              ? moment(employee.employee_previous_job_end_date).toDate()
               : new Date(),
-          employee_join_date: moment.utc(employee.employee_join_date).toDate(),
-          employee_contract_start_date: moment
-            .utc(employee.employee_contract_start_date)
-            .toDate(),
-          employee_contract_end_date: moment
-            .utc(employee.employee_contract_end_date)
-            .toDate(),
+          employee_join_date: moment(employee.employee_join_date).toDate(),
+          employee_contract_start_date: moment(
+            employee.employee_contract_start_date
+          ).toDate(),
+          employee_contract_end_date: moment(
+            employee.employee_contract_end_date
+          ).toDate(),
         });
       })
       .catch((rejected: { message?: string; data?: ApiResponse<unknown> }) => {
@@ -330,27 +328,27 @@ export default function EmployeeForm() {
 
     payload.append(
       "employee_birth_date",
-      moment.utc(employee_birth_date).format("YYYY-MM-DD")
+      moment(employee_birth_date).format("YYYY-MM-DD")
     );
     payload.append(
       "employee_join_date",
-      moment.utc(employee_join_date).format("YYYY-MM-DD")
+      moment(employee_join_date).format("YYYY-MM-DD")
     );
     payload.append(
       "employee_contract_start_date",
-      moment.utc(employee_contract_start_date).format("YYYY-MM-DD")
+      moment(employee_contract_start_date).format("YYYY-MM-DD")
     );
     payload.append(
       "employee_contract_end_date",
-      moment.utc(employee_contract_end_date).format("YYYY-MM-DD")
+      moment(employee_contract_end_date).format("YYYY-MM-DD")
     );
     payload.append(
       "employee_previous_job_start_date",
-      moment.utc(employee_previous_job_start_date).format("YYYY-MM-DD")
+      moment(employee_previous_job_start_date).format("YYYY-MM-DD")
     );
     payload.append(
       "employee_previous_job_end_date",
-      moment.utc(employee_previous_job_end_date).format("YYYY-MM-DD")
+      moment(employee_previous_job_end_date).format("YYYY-MM-DD")
     );
 
     if (
