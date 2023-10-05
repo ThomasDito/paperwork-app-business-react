@@ -192,3 +192,14 @@ export type role_item = {
   readonly created_at: Date | string;
   readonly updated_at: Date | string;
 };
+
+export type information = {
+  readonly id: string;
+  organization_id: string;
+  information_title: string;
+  information_start_date: Date | string;
+  information_end_date: Date | string;
+  information_content: string;
+  readonly created_at: Date | string;
+  readonly updated_at: Date | string;
+};

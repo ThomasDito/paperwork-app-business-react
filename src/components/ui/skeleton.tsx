@@ -13,7 +13,7 @@ export default function TableSkeleton({
         {[...Array(columns)].map((_, j) => {
           return (
             <TableCell key={j} className="p-5">
-              <Skeleton className="mx-auto h-[15px] w-[150px]" />
+              <Skeleton className="h-[15px] w-full" />
             </TableCell>
           );
         })}

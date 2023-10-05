@@ -74,7 +74,7 @@ export default function EmployeeIndex() {
 
               {!tableIsLoading && !employees?.length && (
                 <TableRow>
-                  <TableCell className="p-5 text-center" colSpan={3}>
+                  <TableCell className="p-5 text-center" colSpan={9}>
                     Tidak ada data
                   </TableCell>
                 </TableRow>

@@ -3,20 +3,16 @@ import LoadingPage from "@/components/loading-page";
 import { useLazyBusinessModuleGetQuery } from "@/redux/api/business/module-api";
 import { useLazyBusinessPositionGetQuery } from "@/redux/api/business/position-api";
 import {
-  useBusinessRoleShowQuery,
   useBusinessRoleStoreMutation,
   useBusinessRoleUpdateMutation,
   useLazyBusinessRoleShowQuery,
 } from "@/redux/api/business/role-api";
 import { role_item_type } from "@/types/schema";
-import { Form, Formik, FormikHelpers, FormikValues } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import { withZodSchema } from "formik-validator-zod";
 import { LucideLoader2, LucideSave } from "lucide-react";
 import {
   Button,
-  Label,
-  RadioGroup,
-  RadioGroupItem,
   Table,
   TableBody,
   TableCell,
@@ -27,7 +23,7 @@ import {
   toastError,
   toastSuccess,
 } from "paperwork-ui";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import z from "zod";
 
@@ -187,7 +183,14 @@ export default function RoleForm() {
     }
   };
 
-  if (showRoleIsLoading || showRoleIsFetching || showRoleIsError) {
+  if (
+    showRoleIsLoading ||
+    showRoleIsFetching ||
+    showRoleIsError ||
+    getModulesIsLoading ||
+    getModulesIsError ||
+    getModulesIsFetching
+  ) {
     return <LoadingPage />;
   }
 

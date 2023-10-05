@@ -42,6 +42,8 @@ import UserHelpIndex from "@/pages/user/information/help";
 import UserDashboardIndex from "@/pages/user/dashboard";
 import RoleForm from "@/pages/business/organization/role/form";
 import RoleDelete from "@/pages/business/organization/role/delete";
+import InformationForm from "@/pages/business/manage/information/form";
+import InformationDelete from "@/pages/business/manage/information/delete";
 
 export default function App() {
   // hooks
@@ -117,7 +119,12 @@ export default function App() {
                   element={<Navigate to={"/business/manage/event"} />}
                 />
                 <Route path="event" element={<EventIndex />} />
-                <Route path="information" element={<InformationIndex />} />
+
+                <Route path="information">
+                  <Route index element={<InformationIndex />} />
+                  <Route path="form/:id?" element={<InformationForm />} />
+                </Route>
+
                 <Route path="inventory" element={<InventoryIndex />} />
                 <Route path="landing-page" element={<LandingPageIndex />} />
               </Route>
@@ -167,6 +174,9 @@ export default function App() {
               </Route>
               <Route path="role">
                 <Route path="delete/:id" element={<RoleDelete />} />
+              </Route>
+              <Route path="information">
+                <Route path="delete/:id" element={<InformationDelete />} />
               </Route>
             </Route>
           </Routes>
