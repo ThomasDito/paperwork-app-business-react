@@ -1,5 +1,9 @@
 import PositionSkeleton from "@/pages/business/organization/setting/position/components/skeleton";
-import { useLazyBusinessPositionGetQuery } from "@/redux/api/business/position-api";
+import {
+  useBusinessPositionChangeStatusMutation,
+  useLazyBusinessPositionGetQuery,
+} from "@/redux/api/business/position-api";
+import { position_status } from "@/types/schema";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
   Button,
@@ -10,6 +14,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  toastError,
+  toastSuccess,
 } from "paperwork-ui";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -24,11 +30,30 @@ export default function PositionIndex() {
     { data: positions = [], isError, isFetching, isLoading, isUninitialized },
   ] = useLazyBusinessPositionGetQuery();
 
+  const [changeStatus] = useBusinessPositionChangeStatusMutation();
+
   const tableIsLoading = isError || isFetching || isLoading || isUninitialized;
 
   useEffect(() => {
     getPositions();
   }, []);
+
+  // Actions
+  const doChangeStatus = async (
+    id: string,
+    position_status: position_status
+  ) => {
+    await changeStatus({ id, payload: { position_status } })
+      .unwrap()
+      .then((response) => {
+        toastSuccess(response?.message || "Status berhasil diubah");
+      })
+      .catch((rejected: { message?: string; data?: ApiResponse<unknown> }) => {
+        toastError(
+          rejected?.data?.message || "Terjadi kesalahan ketika menyimpan data"
+        );
+      });
+  };
 
   return (
     <div className="bg-card border rounded-md">
@@ -88,7 +113,15 @@ export default function PositionIndex() {
                       {position.position_name}
                     </TableCell>
                     <TableCell className="py-2 px-5 text-center">
-                      <Switch checked={position.position_status === "active"} />
+                      <Switch
+                        checked={position.position_status === "active"}
+                        onCheckedChange={(checked) =>
+                          doChangeStatus(
+                            position.id,
+                            checked ? "active" : "inactive"
+                          )
+                        }
+                      />
                     </TableCell>
                     <TableCell className="py-2 px-5 text-center">
                       <div className="flex justify-center space-x-2">

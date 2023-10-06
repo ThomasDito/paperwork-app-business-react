@@ -44,7 +44,7 @@ export default function DivisionIndex() {
     await changeStatus({ id, payload: { division_status } })
       .unwrap()
       .then((response) => {
-        toastSuccess(response?.message || "Divisi berhasil diubah");
+        toastSuccess(response?.message || "Status berhasil diubah");
       })
       .catch((rejected: { message?: string; data?: ApiResponse<unknown> }) => {
         toastError(

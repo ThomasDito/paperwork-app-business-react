@@ -1,5 +1,9 @@
 import LevelSkeleton from "@/pages/business/organization/setting/level/components/skeleton";
-import { useLazyBusinessLevelGetQuery } from "@/redux/api/business/level-api";
+import {
+  useBusinessLevelChangeStatusMutation,
+  useLazyBusinessLevelGetQuery,
+} from "@/redux/api/business/level-api";
+import { level_status } from "@/types/schema";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
   Button,
@@ -10,6 +14,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  toastError,
+  toastSuccess,
 } from "paperwork-ui";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -24,11 +30,27 @@ export default function LevelIndex() {
     { data: levels = [], isError, isFetching, isLoading, isUninitialized },
   ] = useLazyBusinessLevelGetQuery();
 
+  const [changeStatus] = useBusinessLevelChangeStatusMutation();
+
   const tableIsLoading = isError || isFetching || isLoading || isUninitialized;
 
   useEffect(() => {
     getLevels();
   }, []);
+
+  // Actions
+  const doChangeStatus = async (id: string, level_status: level_status) => {
+    await changeStatus({ id, payload: { level_status } })
+      .unwrap()
+      .then((response) => {
+        toastSuccess(response?.message || "Status berhasil diubah");
+      })
+      .catch((rejected: { message?: string; data?: ApiResponse<unknown> }) => {
+        toastError(
+          rejected?.data?.message || "Terjadi kesalahan ketika menyimpan data"
+        );
+      });
+  };
 
   return (
     <div className="bg-card border rounded-md">
@@ -86,7 +108,15 @@ export default function LevelIndex() {
                         {level.level_name}
                       </TableCell>
                       <TableCell className="py-2 px-5 text-center">
-                        <Switch checked={level.level_status === "active"} />
+                        <Switch
+                          checked={level.level_status === "active"}
+                          onCheckedChange={(checked) =>
+                            doChangeStatus(
+                              level.id,
+                              checked ? "active" : "inactive"
+                            )
+                          }
+                        />
                       </TableCell>
                       <TableCell className="py-2 px-5 text-center">
                         <div className="flex justify-center space-x-2">

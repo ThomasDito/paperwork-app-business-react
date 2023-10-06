@@ -46,6 +46,17 @@ const businessLevelApi = businessBaseApi.injectEndpoints({
       }),
       invalidatesTags: ["Level"],
     }),
+    businessLevelChangeStatus: builder.mutation<
+      ApiResponse<level>,
+      { id: string; payload: Pick<level, "level_status"> }
+    >({
+      query: ({ id, payload }) => ({
+        url: `level/${id}/change-status`,
+        method: "PUT",
+        body: payload,
+      }),
+      invalidatesTags: ["Level"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -58,4 +69,5 @@ export const {
   useBusinessLevelStoreMutation,
   useBusinessLevelDeleteMutation,
   useBusinessLevelUpdateMutation,
+  useBusinessLevelChangeStatusMutation,
 } = businessLevelApi;

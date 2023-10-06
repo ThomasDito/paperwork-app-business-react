@@ -50,6 +50,17 @@ const businessPositionApi = businessBaseApi.injectEndpoints({
       }),
       invalidatesTags: ["Position"],
     }),
+    businessPositionChangeStatus: builder.mutation<
+      ApiResponse<position>,
+      { id: string; payload: Pick<position, "position_status"> }
+    >({
+      query: ({ id, payload }) => ({
+        url: `position/${id}/change-status`,
+        method: "PUT",
+        body: payload,
+      }),
+      invalidatesTags: ["Position"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -62,4 +73,5 @@ export const {
   useBusinessPositionStoreMutation,
   useBusinessPositionDeleteMutation,
   useBusinessPositionUpdateMutation,
+  useBusinessPositionChangeStatusMutation,
 } = businessPositionApi;

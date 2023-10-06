@@ -54,6 +54,17 @@ const businessEmployeeStatusApi = businessBaseApi.injectEndpoints({
       }),
       invalidatesTags: ["Employee Status"],
     }),
+    businessEmployeeStatusChangeStatus: builder.mutation<
+      ApiResponse<employee_status>,
+      { id: string; payload: Pick<employee_status, "employee_status_status"> }
+    >({
+      query: ({ id, payload }) => ({
+        url: `employee-status/${id}/change-status`,
+        method: "PUT",
+        body: payload,
+      }),
+      invalidatesTags: ["Employee Status"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -66,4 +77,5 @@ export const {
   useBusinessEmployeeStatusStoreMutation,
   useBusinessEmployeeStatusDeleteMutation,
   useBusinessEmployeeStatusUpdateMutation,
+  useBusinessEmployeeStatusChangeStatusMutation,
 } = businessEmployeeStatusApi;

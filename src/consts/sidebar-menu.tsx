@@ -55,10 +55,10 @@ export const sidebarMenus: SidebarMenuItem[] = [
         title: "Inventaris",
         link: "/business/manage/inventory",
       },
-      {
-        title: "Landing Page",
-        link: "/business/manage/landing-page",
-      },
+      // {
+      //   title: "Landing Page",
+      //   link: "/business/manage/landing-page",
+      // },
     ],
   },
   {

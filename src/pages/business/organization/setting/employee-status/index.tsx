@@ -1,5 +1,9 @@
 import EmployeeStatusSkeleton from "@/pages/business/organization/setting/employee-status/components/skeleton";
-import { useLazyBusinessEmployeeStatusGetQuery } from "@/redux/api/business/employee-status-api";
+import {
+  useBusinessEmployeeStatusChangeStatusMutation,
+  useLazyBusinessEmployeeStatusGetQuery,
+} from "@/redux/api/business/employee-status-api";
+import { employee_status_status } from "@/types/schema";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
   Button,
@@ -10,6 +14,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  toastError,
+  toastSuccess,
 } from "paperwork-ui";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -30,11 +36,30 @@ export default function EmployeeStatusIndex() {
     },
   ] = useLazyBusinessEmployeeStatusGetQuery();
 
+  const [changeStatus] = useBusinessEmployeeStatusChangeStatusMutation();
+
   const tableIsLoading = isError || isFetching || isLoading || isUninitialized;
 
   useEffect(() => {
     getEmployeeStatuses();
   }, []);
+
+  // Actions
+  const doChangeStatus = async (
+    id: string,
+    employee_status_status: employee_status_status
+  ) => {
+    await changeStatus({ id, payload: { employee_status_status } })
+      .unwrap()
+      .then((response) => {
+        toastSuccess(response?.message || "Status berhasil diubah");
+      })
+      .catch((rejected: { message?: string; data?: ApiResponse<unknown> }) => {
+        toastError(
+          rejected?.data?.message || "Terjadi kesalahan ketika menyimpan data"
+        );
+      });
+  };
 
   return (
     <div className="bg-card border rounded-md">
@@ -98,6 +123,12 @@ export default function EmployeeStatusIndex() {
                         <Switch
                           checked={
                             employeeStatus.employee_status_status === "active"
+                          }
+                          onCheckedChange={(checked) =>
+                            doChangeStatus(
+                              employeeStatus.id,
+                              checked ? "active" : "inactive"
+                            )
                           }
                         />
                       </TableCell>
