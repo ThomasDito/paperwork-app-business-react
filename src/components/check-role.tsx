@@ -1,28 +1,43 @@
+import RestrictedPage from "@/components/restricted-page";
+import useRole from "@/hooks/useRole";
 import { ModulesType } from "@/lib/consts";
-import { checkRole } from "@/lib/role";
-import { useAppSelector } from "@/redux/hooks";
-import { selectRoles } from "@/redux/slices/auth-slice";
 import { role_item_type } from "@/types/schema";
 import { PropsWithChildren } from "react";
+import { Outlet } from "react-router-dom";
 
 type Props = {
-  module: ModulesType;
-  action: role_item_type;
+  module: ModulesType | Array<ModulesType>;
+  action?: role_item_type;
   failed?: JSX.Element | null;
+  checkAll?: boolean;
 };
 
-export default function CheckRole({
+export function CheckRole({
   module,
-  action,
+  action = "read",
   failed,
+  checkAll,
   children,
 }: PropsWithChildren<Props>) {
-  const roles = useAppSelector(selectRoles);
-  const check = checkRole(roles, module, action);
+  const check = useRole(module, action, checkAll);
 
   if (!check) {
     return failed;
   } else {
     return children;
+  }
+}
+
+export function CheckRoleOutlet({
+  module,
+  action = "read",
+  checkAll,
+}: Omit<Props, "failed">) {
+  const check = useRole(module, action, checkAll);
+
+  if (!check) {
+    return <RestrictedPage />;
+  } else {
+    return <Outlet />;
   }
 }

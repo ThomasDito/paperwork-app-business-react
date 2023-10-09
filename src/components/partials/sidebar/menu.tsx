@@ -1,8 +1,12 @@
 import SidebarSubmenu from "@/components/partials/sidebar/submenu";
 import { cn } from "paperwork-ui";
 import { LucideChevronRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { useAppSelector } from "@/redux/hooks";
+import { ModulesType } from "@/lib/consts";
+import { checkRole } from "@/lib/role";
+import { selectRoles } from "@/redux/slices/auth-slice";
 
 export default function SidebarMenu({ menus }: { menus: SidebarMenuItem[] }) {
   const [activeSubmenu, setActiveSubmenu] = useState<number | null>(null);
@@ -38,6 +42,15 @@ export default function SidebarMenu({ menus }: { menus: SidebarMenuItem[] }) {
     setActiveSubmenu(submenuIndex);
   }, [location]);
 
+  // Permissions
+  const roles = useAppSelector(selectRoles);
+  const checkPermission = useCallback(
+    (moduleKey: ModulesType | Array<ModulesType>) => {
+      return checkRole(roles, moduleKey, "read");
+    },
+    [roles]
+  );
+
   return (
     <>
       <ul className="space-y-1">
@@ -51,24 +64,6 @@ export default function SidebarMenu({ menus }: { menus: SidebarMenuItem[] }) {
                 "before:bg-warning-200"
             )}
           >
-            {/* Menu item without children */}
-            {!item.children && !item.isHeader && item.link && (
-              <NavLink
-                to={item.link}
-                className={cn(
-                  "menu-link",
-                  (locationName === item.link ||
-                    locationName.includes(item.link!)) &&
-                    "text-primary"
-                )}
-              >
-                <span className="inline-flex items-center justify-center mr-2">
-                  {item.icon}
-                </span>
-                <div className={cn("menu-text")}>{item.title}</div>
-              </NavLink>
-            )}
-
             {/* Menu item is header */}
             {item.isHeader && !item.children && (
               <div className="my-2 text-xs font-semibold uppercase menu-header">
@@ -76,38 +71,68 @@ export default function SidebarMenu({ menus }: { menus: SidebarMenuItem[] }) {
               </div>
             )}
 
+            {/* Menu item without children */}
+            {!item.children &&
+              !item.isHeader &&
+              item.link &&
+              (!item.moduleKey ||
+                checkPermission(
+                  item.moduleKey as ModulesType | Array<ModulesType>
+                )) && (
+                <NavLink
+                  to={item.link}
+                  className={cn(
+                    "menu-link",
+                    (locationName === item.link ||
+                      locationName.includes(item.link!)) &&
+                      "text-primary"
+                  )}
+                >
+                  <span className="inline-flex items-center justify-center mr-2">
+                    {item.icon}
+                  </span>
+                  <div className={cn("menu-text")}>{item.title}</div>
+                </NavLink>
+              )}
+
             {/* Menu item with children */}
-            {item.children && (
-              <div
-                className={cn(
-                  "menu-link select-none",
-                  activeSubmenu === i && "",
-                  (locationName === item.link ||
-                    locationName.includes(item.link!)) &&
-                    "text-primary"
-                )}
-                onClick={() => toggleSubmenu(i)}
-              >
-                <div className={cn("flex items-center flex-1 cursor-pointer")}>
-                  <div className="flex items-center flex-1">
-                    <span className="inline-flex items-center justify-center mr-2">
-                      {item.icon}
-                    </span>
-                    <div className="menu-text">{item.title}</div>
-                  </div>
-                  <div className="flex-nowrap">
-                    <div
-                      className={cn(
-                        "transition-transform duration-300 rounded-full",
-                        activeSubmenu === i && "rotate-90"
-                      )}
-                    >
-                      <LucideChevronRight className="w-4 h-4" />
+            {item.children &&
+              (!item.moduleKey ||
+                checkPermission(
+                  item.moduleKey as ModulesType | Array<ModulesType>
+                )) && (
+                <div
+                  className={cn(
+                    "menu-link select-none",
+                    activeSubmenu === i && "",
+                    (locationName === item.link ||
+                      locationName.includes(item.link!)) &&
+                      "text-primary"
+                  )}
+                  onClick={() => toggleSubmenu(i)}
+                >
+                  <div
+                    className={cn("flex items-center flex-1 cursor-pointer")}
+                  >
+                    <div className="flex items-center flex-1">
+                      <span className="inline-flex items-center justify-center mr-2">
+                        {item.icon}
+                      </span>
+                      <div className="menu-text">{item.title}</div>
+                    </div>
+                    <div className="flex-nowrap">
+                      <div
+                        className={cn(
+                          "transition-transform duration-300 rounded-full",
+                          activeSubmenu === i && "rotate-90"
+                        )}
+                      >
+                        <LucideChevronRight className="w-4 h-4" />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
             <SidebarSubmenu activeSubmenu={activeSubmenu} item={item} i={i} />
           </li>

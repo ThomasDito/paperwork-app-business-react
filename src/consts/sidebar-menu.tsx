@@ -47,22 +47,27 @@ export const sidebarMenus: SidebarMenuItem[] = [
     title: "Aplikasi",
     icon: <LucideLayoutPanelLeft className="w-5 h-5" />,
     link: "/business/application",
+    moduleKey: "employee",
   },
   {
     title: "Pengelolaan",
     icon: <LucideFolderCog className="w-5 h-5" />,
+    moduleKey: ["employee"],
     children: [
       {
         title: "Kalender",
         link: "/business/manage/event",
+        moduleKey: "employee",
       },
       {
         title: "Informasi",
         link: "/business/manage/information",
+        moduleKey: "employee",
       },
       {
         title: "Inventaris",
         link: "/business/manage/inventory",
+        moduleKey: "employee",
       },
       // {
       //   title: "Landing Page",

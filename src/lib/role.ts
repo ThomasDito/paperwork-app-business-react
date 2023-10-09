@@ -3,22 +3,29 @@ import { role_item_type } from "@/types/schema";
 
 export function checkRole(
   roles: Array<{ module_key: string; permission: string }>,
-  module: ModulesType,
-  action: role_item_type
+  module: ModulesType | Array<ModulesType>,
+  action: role_item_type,
+  checkAll?: boolean
 ): boolean {
-  //   if (checkAll) {
-  //     return requiredPermissions.every((p) => currentPermissions.includes(p));
-  // }
+  if (!Array.isArray(module)) {
+    module = [module];
+  }
 
-  // return requiredPermissions.some((p) => currentPermissions.includes(p));
-
-  const check = roles.find((role) => {
-    return (
-      role.module_key === module &&
-      (role.permission === action ||
-        (role.permission === "write" && action === "read"))
+  let passed = 0;
+  module.forEach((item) => {
+    const check = roles.find(
+      (role) =>
+        role.module_key === item &&
+        (role.permission === action ||
+          (role.permission === "write" && action === "read"))
     );
+
+    if (check) passed++;
   });
 
-  return check ? true : false;
+  if (checkAll) {
+    return passed === module.length;
+  } else {
+    return passed > 0;
+  }
 }

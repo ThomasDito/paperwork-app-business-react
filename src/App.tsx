@@ -1,9 +1,10 @@
 import Layout from "@/components/layout";
 import LoadingPage from "@/components/loading-page";
 import PageLayout from "@/pages/layout";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   login,
+  selectRoles,
   setEmployee,
   setOrganization,
   setRoles,
@@ -54,6 +55,7 @@ import {
   useBusinessEmployeeAccountEmployeeQuery,
   useBusinessEmployeeAccountModulesQuery,
 } from "@/redux/api/business/employee/account-api";
+import { CheckRoleOutlet } from "@/components/check-role";
 
 export default function App() {
   // Hooks
@@ -65,9 +67,9 @@ export default function App() {
   const { data: me, isSuccess: meIsSuccess } = useMeQuery();
   const { data: organization, isSuccess: organizationIsSuccess } =
     useBusinessOrganizationGetQuery();
-  const { data: employee, isFetching: employeeIsFetching } =
+  const { data: employee, isSuccess: employeeIsSuccess } =
     useBusinessEmployeeAccountEmployeeQuery();
-  const { data: roles, isFetching: rolesIsFetching } =
+  const { data: roles, isSuccess: rolesIsSuccess } =
     useBusinessEmployeeAccountModulesQuery();
 
   // States
@@ -95,9 +97,12 @@ export default function App() {
     }
   }, [roles]);
 
-  const isLoading = employeeIsFetching || rolesIsFetching;
-
-  if (meIsSuccess && organizationIsSuccess && !isLoading) {
+  if (
+    meIsSuccess &&
+    organizationIsSuccess &&
+    rolesIsSuccess &&
+    employeeIsSuccess
+  ) {
     return (
       <Layout>
         <Routes location={previousLocation || location}>
@@ -112,14 +117,23 @@ export default function App() {
                   index
                   element={<Navigate to={"/business/organization/employee"} />}
                 />
-                <Route path="employee">
+
+                <Route
+                  path="employee"
+                  element={<CheckRoleOutlet module={"employee"} />}
+                >
                   <Route index element={<EmployeeIndex />} />
                   <Route path="form/:id?" element={<EmployeeForm />} />
                 </Route>
-                <Route path="role">
+
+                <Route
+                  path="role"
+                  element={<CheckRoleOutlet module={"role"} />}
+                >
                   <Route index element={<RoleIndex />} />
                   <Route path="form/:id?" element={<RoleForm />} />
                 </Route>
+
                 <Route path="setting" element={<SettingIndex />}>
                   <Route
                     index
