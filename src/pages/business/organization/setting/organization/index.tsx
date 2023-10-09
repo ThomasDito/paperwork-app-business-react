@@ -1,12 +1,13 @@
 import { FormikComboBox, FormikInput } from "@/components/formik";
 import LoadingPage from "@/components/loading-page";
+import useRole from "@/hooks/useRole";
 import config from "@/lib/config";
 import {
   useLazyBusinessRegionGetCitiesByProvinceIdQuery,
   useLazyBusinessRegionGetProvincesQuery,
 } from "@/redux/api/business/region-api";
 import { useAppSelector } from "@/redux/hooks";
-import { selectOrganization } from "@/redux/slices/organization-slice";
+import { selectOrganization } from "@/redux/slices/auth-slice";
 import { Form, Formik, FormikProps } from "formik";
 import { withZodSchema } from "formik-validator-zod";
 import {
@@ -81,7 +82,11 @@ export const organizationSchema = z.object({
 export type OrganizationSchemaType = z.infer<typeof organizationSchema>;
 
 export default function OrganizationIndex() {
+  // Hooks
   const organization = useAppSelector(selectOrganization);
+
+  // Permissions
+  const canWrite = useRole("organization_setting", "write");
 
   // States
   const refLogo = useRef<HTMLInputElement | null>(null);
@@ -150,6 +155,7 @@ export default function OrganizationIndex() {
                 name="organization_name"
                 id="organization_name"
                 placeholder="Nama Organisasi"
+                disabled={!canWrite}
               />
 
               <div className="flex item-start space-x-2">
@@ -160,6 +166,7 @@ export default function OrganizationIndex() {
                   placeholder="Organisasi ID"
                   className="w-[300px]"
                   required
+                  disabled={!canWrite}
                   onChange={(e) => {
                     const value = e.target.value;
                     const regex = /^[a-z]+$/;
@@ -221,47 +228,52 @@ export default function OrganizationIndex() {
                     </div>
                   )}
 
-                  <div className="flex items-center space-x-3 mt-8">
-                    <Button
-                      type="button"
-                      variant={"outline"}
-                      size="sm"
-                      onClick={() =>
-                        refLogo.current !== null
-                          ? refLogo.current.click()
-                          : null
-                      }
-                    >
-                      <LucideUpload className="w-4 h-4 mr-3" /> Upload Logo
-                    </Button>
-                    {formik.values.organization_logo && (
+                  {canWrite && (
+                    <div className="flex items-center space-x-3 mt-8">
                       <Button
                         type="button"
+                        variant={"outline"}
                         size="sm"
-                        variant={"destructive"}
-                        onClick={() => clearLogo(formik)}
+                        onClick={() =>
+                          refLogo.current !== null
+                            ? refLogo.current.click()
+                            : null
+                        }
                       >
-                        <LucideTrash className="w-4 h-4 mr-3" /> Hapus
+                        <LucideUpload className="w-4 h-4 mr-3" /> Upload Logo
                       </Button>
-                    )}
-                  </div>
-                </div>
-                <div>
-                  {formik.touched.organization_logo &&
-                    formik.errors.organization_logo && (
-                      <span className="mt-2 text-xs text-destructive">
-                        {formik.errors.organization_logo}
-                      </span>
-                    )}
-                  <div className="w-full pt-1">
-                    <div className="mt-2 text-xs text-muted-foreground ">
-                      - Ukuran maksimal file adalah sebesar 3 MB
+                      {formik.values.organization_logo && (
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant={"destructive"}
+                          onClick={() => clearLogo(formik)}
+                        >
+                          <LucideTrash className="w-4 h-4 mr-3" /> Hapus
+                        </Button>
+                      )}
                     </div>
-                    <div className="mt-2 text-xs text-muted-foreground">
-                      - Mendukung format file : .jpg, .jpeg, .png, .webp
+                  )}
+                </div>
+
+                {canWrite && (
+                  <div>
+                    {formik.touched.organization_logo &&
+                      formik.errors.organization_logo && (
+                        <span className="mt-2 text-xs text-destructive">
+                          {formik.errors.organization_logo}
+                        </span>
+                      )}
+                    <div className="w-full pt-1">
+                      <div className="mt-2 text-xs text-muted-foreground ">
+                        - Ukuran maksimal file adalah sebesar 3 MB
+                      </div>
+                      <div className="mt-2 text-xs text-muted-foreground">
+                        - Mendukung format file : .jpg, .jpeg, .png, .webp
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
 
               <FormikInput
@@ -270,6 +282,7 @@ export default function OrganizationIndex() {
                 name="organization_address_1"
                 id="organization_address_1"
                 required
+                disabled={!canWrite}
               />
 
               <FormikInput
@@ -277,6 +290,7 @@ export default function OrganizationIndex() {
                 placeholder="Alamat 2"
                 name="organization_address_2"
                 id="organization_address_2"
+                disabled={!canWrite}
               />
 
               <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
@@ -287,6 +301,7 @@ export default function OrganizationIndex() {
                   name="organization_postal_code"
                   id="organization_postal_code"
                   required
+                  disabled={!canWrite}
                   onChange={(e) => {
                     const value = e.target.value;
                     const regex = /^[0-9]+$/;
@@ -305,11 +320,13 @@ export default function OrganizationIndex() {
           )}
         </Formik>
       </div>
-      <div className="flex justify-end p-5 border-t">
-        <Button>
-          <LucideSave className="w-5 h-5 mr-2" /> Simpan
-        </Button>
-      </div>
+      {canWrite && (
+        <div className="flex justify-end p-5 border-t">
+          <Button>
+            <LucideSave className="w-5 h-5 mr-2" /> Simpan
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
@@ -319,6 +336,9 @@ function SelectRegion({
 }: {
   formik: FormikProps<OrganizationSchemaType>;
 }) {
+  // Permissions
+  const canWrite = useRole("organization_setting", "write");
+
   // RTK Query
   const [
     getProvinces,
@@ -362,6 +382,7 @@ function SelectRegion({
           placeholderNotFound="Provinsi tidak ditemukan"
           placeholderSearch="Cari Provinsi..."
           required
+          disabled={!canWrite}
           values={provinces.map((province) => {
             return {
               value: province.id,
@@ -396,6 +417,7 @@ function SelectRegion({
           placeholderNotFound="Kabupaten/Kota tidak ditemukan"
           placeholderSearch="Cari Kabupaten/Kota..."
           required
+          disabled={!canWrite}
           values={
             formik.values.province_id
               ? cities.map((city) => {

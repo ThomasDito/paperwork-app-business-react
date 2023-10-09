@@ -1,4 +1,5 @@
 import { toastError, toastSuccess } from "@/components/ui/toast";
+import useRole from "@/hooks/useRole";
 import DivisionSkeleton from "@/pages/business/organization/setting/division/components/skeleton";
 import {
   useBusinessDivisionChangeStatusMutation,
@@ -22,6 +23,9 @@ import { Link, useLocation } from "react-router-dom";
 export default function DivisionIndex() {
   // Hooks
   const location = useLocation();
+
+  // Permission
+  const canWrite = useRole("division", "write");
 
   // RTK Query
   const [
@@ -73,14 +77,16 @@ export default function DivisionIndex() {
               placeholder="Pencarian..."
             />
           </div> */}
-          <Link
-            to={"/modal/division/form"}
-            state={{ previousLocation: location }}
-          >
-            <Button>
-              <LucidePlus className="w-5 h-5 mr-2" /> Tambah Divisi
-            </Button>
-          </Link>
+          {canWrite && (
+            <Link
+              to={"/modal/division/form"}
+              state={{ previousLocation: location }}
+            >
+              <Button>
+                <LucidePlus className="w-5 h-5 mr-2" /> Tambah Divisi
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
       <div className="border-t rounded-b-md bg-card">
@@ -90,7 +96,9 @@ export default function DivisionIndex() {
               <TableRow>
                 <TableHead className="py-4 px-5">Nama Divisi</TableHead>
                 <TableHead className="py-4 px-5 text-center">Aktif</TableHead>
-                <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
+                {canWrite && (
+                  <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
+                )}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -108,11 +116,12 @@ export default function DivisionIndex() {
                 divisions.map((division) => {
                   return (
                     <TableRow key={division.id}>
-                      <TableCell className="py-2 px-5">
+                      <TableCell className="px-5">
                         {division.division_name}
                       </TableCell>
-                      <TableCell className="py-2 px-5 text-center">
+                      <TableCell className="px-5 text-center">
                         <Switch
+                          disabled={!canWrite}
                           checked={division.division_status === "active"}
                           onCheckedChange={(checked) =>
                             doChangeStatus(
@@ -122,36 +131,38 @@ export default function DivisionIndex() {
                           }
                         />
                       </TableCell>
-                      <TableCell className="py-2 px-5 text-center">
-                        <div className="flex justify-center space-x-2">
-                          <Link
-                            to={`/modal/division/form/${division.id}`}
-                            state={{ previousLocation: location }}
-                          >
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="relative"
+                      {canWrite && (
+                        <TableCell className="px-5 text-center">
+                          <div className="flex justify-center space-x-2">
+                            <Link
+                              to={`/modal/division/form/${division.id}`}
+                              state={{ previousLocation: location }}
                             >
-                              <LucideEdit className="w-4 h-4" />
-                              <span className="sr-only">Ubah</span>
-                            </Button>
-                          </Link>
-                          <Link
-                            to={`/modal/division/delete/${division.id}`}
-                            state={{ previousLocation: location }}
-                          >
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="relative text-destructive hover:text-destructive"
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="relative"
+                              >
+                                <LucideEdit className="w-4 h-4" />
+                                <span className="sr-only">Ubah</span>
+                              </Button>
+                            </Link>
+                            <Link
+                              to={`/modal/division/delete/${division.id}`}
+                              state={{ previousLocation: location }}
                             >
-                              <LucideTrash className="w-4 h-4" />
-                              <span className="sr-only">Hapus</span>
-                            </Button>
-                          </Link>
-                        </div>
-                      </TableCell>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="relative text-destructive hover:text-destructive"
+                              >
+                                <LucideTrash className="w-4 h-4" />
+                                <span className="sr-only">Hapus</span>
+                              </Button>
+                            </Link>
+                          </div>
+                        </TableCell>
+                      )}
                     </TableRow>
                   );
                 })}

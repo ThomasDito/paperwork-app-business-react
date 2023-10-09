@@ -57,7 +57,8 @@ const businessRoleApi = businessBaseApi.injectEndpoints({
         method: "POST",
         body: payload,
       }),
-      invalidatesTags: ["Role"],
+      invalidatesTags: (_, error) =>
+        !error ? ["Role", "Employee/Account"] : [],
     }),
     businessRoleUpdate: builder.mutation<
       ApiResponse<role>,
@@ -68,7 +69,8 @@ const businessRoleApi = businessBaseApi.injectEndpoints({
         method: "PUT",
         body: payload,
       }),
-      invalidatesTags: ["Role"],
+      invalidatesTags: (_, error) =>
+        !error ? ["Role", "Employee/Account"] : [],
     }),
     businessRoleChangeStatus: builder.mutation<
       ApiResponse<role>,
@@ -79,14 +81,16 @@ const businessRoleApi = businessBaseApi.injectEndpoints({
         method: "PUT",
         body: payload,
       }),
-      invalidatesTags: ["Role"],
+      invalidatesTags: (_, error) =>
+        !error ? ["Role", "Employee/Account"] : [],
     }),
     businessRoleDelete: builder.mutation<ApiResponse<role>, string>({
       query: (id) => ({
         url: `role/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Role"],
+      invalidatesTags: (_, error) =>
+        !error ? ["Role", "Employee/Account"] : [],
     }),
   }),
   overrideExisting: false,

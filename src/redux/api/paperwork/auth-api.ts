@@ -21,4 +21,5 @@ const paperworkAuthApi = paperworkBaseApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useLazyMeQuery, useLogoutMutation } = paperworkAuthApi;
+export const { useMeQuery, useLazyMeQuery, useLogoutMutation } =
+  paperworkAuthApi;

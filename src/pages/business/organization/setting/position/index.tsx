@@ -1,3 +1,4 @@
+import useRole from "@/hooks/useRole";
 import PositionSkeleton from "@/pages/business/organization/setting/position/components/skeleton";
 import {
   useBusinessPositionChangeStatusMutation,
@@ -23,6 +24,9 @@ import { Link, useLocation } from "react-router-dom";
 export default function PositionIndex() {
   // Hooks
   const location = useLocation();
+
+  // Permissions
+  const canWrite = useRole("position", "write");
 
   // RTK Query
   const [
@@ -75,14 +79,16 @@ export default function PositionIndex() {
               placeholder="Pencarian..."
             />
           </div> */}
-          <Link
-            to={"/modal/position/form"}
-            state={{ previousLocation: location }}
-          >
-            <Button>
-              <LucidePlus className="w-5 h-5 mr-2" /> Tambah Jabatan
-            </Button>
-          </Link>
+          {canWrite && (
+            <Link
+              to={"/modal/position/form"}
+              state={{ previousLocation: location }}
+            >
+              <Button>
+                <LucidePlus className="w-5 h-5 mr-2" /> Tambah Jabatan
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
       <div className="border-t rounded-b-md bg-card">
@@ -92,7 +98,9 @@ export default function PositionIndex() {
               <TableRow>
                 <TableHead className="py-4 px-5">Nama Jabatan</TableHead>
                 <TableHead className="py-4 px-5 text-center">Aktif</TableHead>
-                <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
+                {canWrite && (
+                  <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
+                )}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -109,11 +117,12 @@ export default function PositionIndex() {
               {positions.map((position) => {
                 return (
                   <TableRow key={position.id}>
-                    <TableCell className="py-2 px-5">
+                    <TableCell className="px-5">
                       {position.position_name}
                     </TableCell>
-                    <TableCell className="py-2 px-5 text-center">
+                    <TableCell className="px-5 text-center">
                       <Switch
+                        disabled={!canWrite}
                         checked={position.position_status === "active"}
                         onCheckedChange={(checked) =>
                           doChangeStatus(
@@ -123,36 +132,38 @@ export default function PositionIndex() {
                         }
                       />
                     </TableCell>
-                    <TableCell className="py-2 px-5 text-center">
-                      <div className="flex justify-center space-x-2">
-                        <Link
-                          to={`/modal/position/form/${position.id}`}
-                          state={{ previousLocation: location }}
-                        >
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="relative"
+                    {canWrite && (
+                      <TableCell className="px-5 text-center">
+                        <div className="flex justify-center space-x-2">
+                          <Link
+                            to={`/modal/position/form/${position.id}`}
+                            state={{ previousLocation: location }}
                           >
-                            <LucideEdit className="w-4 h-4" />
-                            <span className="sr-only">Ubah</span>
-                          </Button>
-                        </Link>
-                        <Link
-                          to={`/modal/position/delete/${position.id}`}
-                          state={{ previousLocation: location }}
-                        >
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="relative text-destructive hover:text-destructive"
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="relative"
+                            >
+                              <LucideEdit className="w-4 h-4" />
+                              <span className="sr-only">Ubah</span>
+                            </Button>
+                          </Link>
+                          <Link
+                            to={`/modal/position/delete/${position.id}`}
+                            state={{ previousLocation: location }}
                           >
-                            <LucideTrash className="w-4 h-4" />
-                            <span className="sr-only">Hapus</span>
-                          </Button>
-                        </Link>
-                      </div>
-                    </TableCell>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="relative text-destructive hover:text-destructive"
+                            >
+                              <LucideTrash className="w-4 h-4" />
+                              <span className="sr-only">Hapus</span>
+                            </Button>
+                          </Link>
+                        </div>
+                      </TableCell>
+                    )}
                   </TableRow>
                 );
               })}

@@ -16,10 +16,17 @@ import {
   Title,
   Tooltip,
   Legend,
+  ArcElement,
 } from "chart.js";
-import { Line } from "react-chartjs-2";
+import { Line, Doughnut } from "react-chartjs-2";
+import UserLineChartWidget from "@/pages/business/dashboard/components/widgets/user-line-chart";
+import DivisionChartWidget from "@/pages/business/dashboard/components/widgets/division-chart";
+import EmployeeStatusChartWidget from "@/pages/business/dashboard/components/widgets/employee-status-chart";
+import GenderChartWidget from "@/pages/business/dashboard/components/widgets/gender-chart";
+import EmployeeContractLeftWidget from "@/pages/business/dashboard/components/widgets/employee-contract-left";
 
 ChartJS.register(
+  ArcElement,
   CategoryScale,
   LinearScale,
   PointElement,
@@ -33,31 +40,44 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: "top" as const,
-    },
-    title: {
-      display: true,
-      text: "Chart.js Line Chart",
+      position: "right" as const,
+      labels: {
+        padding: 15,
+      },
     },
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
-
-export const data = {
-  labels,
+const data2 = {
+  labels: [
+    "Red hwgfhjsd fhsjdgf hjsdgfhsdj fgshdjfgdshjfgsdhjf",
+    "Blue",
+    "Yellow",
+    "Green",
+    "Purple",
+    "Orange",
+  ],
   datasets: [
     {
-      label: "Dataset 1",
-      data: [23, 45, 25, 76, 56, 57, 67, 45, 67, 55, 66, 98],
-      borderColor: "rgb(255, 99, 132)",
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-    },
-    {
-      label: "Dataset 2",
-      data: [23, 45, 25, 76, 56, 57, 67, 45, 67, 55, 66, 98],
-      borderColor: "rgb(53, 162, 235)",
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
+      label: "# of Votes",
+      data: [12, 19, 3, 5, 2, 3],
+      backgroundColor: [
+        "rgba(255, 99, 132, 0.2)",
+        "rgba(54, 162, 235, 0.2)",
+        "rgba(255, 206, 86, 0.2)",
+        "rgba(75, 192, 192, 0.2)",
+        "rgba(153, 102, 255, 0.2)",
+        "rgba(255, 159, 64, 0.2)",
+      ],
+      borderColor: [
+        "rgba(255, 99, 132, 1)",
+        "rgba(54, 162, 235, 1)",
+        "rgba(255, 206, 86, 1)",
+        "rgba(75, 192, 192, 1)",
+        "rgba(153, 102, 255, 1)",
+        "rgba(255, 159, 64, 1)",
+      ],
+      borderWidth: 1,
     },
   ],
 };
@@ -119,8 +139,16 @@ export default function DashboardIndex() {
           </div>
         </div>
       </div>
-      <div className="bg-card p-5 shadow-sm rounded-md">
-        <Line options={options} data={data} />;
+      <div className="grid grid-cols-1 lg:grid-cols-6 gap-8">
+        <div className="lg:col-span-4 flex flex-col space-y-8">
+          <UserLineChartWidget />
+          <EmployeeContractLeftWidget />
+        </div>
+        <div className="col-span-2 flex flex-col space-y-8">
+          <DivisionChartWidget />
+          <EmployeeStatusChartWidget />
+          <GenderChartWidget />
+        </div>
       </div>
     </div>
   );

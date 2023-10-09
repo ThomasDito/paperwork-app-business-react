@@ -15,4 +15,7 @@ const businessOrganizationApi = businessBaseApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useLazyBusinessOrganizationGetQuery } = businessOrganizationApi;
+export const {
+  useBusinessOrganizationGetQuery,
+  useLazyBusinessOrganizationGetQuery,
+} = businessOrganizationApi;

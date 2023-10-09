@@ -49,5 +49,7 @@ export const businessBaseApi = createApi({
     "Module",
     "Information",
     "Inventory",
+    // EMPLOYEE
+    "Employee/Account",
   ],
 });

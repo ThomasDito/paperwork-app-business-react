@@ -2,12 +2,16 @@ import Layout from "@/components/layout";
 import LoadingPage from "@/components/loading-page";
 import PageLayout from "@/pages/layout";
 import { useAppDispatch } from "@/redux/hooks";
-import { login } from "@/redux/slices/auth-slice";
+import {
+  login,
+  setEmployee,
+  setOrganization,
+  setRoles,
+} from "@/redux/slices/auth-slice";
 import { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import DashboardIndex from "@/pages/business/dashboard";
-import { useLazyMeQuery } from "@/redux/api/paperwork/auth-api";
-import { setOrganization } from "@/redux/slices/organization-slice";
+import { useMeQuery } from "@/redux/api/paperwork/auth-api";
 import SettingIndex from "@/pages/business/organization/setting";
 import BranchIndex from "@/pages/business/organization/setting/branch";
 import OrganizationIndex from "@/pages/business/organization/setting/organization";
@@ -15,7 +19,7 @@ import DivisionIndex from "@/pages/business/organization/setting/division";
 import PositionIndex from "@/pages/business/organization/setting/position";
 import LevelIndex from "@/pages/business/organization/setting/level";
 import EmployeeStatusIndex from "@/pages/business/organization/setting/employee-status";
-import { useLazyBusinessOrganizationGetQuery } from "@/redux/api/business/organization-api";
+import { useBusinessOrganizationGetQuery } from "@/redux/api/business/organization-api";
 import BranchForm from "@/pages/business/organization/setting/branch/form";
 import BranchDelete from "@/pages/business/organization/setting/branch/delete";
 import DivisionForm from "@/pages/business/organization/setting/division/form";
@@ -35,44 +39,65 @@ import EventIndex from "@/pages/business/manage/event";
 import InformationIndex from "@/pages/business/manage/information";
 import InventoryIndex from "@/pages/business/manage/inventory";
 import LandingPageIndex from "@/pages/business/manage/landing-page";
-import UserEventIndex from "@/pages/user/information/event";
-import UserInformationIndex from "@/pages/user/information/information";
-import UserActivityIndex from "@/pages/user/information/activity";
-import UserHelpIndex from "@/pages/user/information/help";
-import UserDashboardIndex from "@/pages/user/dashboard";
+import UserEventIndex from "@/pages/employee/information/event";
+import UserInformationIndex from "@/pages/employee/information/information";
+import UserActivityIndex from "@/pages/employee/information/activity";
+import UserHelpIndex from "@/pages/employee/information/help";
+import UserDashboardIndex from "@/pages/employee/dashboard";
 import RoleForm from "@/pages/business/organization/role/form";
 import RoleDelete from "@/pages/business/organization/role/delete";
 import InformationForm from "@/pages/business/manage/information/form";
 import InformationDelete from "@/pages/business/manage/information/delete";
 import InventoryDelete from "@/pages/business/manage/inventory/delete";
 import InventoryForm from "@/pages/business/manage/inventory/form";
+import {
+  useBusinessEmployeeAccountEmployeeQuery,
+  useBusinessEmployeeAccountModulesQuery,
+} from "@/redux/api/business/employee/account-api";
 
 export default function App() {
-  // hooks
+  // Hooks
   const dispatch = useAppDispatch();
   const location = useLocation();
   const previousLocation = location.state?.previousLocation;
 
-  const [getMe, { data: me, isSuccess: getMeIsSuccess }] = useLazyMeQuery();
-  const [
-    getOrganization,
-    { data: organization, isSuccess: getOrganizationIsSuccess },
-  ] = useLazyBusinessOrganizationGetQuery();
+  // RTK Query
+  const { data: me, isSuccess: meIsSuccess } = useMeQuery();
+  const { data: organization, isSuccess: organizationIsSuccess } =
+    useBusinessOrganizationGetQuery();
+  const { data: employee, isFetching: employeeIsFetching } =
+    useBusinessEmployeeAccountEmployeeQuery();
+  const { data: roles, isFetching: rolesIsFetching } =
+    useBusinessEmployeeAccountModulesQuery();
 
+  // States
   useEffect(() => {
-    getMe();
-    getOrganization();
-  }, []);
-
-  useEffect(() => {
-    if (me) dispatch(login(me));
+    if (me) {
+      dispatch(login(me));
+    }
   }, [me]);
 
   useEffect(() => {
-    if (organization) dispatch(setOrganization(organization));
+    if (organization) {
+      dispatch(setOrganization(organization));
+    }
   }, [organization]);
 
-  if (getMeIsSuccess && getOrganizationIsSuccess) {
+  useEffect(() => {
+    if (employee) {
+      dispatch(setEmployee(employee));
+    }
+  }, [employee]);
+
+  useEffect(() => {
+    if (roles) {
+      dispatch(setRoles(roles));
+    }
+  }, [roles]);
+
+  const isLoading = employeeIsFetching || rolesIsFetching;
+
+  if (meIsSuccess && organizationIsSuccess && !isLoading) {
     return (
       <Layout>
         <Routes location={previousLocation || location}>
@@ -136,7 +161,7 @@ export default function App() {
               </Route>
             </Route>
 
-            <Route path="user">
+            <Route path="employee">
               <Route index element={<Navigate to={"/user/dashboard"} />} />
               <Route path="dashboard" element={<UserDashboardIndex />} />
 

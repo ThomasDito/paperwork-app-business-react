@@ -1,6 +1,4 @@
 import TableSkeleton from "@/components/ui/skeleton";
-import useRole from "@/hooks/useRole";
-import EmployeeSkeleton from "@/pages/business/organization/employee/components/skeleton";
 import { useLazyBusinessEmployeeGetQuery } from "@/redux/api/business/employee-api";
 import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import moment from "moment";
@@ -19,12 +17,9 @@ import {
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-export default function EmployeeIndex() {
+export default function EmployeeContractLeftWidget() {
   // Hooks
   const location = useLocation();
-
-  // Permissions
-  const canWrite = useRole("employee", "write");
 
   // RTK Query
   const [
@@ -40,27 +35,18 @@ export default function EmployeeIndex() {
 
   return (
     <div className="bg-card border rounded-md">
-      <div className="p-5 flex flex-col items-center justify-between space-y-6 border-0 md:space-y-0 md:flex-row">
-        <h3 className="text-2xl font-semibold tracking-tight scroll-m-20">
-          Anggota
+      <div className="p-5">
+        <h3 className="text-2xl font-semibold tracking-tight">
+          Kontrak Yang Akan Berakhir
         </h3>
-        {canWrite && (
-          <div className="flex items-center space-x-4">
-            <Link to={"/business/organization/employee/form"}>
-              <Button>
-                <LucidePlus className="w-5 h-5 mr-2" /> Tambah Anggota
-              </Button>
-            </Link>
-          </div>
-        )}
       </div>
       <div className="border-t rounded-b-md bg-card">
         <div>
           <Table className="whitespace-nowrap">
             <TableHeader>
               <TableRow>
-                <TableHead className="py-4 px-5">Nama Anggota</TableHead>
-                <TableHead className="py-4 px-5">Email</TableHead>
+                <TableHead className="py-4 px-5">Nama Karyawan</TableHead>
+                <TableHead className="py-4 px-5">Status Kepegawaian</TableHead>
                 <TableHead className="py-4 px-5">
                   Tanggal Mulai Kontrak
                 </TableHead>
@@ -70,11 +56,6 @@ export default function EmployeeIndex() {
                 <TableHead className="py-4 px-5">Divisi</TableHead>
                 <TableHead className="py-4 px-5">Jabatan</TableHead>
                 <TableHead className="py-4 px-5">Level</TableHead>
-                <TableHead className="py-4 px-5">Status Kepegawaian</TableHead>
-                {/* <TableHead className="py-4 px-5 text-center">Status</TableHead> */}
-                {canWrite && (
-                  <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
-                )}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -92,7 +73,7 @@ export default function EmployeeIndex() {
                 employees.map((employee) => {
                   return (
                     <TableRow key={employee.id}>
-                      <TableCell className="px-5">
+                      <TableCell className="py-4 px-5">
                         <div className="flex items-center space-x-4">
                           <Link
                             to={`/business/organization/employee/form/${employee.id}`}
@@ -120,67 +101,28 @@ export default function EmployeeIndex() {
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell className="px-5">
-                        {employee.employee_email}
+                      <TableCell className="py-4 px-5">
+                        {employee.employee_status.employee_status_name}
                       </TableCell>
-                      <TableCell className="px-5">
+                      <TableCell className="py-4 px-5">
                         {moment(employee.employee_contract_start_date).format(
                           "DD MMMM YYYY"
                         )}
                       </TableCell>
-                      <TableCell className="px-5">
+                      <TableCell className="py-4 px-5">
                         {moment(employee.employee_contract_end_date).format(
                           "DD MMMM YYYY"
                         )}
                       </TableCell>
-                      <TableCell className="px-5">
+                      <TableCell className="py-4 px-5">
                         {employee.division.division_name}
                       </TableCell>
-                      <TableCell className="px-5">
+                      <TableCell className="py-4 px-5">
                         {employee.position.position_name}
                       </TableCell>
-                      <TableCell className="px-5">
+                      <TableCell className="py-4 px-5">
                         {employee.level.level_name}
                       </TableCell>
-                      <TableCell className="px-5">
-                        {employee.employee_status.employee_status_name}
-                      </TableCell>
-                      {/* <TableCell className="px-5 text-center">
-                      <Switch
-                        checked={employee.employee_status_id === "active"}
-                      />
-                    </TableCell> */}
-                      {canWrite && (
-                        <TableCell className="px-5 text-center">
-                          <div className="flex justify-center space-x-2">
-                            <Link
-                              to={`/business/organization/employee/form/${employee.id}`}
-                            >
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                className="relative"
-                              >
-                                <LucideEdit className="w-4 h-4" />
-                                <span className="sr-only">Ubah</span>
-                              </Button>
-                            </Link>
-                            <Link
-                              to={`/modal/employee/delete/${employee.id}`}
-                              state={{ previousLocation: location }}
-                            >
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                className="relative text-destructive hover:text-destructive"
-                              >
-                                <LucideTrash className="w-4 h-4" />
-                                <span className="sr-only">Hapus</span>
-                              </Button>
-                            </Link>
-                          </div>
-                        </TableCell>
-                      )}
                     </TableRow>
                   );
                 })}

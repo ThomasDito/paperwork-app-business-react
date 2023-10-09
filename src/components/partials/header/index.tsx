@@ -3,7 +3,7 @@ import useBreadcrumbs from "use-react-router-breadcrumbs";
 import { Breadcrumbs } from "../breadcrumbs";
 import { cn } from "paperwork-ui";
 import { useAppSelector } from "@/redux/hooks";
-import { selectOrganization } from "@/redux/slices/organization-slice";
+import { selectOrganization } from "@/redux/slices/auth-slice";
 
 type HeaderProps = {
   className?: string;

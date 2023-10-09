@@ -19,6 +19,19 @@ export const REGEX = {
   YEAR: "^\\d{4}$",
 } as const;
 
+export const MODULES = [
+  "employee",
+  "organization_setting",
+  "branch",
+  "division",
+  "position",
+  "level",
+  "employee_status",
+  "role",
+] as const;
+
+export type ModulesType = (typeof MODULES)[number];
+
 export const EMPLOYEE_GENDERS = ["male", "female"] as const;
 
 export const EMPLOYEE_MARITAL_STATUSES = [

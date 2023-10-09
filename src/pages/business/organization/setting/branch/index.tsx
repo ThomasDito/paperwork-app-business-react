@@ -1,11 +1,13 @@
+import CheckRole from "@/components/check-role";
 import { toastError, toastSuccess } from "@/components/ui/toast";
+import useRole from "@/hooks/useRole";
 import BranchSkeleton from "@/pages/business/organization/setting/branch/components/skeleton";
 import {
   useBusinessBranchChangeStatusMutation,
   useLazyBusinessBranchGetQuery,
 } from "@/redux/api/business/branch-api";
 import { branch_status } from "@/types/schema";
-import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
+import { Check, LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
   Button,
   Switch,
@@ -22,6 +24,9 @@ import { Link, useLocation } from "react-router-dom";
 export default function BranchIndex() {
   // Hooks
   const location = useLocation();
+
+  // Permission
+  const canWrite = useRole("branch", "write");
 
   // RTK Query
   const [
@@ -70,14 +75,16 @@ export default function BranchIndex() {
               placeholder="Pencarian..."
             />
           </div> */}
-          <Link
-            to={"/modal/branch/form"}
-            state={{ previousLocation: location }}
-          >
-            <Button>
-              <LucidePlus className="w-5 h-5 mr-2" /> Tambah Cabang
-            </Button>
-          </Link>
+          {canWrite && (
+            <Link
+              to={"/modal/branch/form"}
+              state={{ previousLocation: location }}
+            >
+              <Button>
+                <LucidePlus className="w-5 h-5 mr-2" /> Tambah Cabang
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
       <div className="border-t rounded-b-md bg-card">
@@ -87,7 +94,9 @@ export default function BranchIndex() {
               <TableRow>
                 <TableHead className="py-4 px-5">Nama Cabang</TableHead>
                 <TableHead className="py-4 px-5 text-center">Aktif</TableHead>
-                <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
+                {canWrite && (
+                  <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
+                )}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -105,11 +114,12 @@ export default function BranchIndex() {
                 branches.map((branch) => {
                   return (
                     <TableRow key={branch.id}>
-                      <TableCell className="py-2 px-5">
+                      <TableCell className="px-5">
                         {branch.branch_name}
                       </TableCell>
-                      <TableCell className="py-2 px-5 text-center">
+                      <TableCell className="px-5 text-center">
                         <Switch
+                          disabled={!canWrite}
                           checked={branch.branch_status === "active"}
                           onCheckedChange={(checked) =>
                             doChangeStatus(
@@ -119,36 +129,38 @@ export default function BranchIndex() {
                           }
                         />
                       </TableCell>
-                      <TableCell className="py-2 px-5 text-center">
-                        <div className="flex justify-center space-x-2">
-                          <Link
-                            to={`/modal/branch/form/${branch.id}`}
-                            state={{ previousLocation: location }}
-                          >
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="relative"
+                      {canWrite && (
+                        <TableCell className="py-2 px-5 text-center">
+                          <div className="flex justify-center space-x-2">
+                            <Link
+                              to={`/modal/branch/form/${branch.id}`}
+                              state={{ previousLocation: location }}
                             >
-                              <LucideEdit className="w-4 h-4" />
-                              <span className="sr-only">Ubah</span>
-                            </Button>
-                          </Link>
-                          <Link
-                            to={`/modal/branch/delete/${branch.id}`}
-                            state={{ previousLocation: location }}
-                          >
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="relative text-destructive hover:text-destructive"
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="relative"
+                              >
+                                <LucideEdit className="w-4 h-4" />
+                                <span className="sr-only">Ubah</span>
+                              </Button>
+                            </Link>
+                            <Link
+                              to={`/modal/branch/delete/${branch.id}`}
+                              state={{ previousLocation: location }}
                             >
-                              <LucideTrash className="w-4 h-4" />
-                              <span className="sr-only">Hapus</span>
-                            </Button>
-                          </Link>
-                        </div>
-                      </TableCell>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="relative text-destructive hover:text-destructive"
+                              >
+                                <LucideTrash className="w-4 h-4" />
+                                <span className="sr-only">Hapus</span>
+                              </Button>
+                            </Link>
+                          </div>
+                        </TableCell>
+                      )}
                     </TableRow>
                   );
                 })}

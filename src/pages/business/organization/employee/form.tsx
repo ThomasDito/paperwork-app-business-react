@@ -17,7 +17,7 @@ import {
   useLazyBusinessEmployeeShowQuery,
 } from "@/redux/api/business/employee-api";
 import { useAppSelector } from "@/redux/hooks";
-import { selectOrganization } from "@/redux/slices/organization-slice";
+import { selectOrganization } from "@/redux/slices/auth-slice";
 import { employee } from "@/types/schema";
 import { Form, Formik, FormikHelpers } from "formik";
 import { withZodSchema } from "formik-validator-zod";

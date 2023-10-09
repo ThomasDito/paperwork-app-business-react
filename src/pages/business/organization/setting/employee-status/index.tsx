@@ -1,3 +1,4 @@
+import useRole from "@/hooks/useRole";
 import EmployeeStatusSkeleton from "@/pages/business/organization/setting/employee-status/components/skeleton";
 import {
   useBusinessEmployeeStatusChangeStatusMutation,
@@ -23,6 +24,9 @@ import { Link, useLocation } from "react-router-dom";
 export default function EmployeeStatusIndex() {
   // Hooks
   const location = useLocation();
+
+  // Permission
+  const canWrite = useRole("employee_status", "write");
 
   // RTK Query
   const [
@@ -81,14 +85,16 @@ export default function EmployeeStatusIndex() {
               placeholder="Pencarian..."
             />
           </div> */}
-          <Link
-            to={"/modal/employee-status/form"}
-            state={{ previousLocation: location }}
-          >
-            <Button>
-              <LucidePlus className="w-5 h-5 mr-2" /> Tambah Status
-            </Button>
-          </Link>
+          {canWrite && (
+            <Link
+              to={"/modal/employee-status/form"}
+              state={{ previousLocation: location }}
+            >
+              <Button>
+                <LucidePlus className="w-5 h-5 mr-2" /> Tambah Status
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
       <div className="border-t rounded-b-md bg-card">
@@ -98,7 +104,9 @@ export default function EmployeeStatusIndex() {
               <TableRow>
                 <TableHead className="py-4 px-5">Status Kepegawaian</TableHead>
                 <TableHead className="py-4 px-5 text-center">Aktif</TableHead>
-                <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
+                {canWrite && (
+                  <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
+                )}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -116,11 +124,12 @@ export default function EmployeeStatusIndex() {
                 employeeStatuses.map((employeeStatus) => {
                   return (
                     <TableRow key={employeeStatus.id}>
-                      <TableCell className="py-2 px-5">
+                      <TableCell className="px-5">
                         {employeeStatus.employee_status_name}
                       </TableCell>
-                      <TableCell className="py-2 px-5 text-center">
+                      <TableCell className="px-5 text-center">
                         <Switch
+                          disabled={!canWrite}
                           checked={
                             employeeStatus.employee_status_status === "active"
                           }
@@ -132,36 +141,38 @@ export default function EmployeeStatusIndex() {
                           }
                         />
                       </TableCell>
-                      <TableCell className="py-2 px-5 text-center">
-                        <div className="flex justify-center space-x-2">
-                          <Link
-                            to={`/modal/employee-status/form/${employeeStatus.id}`}
-                            state={{ previousLocation: location }}
-                          >
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="relative"
+                      {canWrite && (
+                        <TableCell className="px-5 text-center">
+                          <div className="flex justify-center space-x-2">
+                            <Link
+                              to={`/modal/employee-status/form/${employeeStatus.id}`}
+                              state={{ previousLocation: location }}
                             >
-                              <LucideEdit className="w-4 h-4" />
-                              <span className="sr-only">Ubah</span>
-                            </Button>
-                          </Link>
-                          <Link
-                            to={`/modal/employee-status/delete/${employeeStatus.id}`}
-                            state={{ previousLocation: location }}
-                          >
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="relative text-destructive hover:text-destructive"
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="relative"
+                              >
+                                <LucideEdit className="w-4 h-4" />
+                                <span className="sr-only">Ubah</span>
+                              </Button>
+                            </Link>
+                            <Link
+                              to={`/modal/employee-status/delete/${employeeStatus.id}`}
+                              state={{ previousLocation: location }}
                             >
-                              <LucideTrash className="w-4 h-4" />
-                              <span className="sr-only">Hapus</span>
-                            </Button>
-                          </Link>
-                        </div>
-                      </TableCell>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="relative text-destructive hover:text-destructive"
+                              >
+                                <LucideTrash className="w-4 h-4" />
+                                <span className="sr-only">Hapus</span>
+                              </Button>
+                            </Link>
+                          </div>
+                        </TableCell>
+                      )}
                     </TableRow>
                   );
                 })}

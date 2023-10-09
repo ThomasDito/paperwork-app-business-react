@@ -23,6 +23,7 @@ export const sidebarMenus: SidebarMenuItem[] = [
       {
         title: "Anggota",
         link: "/business/organization/employee",
+        moduleKey: "employee",
       },
       {
         title: "Hak Akses",
@@ -31,6 +32,14 @@ export const sidebarMenus: SidebarMenuItem[] = [
       {
         title: "Pengaturan",
         link: "/business/organization/setting",
+        moduleKey: [
+          "organization_setting",
+          "branch",
+          "division",
+          "position",
+          "level",
+          "employee_status",
+        ],
       },
     ],
   },
@@ -68,7 +77,7 @@ export const sidebarMenus: SidebarMenuItem[] = [
   {
     title: "Beranda",
     icon: <LucideUser className="w-5 h-5" />,
-    link: "/user/dashboard",
+    link: "/employee/dashboard",
   },
   {
     title: "Informasi",
@@ -76,19 +85,19 @@ export const sidebarMenus: SidebarMenuItem[] = [
     children: [
       {
         title: "Kalender",
-        link: "/user/information/event",
+        link: "/employee/information/event",
       },
       {
         title: "Pengumuman",
-        link: "/user/information/information",
+        link: "/employee/information/information",
       },
       {
         title: "Aktivitas",
-        link: "/user/information/activity",
+        link: "/employee/information/activity",
       },
       {
         title: "Bantuan dan Dukungan",
-        link: "/user/information/help",
+        link: "/employee/information/help",
       },
     ],
   },

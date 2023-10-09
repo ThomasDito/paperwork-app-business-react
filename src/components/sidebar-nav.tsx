@@ -1,6 +1,6 @@
-import { History, Home, Key, LayoutGrid, User2, Users } from "lucide-react"
-import { NavLink } from "react-router-dom"
-import { MainNav } from "./main-nav"
+import { History, Home, Key, LayoutGrid, User2, Users } from "lucide-react";
+import { NavLink } from "react-router-dom";
+import { MainNav } from "./main-nav";
 import { ScrollArea, buttonVariants } from "paperwork-ui";
 
 export function SidebarNav() {
@@ -14,7 +14,12 @@ export function SidebarNav() {
           <div key={index} className="w-full">
             <NavLink
               to={item.href}
-              className={({ isActive }) => buttonVariants({ variant: isActive ? "secondary" : "ghost", className: "w-full !justify-start" })}
+              className={({ isActive }) =>
+                buttonVariants({
+                  variant: isActive ? "secondary" : "ghost",
+                  className: "w-full !justify-start",
+                })
+              }
             >
               <div className="scale-125">{item.icon}</div>
               {item.title}
@@ -57,4 +62,4 @@ export const sidebarNavItems = [
     href: "/history",
     icon: <History className="w-4 h-4 mr-3" />,
   },
-]
+];

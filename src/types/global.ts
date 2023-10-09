@@ -35,6 +35,7 @@ type ApiResponse<T> = {
 type SidebarMenuItemChild = {
   title: string;
   link: string;
+  moduleKey?: string | Array<string>;
 };
 
 type SidebarMenuItem = {
@@ -44,5 +45,6 @@ type SidebarMenuItem = {
   isHeader?: boolean;
   isOpen?: boolean;
   isHide?: boolean;
-  children?: SidebarMenuItemChild[];
+  children?: Array<SidebarMenuItemChild>;
+  moduleKey?: string | Array<string>;
 };
