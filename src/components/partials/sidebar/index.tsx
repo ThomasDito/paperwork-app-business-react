@@ -1,12 +1,16 @@
 import SidebarLogo from "@/components/partials/sidebar/logo";
 import SidebarMenu from "@/components/partials/sidebar/menu";
 import { ScrollArea, cn } from "paperwork-ui";
-import { sidebarMenus } from "@/consts/sidebar-menu";
+import {
+  businessSidebarMenus,
+  employeeSidebarMenus,
+} from "@/consts/sidebar-menu";
 import useSidebar from "@/hooks/useSidebar";
 import { useState } from "react";
 import { LogOut } from "lucide-react";
 import { useLogoutMutation } from "@/redux/api/paperwork/auth-api";
 import { toastError } from "@/components/ui/toast";
+import GenerateSidebarMenu from "@/components/partials/sidebar/generate";
 
 export default function Sidebar() {
   const [collapsed] = useSidebar();
@@ -49,7 +53,7 @@ export default function Sidebar() {
 
         <ScrollArea className="h-[calc(100%-80px)] relative">
           <div className="absolute z-10 w-full h-8 pointer-events-none bg-gradient-to-t from-transparent to-white" />
-          <SidebarMenu menus={sidebarMenus} />
+          <GenerateSidebarMenu />
         </ScrollArea>
         <div className={cn("menu-item py-4")}>
           <div

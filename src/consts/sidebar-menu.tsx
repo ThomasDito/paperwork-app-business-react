@@ -6,7 +6,7 @@ import {
   LucideUser,
 } from "lucide-react";
 
-export const sidebarMenus: SidebarMenuItem[] = [
+export const businessSidebarMenus: SidebarMenuItem[] = [
   {
     title: "bisnis",
     isHeader: true,
@@ -19,6 +19,15 @@ export const sidebarMenus: SidebarMenuItem[] = [
   {
     title: "Organisasi",
     icon: <LucideLayoutGrid className="w-5 h-5" />,
+    moduleKey: [
+      "employee",
+      "role",
+      "branch",
+      "division",
+      "position",
+      "level",
+      "employee_status",
+    ],
     children: [
       {
         title: "Anggota",
@@ -28,6 +37,7 @@ export const sidebarMenus: SidebarMenuItem[] = [
       {
         title: "Hak Akses",
         link: "/business/organization/role",
+        moduleKey: "role",
       },
       {
         title: "Pengaturan",
@@ -62,7 +72,7 @@ export const sidebarMenus: SidebarMenuItem[] = [
       {
         title: "Informasi",
         link: "/business/manage/information",
-        moduleKey: "employee",
+        moduleKey: "role",
       },
       {
         title: "Inventaris",
@@ -75,6 +85,9 @@ export const sidebarMenus: SidebarMenuItem[] = [
       // },
     ],
   },
+];
+
+export const employeeSidebarMenus: SidebarMenuItem[] = [
   {
     title: "pegawai",
     isHeader: true,

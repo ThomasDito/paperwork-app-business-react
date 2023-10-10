@@ -131,7 +131,11 @@ export default function App() {
                   element={<CheckRoleOutlet module={"role"} />}
                 >
                   <Route index element={<RoleIndex />} />
-                  <Route path="form/:id?" element={<RoleForm />} />
+                  <Route
+                    element={<CheckRoleOutlet module={"role"} action="write" />}
+                  >
+                    <Route path="form/:id?" element={<RoleForm />} />
+                  </Route>
                 </Route>
 
                 <Route path="setting" element={<SettingIndex />}>
@@ -143,15 +147,38 @@ export default function App() {
                       />
                     }
                   />
-                  <Route path="organization" element={<OrganizationIndex />} />
-                  <Route path="branch" element={<BranchIndex />} />
-                  <Route path="division" element={<DivisionIndex />} />
-                  <Route path="position" element={<PositionIndex />} />
-                  <Route path="level" element={<LevelIndex />} />
+
                   <Route
-                    path="employee-status"
-                    element={<EmployeeStatusIndex />}
-                  />
+                    element={
+                      <CheckRoleOutlet module={"organization_setting"} />
+                    }
+                  >
+                    <Route
+                      path="organization"
+                      element={<OrganizationIndex />}
+                    />
+                  </Route>
+
+                  <Route element={<CheckRoleOutlet module={"branch"} />}>
+                    <Route path="branch" element={<BranchIndex />} />
+                  </Route>
+                  <Route element={<CheckRoleOutlet module={"division"} />}>
+                    <Route path="division" element={<DivisionIndex />} />
+                  </Route>
+                  <Route element={<CheckRoleOutlet module={"position"} />}>
+                    <Route path="position" element={<PositionIndex />} />
+                  </Route>
+                  <Route element={<CheckRoleOutlet module={"level"} />}>
+                    <Route path="level" element={<LevelIndex />} />
+                  </Route>
+                  <Route
+                    element={<CheckRoleOutlet module={"employee_status"} />}
+                  >
+                    <Route
+                      path="employee-status"
+                      element={<EmployeeStatusIndex />}
+                    />
+                  </Route>
                 </Route>
               </Route>
               <Route path="manage">
