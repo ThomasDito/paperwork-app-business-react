@@ -114,59 +114,60 @@ export default function PositionIndex() {
                 </TableRow>
               )}
 
-              {positions.map((position) => {
-                return (
-                  <TableRow key={position.id}>
-                    <TableCell className="px-5">
-                      {position.position_name}
-                    </TableCell>
-                    <TableCell className="px-5 text-center">
-                      <Switch
-                        disabled={!canWrite}
-                        checked={position.position_status === "active"}
-                        onCheckedChange={(checked) =>
-                          doChangeStatus(
-                            position.id,
-                            checked ? "active" : "inactive"
-                          )
-                        }
-                      />
-                    </TableCell>
-                    {canWrite && (
-                      <TableCell className="px-5 text-center">
-                        <div className="flex justify-center space-x-2">
-                          <Link
-                            to={`/modal/position/form/${position.id}`}
-                            state={{ previousLocation: location }}
-                          >
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="relative"
-                            >
-                              <LucideEdit className="w-4 h-4" />
-                              <span className="sr-only">Ubah</span>
-                            </Button>
-                          </Link>
-                          <Link
-                            to={`/modal/position/delete/${position.id}`}
-                            state={{ previousLocation: location }}
-                          >
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="relative text-destructive hover:text-destructive"
-                            >
-                              <LucideTrash className="w-4 h-4" />
-                              <span className="sr-only">Hapus</span>
-                            </Button>
-                          </Link>
-                        </div>
+              {!tableIsLoading &&
+                positions.map((position) => {
+                  return (
+                    <TableRow key={position.id}>
+                      <TableCell className="px-5">
+                        {position.position_name}
                       </TableCell>
-                    )}
-                  </TableRow>
-                );
-              })}
+                      <TableCell className="px-5 text-center">
+                        <Switch
+                          disabled={!canWrite}
+                          checked={position.position_status === "active"}
+                          onCheckedChange={(checked) =>
+                            doChangeStatus(
+                              position.id,
+                              checked ? "active" : "inactive"
+                            )
+                          }
+                        />
+                      </TableCell>
+                      {canWrite && (
+                        <TableCell className="px-5 text-center">
+                          <div className="flex justify-center space-x-2">
+                            <Link
+                              to={`/modal/position/form/${position.id}`}
+                              state={{ previousLocation: location }}
+                            >
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="relative"
+                              >
+                                <LucideEdit className="w-4 h-4" />
+                                <span className="sr-only">Ubah</span>
+                              </Button>
+                            </Link>
+                            <Link
+                              to={`/modal/position/delete/${position.id}`}
+                              state={{ previousLocation: location }}
+                            >
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="relative text-destructive hover:text-destructive"
+                              >
+                                <LucideTrash className="w-4 h-4" />
+                                <span className="sr-only">Hapus</span>
+                              </Button>
+                            </Link>
+                          </div>
+                        </TableCell>
+                      )}
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </div>

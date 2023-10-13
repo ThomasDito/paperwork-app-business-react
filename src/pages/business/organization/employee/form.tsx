@@ -22,7 +22,7 @@ import { employee } from "@/types/schema";
 import { Form, Formik, FormikHelpers } from "formik";
 import { withZodSchema } from "formik-validator-zod";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 
@@ -113,7 +113,7 @@ const formSchema = z.object({
     .regex(new RegExp(REGEX.YEAR), "Tahun tidak valid")
     .trim()
     .refine(
-      (year) => +year <= +moment(new Date()).format("YYYY"),
+      (year) => +year <= +moment(moment().toDate()).format("YYYY"),
       "Tahun tidak valid"
     ),
   employee_education_score: z
@@ -220,6 +220,9 @@ export default function EmployeeForm() {
   ] = useLazyBusinessEmployeeShowQuery();
 
   const [tab, setTab] = useState<Tabs>("personal");
+  const [, startTransition] = useTransition();
+
+  const selectTab = (tab: Tabs) => startTransition(() => setTab(tab));
 
   const [initialValues, setInitialValues] = useState<EmployeeFormSchema>({
     employee_id: "",
@@ -229,13 +232,13 @@ export default function EmployeeForm() {
     level_id: "",
     position_id: "",
     employee_status_id: "",
-    employee_birth_date: new Date(),
+    employee_birth_date: moment().toDate(),
     employee_birth_place: "",
     employee_bpjs_ketenagakerjaan_number: "",
     employee_close_family_name: "",
     employee_close_family_phone: "",
-    employee_contract_end_date: new Date(),
-    employee_contract_start_date: new Date(),
+    employee_contract_end_date: moment().toDate(),
+    employee_contract_start_date: moment().toDate(),
     employee_domicile_address: "",
     employee_education_graduate: "",
     employee_education_level: "SD",
@@ -243,7 +246,7 @@ export default function EmployeeForm() {
     employee_education_score: 0,
     employee_email: "",
     employee_gender: "male",
-    employee_join_date: new Date(),
+    employee_join_date: moment().toDate(),
     employee_ktp_address: "",
     employee_ktp_number: "",
     employee_marital_status: "single",
@@ -256,8 +259,8 @@ export default function EmployeeForm() {
     employee_previous_job_office_name: "",
     employee_previous_job_office_phone: "",
     employee_previous_job_position: "",
-    employee_previous_job_start_date: new Date(),
-    employee_previous_job_end_date: new Date(),
+    employee_previous_job_start_date: moment().toDate(),
+    employee_previous_job_end_date: moment().toDate(),
   });
 
   useEffect(() => {
@@ -288,11 +291,11 @@ export default function EmployeeForm() {
           employee_previous_job_start_date:
             employee.employee_previous_job_start_date
               ? moment(employee.employee_previous_job_start_date).toDate()
-              : new Date(),
+              : moment().toDate(),
           employee_previous_job_end_date:
             employee.employee_previous_job_end_date
               ? moment(employee.employee_previous_job_end_date).toDate()
-              : new Date(),
+              : moment().toDate(),
           employee_join_date: moment(employee.employee_join_date).toDate(),
           employee_contract_start_date: moment(
             employee.employee_contract_start_date
@@ -378,7 +381,7 @@ export default function EmployeeForm() {
         .unwrap()
         .then(
           (response) => {
-            toastSuccess(response?.message || "Anggota berhasil ditambahkan");
+            toastSuccess(response?.message || "Karyawan berhasil ditambahkan");
             navigate("/business/organization/employee");
           },
           (rejected: { status: number; data?: ApiResponse<unknown> }) => {
@@ -398,7 +401,7 @@ export default function EmployeeForm() {
         .unwrap()
         .then(
           (response) => {
-            toastSuccess(response?.message || "Anggota berhasil disimpan");
+            toastSuccess(response?.message || "Karyawan berhasil disimpan");
             navigate("/business/organization/employee");
           },
           (rejected: { status: number; data?: ApiResponse<unknown> }) => {
@@ -435,10 +438,10 @@ export default function EmployeeForm() {
         return (
           <Form>
             <EmployeeStepper tab={tab} />
-            {tab === "personal" && <EmployeeTabPersonal setTab={setTab} />}
-            {tab === "history" && <EmployeeHistoryTab setTab={setTab} />}
+            {tab === "personal" && <EmployeeTabPersonal setTab={selectTab} />}
+            {tab === "history" && <EmployeeHistoryTab setTab={selectTab} />}
             {tab === "employee" && (
-              <EmployeeEmployeeTab setTab={setTab} isLoading={isLoading} />
+              <EmployeeEmployeeTab setTab={selectTab} isLoading={isLoading} />
             )}
           </Form>
         );

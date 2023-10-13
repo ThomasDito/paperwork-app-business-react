@@ -3,7 +3,11 @@ import {
   FormikInput,
   FormikSelect,
 } from "@/components/formik";
-import { Tabs } from "@/pages/business/organization/employee/form";
+import {
+  EmployeeFormSchema,
+  Tabs,
+} from "@/pages/business/organization/employee/form";
+import { useFormikContext } from "formik";
 import { LucideArrowLeft, LucideArrowRight } from "lucide-react";
 import { Button, SelectItem } from "paperwork-ui";
 import { useEffect } from "react";
@@ -13,9 +17,31 @@ export default function EmployeeHistoryTab({
 }: {
   setTab: (tab: Tabs) => void;
 }) {
+  // Hooks
+  const formik = useFormikContext<EmployeeFormSchema>();
+
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
+
+  const validate = () => {
+    if (
+      formik.errors.employee_education_name ||
+      formik.errors.employee_education_graduate ||
+      formik.errors.employee_education_level ||
+      formik.errors.employee_education_score ||
+      formik.errors.employee_previous_job_office_name ||
+      formik.errors.employee_previous_job_office_address ||
+      formik.errors.employee_previous_job_office_phone ||
+      formik.errors.employee_previous_job_division ||
+      formik.errors.employee_previous_job_position ||
+      formik.errors.employee_previous_job_start_date ||
+      formik.errors.employee_previous_job_end_date
+    ) {
+      return false;
+    }
+    return true;
+  };
 
   return (
     <div className="max-w-4xl mx-auto space-y-0">
@@ -143,7 +169,11 @@ export default function EmployeeHistoryTab({
           >
             <LucideArrowLeft className="w-5 h-5 mr-2" /> Sebelumnya
           </Button>
-          <Button type="button" onClick={() => setTab("employee")}>
+          <Button
+            type="button"
+            disabled={!validate()}
+            onClick={() => setTab("employee")}
+          >
             Selanjutnya <LucideArrowRight className="w-5 h-5 ml-2" />
           </Button>
         </div>

@@ -42,6 +42,28 @@ export default function EmployeeTabPersonal({
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
 
+  const validate = () => {
+    if (
+      formik.errors.employee_name ||
+      formik.errors.employee_email ||
+      formik.errors.employee_phone ||
+      formik.errors.employee_telephone ||
+      formik.errors.employee_birth_date ||
+      formik.errors.employee_birth_place ||
+      formik.errors.employee_profile_picture ||
+      formik.errors.employee_gender ||
+      formik.errors.employee_religion ||
+      formik.errors.employee_marital_status ||
+      formik.errors.employee_ktp_address ||
+      formik.errors.employee_domicile_address ||
+      formik.errors.employee_close_family_name ||
+      formik.errors.employee_close_family_phone
+    ) {
+      return false;
+    }
+    return true;
+  };
+
   return (
     <div className="max-w-4xl mx-auto">
       <div className="bg-card border rounded-md">
@@ -94,7 +116,7 @@ export default function EmployeeTabPersonal({
                 />
 
                 <FormikDatePicker
-                  className="!w-full !mt-4"
+                  className="!w-full !mt-2"
                   label="Tanggal Lahir"
                   placeholder="Pilih Tanggal Lahir"
                   name="employee_birth_date"
@@ -276,7 +298,13 @@ export default function EmployeeTabPersonal({
               Batal
             </Button>
           </Link>
-          <Button type="button" onClick={() => setTab("history")}>
+          <Button
+            type="button"
+            disabled={!validate()}
+            onClick={() => {
+              if (validate()) setTab("history");
+            }}
+          >
             Selanjutnya <LucideArrowRight className="w-5 h-5 ml-2" />
           </Button>
         </div>

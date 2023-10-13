@@ -79,6 +79,10 @@ export type division = {
   organization_id: string;
   readonly created_at: Date | string;
   readonly updated_at: Date | string;
+  _count: {
+    children: number;
+    employees: number;
+  };
 };
 
 export type position_status = "active" | "inactive";
@@ -109,6 +113,9 @@ export type employee_status = {
   organization_id: string;
   readonly created_at: Date | string;
   readonly updated_at: Date | string;
+  _count: {
+    employees: number;
+  };
 };
 
 export type employee_gender = (typeof EMPLOYEE_GENDERS)[number];

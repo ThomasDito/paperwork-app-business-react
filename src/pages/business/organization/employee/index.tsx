@@ -42,13 +42,13 @@ export default function EmployeeIndex() {
     <div className="bg-card border rounded-md">
       <div className="p-5 flex flex-col items-center justify-between space-y-6 border-0 md:space-y-0 md:flex-row">
         <h3 className="text-2xl font-semibold tracking-tight scroll-m-20">
-          Anggota
+          Karyawan
         </h3>
         {canWrite && (
           <div className="flex items-center space-x-4">
             <Link to={"/business/organization/employee/form"}>
               <Button>
-                <LucidePlus className="w-5 h-5 mr-2" /> Tambah Anggota
+                <LucidePlus className="w-5 h-5 mr-2" /> Tambah Karyawan
               </Button>
             </Link>
           </div>
@@ -59,7 +59,7 @@ export default function EmployeeIndex() {
           <Table className="whitespace-nowrap">
             <TableHeader>
               <TableRow>
-                <TableHead className="py-4 px-5">Nama Anggota</TableHead>
+                <TableHead className="py-4 px-5">Nama Karyawan</TableHead>
                 <TableHead className="py-4 px-5">Email</TableHead>
                 <TableHead className="py-4 px-5">
                   Tanggal Mulai Kontrak

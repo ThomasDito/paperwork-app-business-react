@@ -26,7 +26,7 @@ export default function EmployeeDelete() {
     await deleteEmployee(id)
       .unwrap()
       .then((response) => {
-        toastSuccess(response?.message || "Anggota berhasil dihapus");
+        toastSuccess(response?.message || "Karyawan berhasil dihapus");
         closeModal();
       })
       .catch((rejected: { message?: string; data?: ApiResponse<unknown> }) => {
@@ -42,9 +42,9 @@ export default function EmployeeDelete() {
     <Dialog open={true} onOpenChange={() => closeModal()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Hapus Anggota</DialogTitle>
+          <DialogTitle>Hapus Karyawan</DialogTitle>
           <p className="pt-5">
-            Apakah anda yakin untuk menghapus anggota ini ?
+            Apakah anda yakin untuk menghapus karyawan ini ?
           </p>
         </DialogHeader>
         <DialogFooter className="pt-8">

@@ -31,7 +31,7 @@ export default function OnboardingStepper({ tabs }: { tabs: Tabs }) {
         </span>
       </li>
       <li className="flex items-center">
-        Tambah <span className="hidden sm:inline-flex sm:ml-2">Anggota</span>
+        Tambah <span className="hidden sm:inline-flex sm:ml-2">Karyawan</span>
       </li>
     </ol>
   );

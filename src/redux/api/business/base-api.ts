@@ -51,5 +51,6 @@ export const businessBaseApi = createApi({
     "Inventory",
     // EMPLOYEE
     "Employee/Account",
+    "Employee/Information",
   ],
 });

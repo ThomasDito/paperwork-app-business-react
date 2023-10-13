@@ -3,6 +3,7 @@ import { checkRole } from "@/lib/role";
 import { useAppSelector } from "@/redux/hooks";
 import { selectRoles } from "@/redux/slices/auth-slice";
 import {
+  LucideBuilding,
   LucideFileClock,
   LucideHardHat,
   LucideLayoutGrid,
@@ -54,7 +55,7 @@ const sidebarNavItems: Array<{
   {
     title: "Organisasi",
     href: "/business/organization/setting/organization",
-    icon: <LucideLayoutGrid className="w-5 h-5 mr-3" />,
+    icon: <LucideBuilding className="w-5 h-5 mr-3" />,
     moduleKey: "organization_setting",
   },
   {

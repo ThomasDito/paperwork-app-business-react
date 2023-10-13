@@ -3,12 +3,16 @@ import {
   FormikDatePicker,
   FormikInput,
 } from "@/components/formik";
-import { Tabs } from "@/pages/business/organization/employee/form";
+import {
+  EmployeeFormSchema,
+  Tabs,
+} from "@/pages/business/organization/employee/form";
 import { useLazyBusinessBranchGetQuery } from "@/redux/api/business/branch-api";
 import { useLazyBusinessDivisionGetQuery } from "@/redux/api/business/division-api";
 import { useLazyBusinessEmployeeStatusGetQuery } from "@/redux/api/business/employee-status-api";
 import { useLazyBusinessLevelGetQuery } from "@/redux/api/business/level-api";
 import { useLazyBusinessPositionGetQuery } from "@/redux/api/business/position-api";
+import { useFormikContext } from "formik";
 import { LucideArrowLeft, LucideLoader2, LucideSave } from "lucide-react";
 import { Button } from "paperwork-ui";
 import { useEffect } from "react";
@@ -20,6 +24,9 @@ export default function EmployeeEmployeeTab({
   setTab: (tab: Tabs) => void;
   isLoading: boolean;
 }) {
+  // Hooks
+  const formik = useFormikContext<EmployeeFormSchema>();
+
   // RTK Query
   const [
     getEmployeeStatuses,
@@ -83,6 +90,26 @@ export default function EmployeeEmployeeTab({
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
+
+  const validate = () => {
+    if (
+      formik.errors.employee_id ||
+      formik.errors.employee_status_id ||
+      formik.errors.employee_contract_start_date ||
+      formik.errors.employee_contract_end_date ||
+      formik.errors.employee_join_date ||
+      formik.errors.branch_id ||
+      formik.errors.division_id ||
+      formik.errors.position_id ||
+      formik.errors.level_id ||
+      formik.errors.employee_bpjs_kesehatan_number ||
+      formik.errors.employee_bpjs_ketenagakerjaan_number
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -328,7 +355,7 @@ export default function EmployeeEmployeeTab({
             <LucideArrowLeft className="w-5 h-5 mr-2" /> Sebelumnya
           </Button>
           <Button
-            disabled={isLoading}
+            disabled={isLoading || !validate()}
             type="submit"
             className="flex items-center"
           >
