@@ -78,20 +78,20 @@ export default function InformationIndex() {
                 informations.map((information) => {
                   return (
                     <TableRow key={information.id}>
-                      <TableCell className="py-2 px-5">
+                      <TableCell className="px-5">
                         {information.information_title}
                       </TableCell>
-                      <TableCell className="py-2 px-5">
+                      <TableCell className="px-5">
                         {moment(information.information_start_date).format(
                           "DD MMMM YYYY"
                         )}
                       </TableCell>
-                      <TableCell className="py-2 px-5">
+                      <TableCell className="px-5">
                         {moment(information.information_end_date).format(
                           "DD MMMM YYYY"
                         )}
                       </TableCell>
-                      <TableCell className="py-2 px-5 text-center">
+                      <TableCell className="px-5 text-center">
                         <div className="flex justify-center space-x-2">
                           <Link
                             to={`/business/manage/information/form/${information.id}`}

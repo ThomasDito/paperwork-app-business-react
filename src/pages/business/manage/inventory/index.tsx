@@ -77,21 +77,21 @@ export default function InventoryIndex() {
                 inventories.map((inventory) => {
                   return (
                     <TableRow key={inventory.id}>
-                      <TableCell className="py-2 px-5">
+                      <TableCell className="px-5">
                         {inventory.inventory_number}
                       </TableCell>
-                      <TableCell className="py-2 px-5">
+                      <TableCell className="px-5">
                         {inventory.inventory_name}
                       </TableCell>
-                      <TableCell className="py-2 px-5">
+                      <TableCell className="px-5">
                         {moment(inventory.inventory_buy_date).format(
                           "DD MMMM YYYY"
                         )}
                       </TableCell>
-                      <TableCell className="py-2 px-5">
+                      <TableCell className="px-5">
                         {inventory.employee?.employee_name ?? "-"}
                       </TableCell>
-                      <TableCell className="py-2 px-5 text-center">
+                      <TableCell className="px-5 text-center">
                         <div className="flex justify-center space-x-2">
                           <Link
                             to={`/business/manage/inventory/form/${inventory.id}`}

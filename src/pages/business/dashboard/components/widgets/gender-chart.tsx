@@ -1,5 +1,4 @@
 import { useBusinessEmployeeGetQuery } from "@/redux/api/business/employee-api";
-import { useBusinessEmployeeStatusGetQuery } from "@/redux/api/business/employee-status-api";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -39,16 +38,18 @@ const options = {
 };
 
 export default function GenderChartWidget() {
-  const { data: employees = [] } = useBusinessEmployeeGetQuery();
+  const { data: employees } = useBusinessEmployeeGetQuery();
 
   const men = useMemo(() => {
-    return employees.filter((employee) => employee.employee_gender === "male")
-      .length;
+    return employees?.data.filter(
+      (employee) => employee.employee_gender === "male"
+    ).length;
   }, [employees]);
 
   const women = useMemo(() => {
-    return employees.filter((employee) => employee.employee_gender === "female")
-      .length;
+    return employees?.data.filter(
+      (employee) => employee.employee_gender === "female"
+    ).length;
   }, [employees]);
 
   const data = {

@@ -6,7 +6,6 @@ import {
   LucideBuilding,
   LucideFileClock,
   LucideHardHat,
-  LucideLayoutGrid,
   LucideNetwork,
   LucideWarehouse,
   LucideWorkflow,

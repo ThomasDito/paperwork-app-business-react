@@ -11,13 +11,15 @@ import { useFormikContext } from "formik";
 import { LucideArrowRight, LucideTrash, LucideUpload } from "lucide-react";
 import { Button, Label, SelectItem, cn } from "paperwork-ui";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function EmployeeTabPersonal({
   setTab,
 }: {
   setTab: (tab: Tabs) => void;
 }) {
+  // hooks
+  const { id } = useParams();
   const formik = useFormikContext<EmployeeFormSchema>();
 
   const refProfilePicture = useRef<HTMLInputElement | null>(null);
@@ -88,6 +90,7 @@ export default function EmployeeTabPersonal({
                 name="employee_email"
                 id="employee_email"
                 type="email"
+                disabled={id ? true : false}
                 required
               />
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">

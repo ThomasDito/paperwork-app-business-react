@@ -16,11 +16,14 @@ import { useMemo } from "react";
 
 export default function DashboardIndex() {
   // RTK Query
-  const { data: employees = [] } = useBusinessEmployeeGetQuery();
+  const { data: employees } = useBusinessEmployeeGetQuery();
   const { data: branches = [] } = useBusinessBranchGetQuery();
   const { data: divisions = [] } = useBusinessDivisionGetQuery();
 
-  const totalEmployee = useMemo(() => employees.length, [employees]);
+  const totalEmployee = useMemo(
+    () => employees?.data?.length || 0,
+    [employees]
+  );
 
   const totalBranch = useMemo(
     () => branches.filter((branch) => branch.branch_status === "active").length,

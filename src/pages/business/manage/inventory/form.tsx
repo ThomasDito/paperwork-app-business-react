@@ -73,7 +73,7 @@ export default function InventoryForm() {
   const [
     getEmployees,
     {
-      data: employees = [],
+      data: employees,
       isLoading: getEmployeesIsLoading,
       isFetching: getEmployeesIsFetching,
       isError: getEmployeesIsError,
@@ -250,12 +250,16 @@ export default function InventoryForm() {
                       placeholder="Pilih Penanggung Jawab"
                       placeholderNotFound="Penanggung jawab tidak ditemukan"
                       placeholderSearch="Cari Penanggung jawab..."
-                      values={employees.map((employee) => {
-                        return {
-                          value: employee.id,
-                          label: employee.employee_name,
-                        };
-                      })}
+                      values={
+                        employees?.data
+                          ? employees.data.map((employee) => {
+                              return {
+                                value: employee.id,
+                                label: employee.employee_name,
+                              };
+                            })
+                          : []
+                      }
                     />
                     {(getEmployeesIsFetching || getEmployeesIsLoading) && (
                       <div className="flex item-center text-xs text-muted-foreground">

@@ -164,7 +164,7 @@ export default function EmployeeEmployeeTab({
               )}
             </div>
             <FormikDatePicker
-              className="!w-full !mt-4"
+              className="!w-full !mt-2"
               label="Tanggal Masuk Bekerja"
               placeholder="Tanggal Masuk Bekerja"
               name="employee_join_date"

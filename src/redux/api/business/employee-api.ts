@@ -11,36 +11,25 @@ import {
 const businessEmployeeApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     businessEmployeeGet: builder.query<
-      Array<
-        employee & {
-          division: division;
-          branch: branch;
-          level: level;
-          employee_status: employee_status;
-          position: position;
-        }
+      ApiResponse<
+        Array<
+          employee & {
+            division: division;
+            branch: branch;
+            level: level;
+            employee_status: employee_status;
+            position: position;
+          }
+        >
       >,
-      void
+      PaginationParams<employee> | void
     >({
-      query: () => ({
+      query: (params) => ({
         url: `employee`,
         method: "GET",
+        params: typeof params === "object" ? params : undefined,
       }),
       providesTags: ["Employee"],
-      transformResponse: (
-        response: ApiResponse<
-          Array<
-            employee & {
-              division: division;
-              branch: branch;
-              level: level;
-              employee_status: employee_status;
-              position: position;
-            }
-          >
-        >
-      ) => response.data,
-      transformErrorResponse: (response) => response.data,
     }),
     businessEmployeeShow: builder.query<employee, string>({
       query: (id) => ({
@@ -59,7 +48,8 @@ const businessEmployeeApi = businessBaseApi.injectEndpoints({
         method: "POST",
         body: payload,
       }),
-      invalidatesTags: ["Employee"],
+      invalidatesTags: (_, error) =>
+        !error ? ["Employee", "Division", "Employee Status"] : [],
     }),
     businessEmployeeUpdate: builder.mutation<
       ApiResponse<employee>,
@@ -70,14 +60,16 @@ const businessEmployeeApi = businessBaseApi.injectEndpoints({
         method: "PUT",
         body: payload,
       }),
-      invalidatesTags: ["Employee"],
+      invalidatesTags: (_, error) =>
+        !error ? ["Employee", "Division", "Employee Status"] : [],
     }),
     businessEmployeeDelete: builder.mutation<ApiResponse<employee>, string>({
       query: (id) => ({
         url: `employee/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Employee"],
+      invalidatesTags: (_, error) =>
+        !error ? ["Employee", "Division", "Employee Status"] : [],
     }),
   }),
   overrideExisting: false,

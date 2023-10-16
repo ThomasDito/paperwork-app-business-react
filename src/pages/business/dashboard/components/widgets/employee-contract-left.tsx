@@ -1,12 +1,10 @@
 import TableSkeleton from "@/components/ui/skeleton";
 import { useLazyBusinessEmployeeGetQuery } from "@/redux/api/business/employee-api";
-import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import moment from "moment";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -24,7 +22,7 @@ export default function EmployeeContractLeftWidget() {
   // RTK Query
   const [
     getEmployees,
-    { data: employees = [], isError, isFetching, isLoading, isUninitialized },
+    { data: employees, isError, isFetching, isLoading, isUninitialized },
   ] = useLazyBusinessEmployeeGetQuery();
 
   const tableIsLoading = isError || isFetching || isLoading || isUninitialized;
@@ -61,7 +59,7 @@ export default function EmployeeContractLeftWidget() {
             <TableBody>
               {tableIsLoading && <TableSkeleton columns={9} />}
 
-              {!tableIsLoading && !employees?.length && (
+              {!tableIsLoading && !employees?.data.length && (
                 <TableRow>
                   <TableCell className="p-5 text-center" colSpan={9}>
                     Tidak ada data
@@ -70,7 +68,8 @@ export default function EmployeeContractLeftWidget() {
               )}
 
               {!tableIsLoading &&
-                employees.map((employee) => {
+                employees &&
+                employees.data.map((employee) => {
                   return (
                     <TableRow key={employee.id}>
                       <TableCell className="py-4 px-5">
