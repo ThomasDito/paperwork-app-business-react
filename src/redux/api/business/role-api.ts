@@ -5,30 +5,22 @@ import { position, role, role_item } from "@/types/schema";
 const businessRoleApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     businessRoleGet: builder.query<
-      Array<
-        role & {
-          position: position;
-          role_items: Array<role_item>;
-        }
+      ApiResponse<
+        Array<
+          role & {
+            position: position;
+            role_items: Array<role_item>;
+          }
+        >
       >,
-      void
+      PaginationParams<role> | void
     >({
-      query: () => ({
+      query: (params) => ({
         url: `role`,
         method: "GET",
+        params: typeof params === "object" ? params : undefined,
       }),
       providesTags: ["Role"],
-      transformResponse: (
-        response: ApiResponse<
-          Array<
-            role & {
-              position: position;
-              role_items: Array<role_item>;
-            }
-          >
-        >
-      ) => response.data,
-      transformErrorResponse: (response) => response.data,
     }),
     businessRoleShow: builder.query<
       role & {
