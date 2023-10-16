@@ -3,15 +3,16 @@ import { information } from "@/types/schema";
 
 const businessInformationApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({
-    businessInformationGet: builder.query<Array<information>, void>({
-      query: () => ({
+    businessInformationGet: builder.query<
+      ApiResponse<Array<information>>,
+      PaginationParams<information> | void
+    >({
+      query: (params) => ({
         url: `information`,
         method: "GET",
+        params: typeof params === "object" ? params : undefined,
       }),
       providesTags: ["Information"],
-      transformResponse: (response: ApiResponse<Array<information>>) =>
-        response.data,
-      transformErrorResponse: (response) => response.data,
     }),
     businessInformationShow: builder.query<information, string>({
       query: (id) => ({
