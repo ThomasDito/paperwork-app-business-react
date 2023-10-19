@@ -1,5 +1,5 @@
 import TableSkeleton from "@/components/ui/skeleton";
-import { useLazyBusinessEmployeeGetQuery } from "@/redux/api/business/employee-api";
+import { useLazyBusinessDashboardEmployeeContractWillEndQuery } from "@/redux/api/business/dashboard-api";
 import moment from "moment";
 import {
   Avatar,
@@ -13,17 +13,14 @@ import {
   TableRow,
 } from "paperwork-ui";
 import { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function EmployeeContractLeftWidget() {
-  // Hooks
-  const location = useLocation();
-
   // RTK Query
   const [
     getEmployees,
-    { data: employees, isError, isFetching, isLoading, isUninitialized },
-  ] = useLazyBusinessEmployeeGetQuery();
+    { data: employees = [], isError, isFetching, isLoading, isUninitialized },
+  ] = useLazyBusinessDashboardEmployeeContractWillEndQuery();
 
   const tableIsLoading = isError || isFetching || isLoading || isUninitialized;
 
@@ -39,7 +36,7 @@ export default function EmployeeContractLeftWidget() {
         </h3>
       </div>
       <div className="border-t rounded-b-md bg-card">
-        <div>
+        <div className="overflow-y-auto max-h-[810px]">
           <Table className="whitespace-nowrap">
             <TableHeader>
               <TableRow>
@@ -59,9 +56,9 @@ export default function EmployeeContractLeftWidget() {
             <TableBody>
               {tableIsLoading && <TableSkeleton columns={9} />}
 
-              {!tableIsLoading && !employees?.data.length && (
+              {!tableIsLoading && !employees.length && (
                 <TableRow>
-                  <TableCell className="p-5 text-center" colSpan={9}>
+                  <TableCell className="p-5" colSpan={9}>
                     Tidak ada data
                   </TableCell>
                 </TableRow>
@@ -69,7 +66,7 @@ export default function EmployeeContractLeftWidget() {
 
               {!tableIsLoading &&
                 employees &&
-                employees.data.map((employee) => {
+                employees.map((employee) => {
                   return (
                     <TableRow key={employee.id}>
                       <TableCell className="py-4 px-5">

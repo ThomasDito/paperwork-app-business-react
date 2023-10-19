@@ -1,9 +1,23 @@
 import TableSkeleton from "@/components/ui/skeleton";
+import useRole from "@/hooks/useRole";
 import { useLazyBusinessInventoryGetQuery } from "@/redux/api/business/inventory-api";
-import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
+import { inventory } from "@/types/schema";
+import { debounce } from "lodash";
+import {
+  LucideEdit,
+  LucidePlus,
+  LucideSearch,
+  LucideTrash,
+} from "lucide-react";
 import moment from "moment";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   Button,
+  Input,
+  PaginationButton,
+  PaginationLimit,
   Table,
   TableBody,
   TableCell,
@@ -11,18 +25,19 @@ import {
   TableHeader,
   TableRow,
 } from "paperwork-ui";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 export default function InventoryIndex() {
   // Hooks
   const location = useLocation();
+  const canWrite = useRole("inventory", "write");
 
   // RTK Query
   const [
     getInventory,
     {
-      data: inventories = [],
+      data: inventories,
       isLoading: getInventoryIsLoading,
       isError: getInventoryIsError,
       isFetching: getInventoryIsFetching,
@@ -32,40 +47,94 @@ export default function InventoryIndex() {
   const tableIsLoading =
     getInventoryIsLoading || getInventoryIsError || getInventoryIsFetching;
 
+  // States
+  const [limit, setLimit] = useState<number>(10);
+  const [page, setPage] = useState<number>(1);
+  const [search, setSearch] = useState<string | undefined>(undefined);
+
+  const [initialParams, setInitialParams] = useState<
+    PaginationParams<inventory>
+  >({
+    page,
+    limit,
+  });
+
+  // React Hooks
   useEffect(() => {
-    getInventory();
-  }, []);
+    if (initialParams) {
+      getInventory(initialParams);
+    }
+  }, [initialParams]);
+
+  useEffect(() => {
+    setInitialParams({
+      ...initialParams,
+      page,
+      limit,
+    });
+  }, [page, limit]);
+
+  const doSearch = useCallback(
+    debounce((value) => {
+      setInitialParams({
+        ...initialParams,
+        search: value,
+      });
+    }, 750),
+    [initialParams]
+  );
+
+  useEffect(() => {
+    if (typeof search !== "undefined") doSearch(search);
+  }, [search]);
 
   return (
-    <div className="bg-card border rounded-md">
-      <div className="p-5 flex flex-col items-center justify-between space-y-6 border-0 md:space-y-0 md:flex-row">
+    <>
+      <div className="flex flex-col items-center justify-between pb-5 space-y-6 border-0 md:space-y-0 md:flex-row">
         <h3 className="text-2xl font-semibold tracking-tight scroll-m-20">
           Inventaris
         </h3>
-        <div className="flex items-center space-x-4">
-          <Link to={"/business/manage/inventory/form"}>
-            <Button>
-              <LucidePlus className="w-5 h-5 mr-2" /> Tambah Inventaris
-            </Button>
-          </Link>
+        <div className="flex items-center space-x-5">
+          <div className="relative flex items-center">
+            <div className="absolute inset-y-0 flex items-center pointer-events-none left-3">
+              <LucideSearch size={18} className="text-muted-foreground" />
+            </div>
+            <Input
+              className="w-full pl-10 min-w-[300px]"
+              type="search"
+              placeholder="Pencarian..."
+              value={search || ""}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+          {canWrite && (
+            <div className="flex items-center space-x-4">
+              <Link to={"/business/manage/inventory/form"}>
+                <Button>
+                  <LucidePlus className="w-5 h-5 mr-2" /> Tambah Inventaris
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
-      <div className="border-t rounded-b-md bg-card">
+
+      <div className="border rounded-sm shadow-sm bg-card">
         <div>
           <Table className="whitespace-nowrap">
             <TableHeader>
               <TableRow>
-                <TableHead className="py-4 px-5">Nomor Inventaris</TableHead>
-                <TableHead className="py-4 px-5">Nama Inventaris</TableHead>
-                <TableHead className="py-4 px-5">Tanggal Pembelian</TableHead>
-                <TableHead className="py-4 px-5">Penanggung Jawab</TableHead>
-                <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
+                <TableHead className="p-5">Nomor Inventaris</TableHead>
+                <TableHead className="p-5">Nama Inventaris</TableHead>
+                <TableHead className="p-5">Tanggal Pembelian</TableHead>
+                <TableHead className="p-5">Penanggung Jawab</TableHead>
+                <TableHead className="p-5 text-center">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {tableIsLoading && <TableSkeleton columns={5} />}
 
-              {!tableIsLoading && !inventories.length && (
+              {!tableIsLoading && !inventories?.data.length && (
                 <TableRow>
                   <TableCell className="p-5 text-center" colSpan={4}>
                     Tidak ada data
@@ -74,7 +143,8 @@ export default function InventoryIndex() {
               )}
 
               {!tableIsLoading &&
-                inventories.map((inventory) => {
+                inventories?.data &&
+                inventories.data.map((inventory) => {
                   return (
                     <TableRow key={inventory.id}>
                       <TableCell className="px-5">
@@ -89,7 +159,48 @@ export default function InventoryIndex() {
                         )}
                       </TableCell>
                       <TableCell className="px-5">
-                        {inventory.employee?.employee_name ?? "-"}
+                        {inventory.employee ? (
+                          <div className="flex items-center space-x-4">
+                            <Link
+                              to={`/business/organization/employee/form/${inventory.employee.id}`}
+                            >
+                              <Avatar className="w-11 h-11">
+                                <AvatarImage
+                                  src={
+                                    inventory.employee
+                                      .employee_profile_picture || ""
+                                  }
+                                  alt={inventory.employee.employee_name}
+                                />
+                                <AvatarFallback className="font-medium uppercase text-muted-foreground/50">
+                                  {inventory.employee.employee_name.substring(
+                                    0,
+                                    2
+                                  )}
+                                </AvatarFallback>
+                              </Avatar>
+                            </Link>
+                            <div className="flex flex-col flex-1 space-y-1">
+                              <Link
+                                to={`/business/organization/employee/form/${inventory.employee.id}`}
+                                className="text-sm hover:underline"
+                              >
+                                {inventory.employee.employee_name}
+                              </Link>
+                              <div className="text-xs text-muted-foreground">
+                                {moment(inventory.inventory_start_date).format(
+                                  "DD MMM YY"
+                                )}{" "}
+                                -{" "}
+                                {moment(inventory.inventory_end_date).format(
+                                  "DD MMM YY"
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          "-"
+                        )}
                       </TableCell>
                       <TableCell className="px-5 text-center">
                         <div className="flex justify-center space-x-2">
@@ -126,7 +237,21 @@ export default function InventoryIndex() {
             </TableBody>
           </Table>
         </div>
+        <div className="flex flex-col items-center justify-between px-5 py-3 space-y-4 border-t md:flex-row md:space-y-0">
+          <PaginationLimit
+            limit={limit}
+            handleChange={setLimit}
+            pagination={inventories?.pagination}
+          />
+          {inventories?.pagination && (
+            <PaginationButton
+              pageLimit={6}
+              pagination={inventories.pagination}
+              handleChange={(page) => setPage(page)}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

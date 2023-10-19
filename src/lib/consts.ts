@@ -29,6 +29,7 @@ export const MODULES = [
   "employee_status",
   "role",
   "information",
+  "inventory",
 ] as const;
 
 export type ModulesType = (typeof MODULES)[number];

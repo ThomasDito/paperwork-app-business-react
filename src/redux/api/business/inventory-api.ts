@@ -3,15 +3,16 @@ import { inventory } from "@/types/schema";
 
 const businessInventoryApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({
-    businessInventoryGet: builder.query<Array<inventory>, void>({
-      query: () => ({
+    businessInventoryGet: builder.query<
+      ApiResponse<Array<inventory>>,
+      PaginationParams<inventory> | void
+    >({
+      query: (params) => ({
         url: `inventory`,
         method: "GET",
+        params: typeof params === "object" ? params : undefined,
       }),
       providesTags: ["Inventory"],
-      transformResponse: (response: ApiResponse<Array<inventory>>) =>
-        response.data,
-      transformErrorResponse: (response) => response.data,
     }),
     businessInventoryShow: builder.query<inventory, string>({
       query: (id) => ({

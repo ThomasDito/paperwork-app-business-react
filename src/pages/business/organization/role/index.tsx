@@ -120,7 +120,7 @@ export default function RoleIndex() {
           <Table className="whitespace-nowrap">
             <TableHeader>
               <TableRow>
-                <TableHead className="p-5">Nama Jabatan</TableHead>
+                <TableHead className="p-5">Jabatan</TableHead>
                 <TableHead className="p-5 text-center">Jumlah Modul</TableHead>
                 <TableHead className="p-5 text-center">Aktif</TableHead>
                 {canWrite && (

@@ -56,6 +56,7 @@ import {
   useBusinessEmployeeAccountModulesQuery,
 } from "@/redux/api/business/employee/account-api";
 import { CheckRoleOutlet } from "@/components/check-role";
+import EventForm from "@/pages/business/manage/event/form";
 
 export default function App() {
   // Hooks
@@ -252,6 +253,11 @@ export default function App() {
               </Route>
               <Route path="inventory">
                 <Route path="delete/:id" element={<InventoryDelete />} />
+              </Route>
+              <Route path="event">
+                <Route path="form/:id" element={<EventForm />} />
+                <Route path="form/:start/:end" element={<EventForm />} />
+                <Route path="delete/:id" element={<LevelDelete />} />
               </Route>
             </Route>
           </Routes>

@@ -137,12 +137,18 @@ export default function EmployeeEmployeeTab({
                 placeholderNotFound="Status kepegawaian tidak ditemukan"
                 placeholderSearch="Cari Status Kepegawaian..."
                 required
-                values={employeeStatuses.map((employeeStatus) => {
-                  return {
-                    value: employeeStatus.id,
-                    label: employeeStatus.employee_status_name,
-                  };
-                })}
+                values={employeeStatuses
+                  .filter(
+                    (employeeStatus) =>
+                      employeeStatus.employee_status_status === "active" ||
+                      employeeStatus.id === formik.values.employee_status_id
+                  )
+                  .map((employeeStatus) => {
+                    return {
+                      value: employeeStatus.id,
+                      label: employeeStatus.employee_status_name,
+                    };
+                  })}
               />
               {(getEmployeeStatusesIsFetching ||
                 getEmployeeStatusesIsLoading) && (
@@ -200,12 +206,18 @@ export default function EmployeeEmployeeTab({
                 placeholderNotFound="Cabang tidak ditemukan"
                 placeholderSearch="Cari Cabang..."
                 required
-                values={branches.map((branch) => {
-                  return {
-                    value: branch.id,
-                    label: branch.branch_name,
-                  };
-                })}
+                values={branches
+                  .filter(
+                    (branch) =>
+                      branch.branch_status === "active" ||
+                      branch.id === formik.values.branch_id
+                  )
+                  .map((branch) => {
+                    return {
+                      value: branch.id,
+                      label: branch.branch_name,
+                    };
+                  })}
               />
               {(getBranchesIsFetching || getBranchesIsLoading) && (
                 <div className="flex item-center text-xs text-muted-foreground">
@@ -235,12 +247,18 @@ export default function EmployeeEmployeeTab({
                 placeholderNotFound="Divisi tidak ditemukan"
                 placeholderSearch="Cari Divisi..."
                 required
-                values={divisions.map((division) => {
-                  return {
-                    value: division.id,
-                    label: division.division_name,
-                  };
-                })}
+                values={divisions
+                  .filter(
+                    (division) =>
+                      division.division_status === "active" ||
+                      division.id === formik.values.division_id
+                  )
+                  .map((division) => {
+                    return {
+                      value: division.id,
+                      label: division.division_name,
+                    };
+                  })}
               />
               {(getDivisionsIsFetching || getDivisionsIsLoading) && (
                 <div className="flex item-center text-xs text-muted-foreground">
@@ -271,12 +289,18 @@ export default function EmployeeEmployeeTab({
                 placeholderNotFound="Jabatan tidak ditemukan"
                 placeholderSearch="Cari Jabatan..."
                 required
-                values={positions.map((position) => {
-                  return {
-                    value: position.id,
-                    label: position.position_name,
-                  };
-                })}
+                values={positions
+                  .filter(
+                    (position) =>
+                      position.position_status === "active" ||
+                      position.id === formik.values.position_id
+                  )
+                  .map((position) => {
+                    return {
+                      value: position.id,
+                      label: position.position_name,
+                    };
+                  })}
               />
               {(getPositionsIsFetching || getPositionsIsLoading) && (
                 <div className="flex item-center text-xs text-muted-foreground">
@@ -305,12 +329,18 @@ export default function EmployeeEmployeeTab({
                 placeholderNotFound="Level tidak ditemukan"
                 placeholderSearch="Cari Level..."
                 required
-                values={levels.map((level) => {
-                  return {
-                    value: level.id,
-                    label: level.level_name,
-                  };
-                })}
+                values={levels
+                  .filter(
+                    (level) =>
+                      level.level_status === "active" ||
+                      level.id === formik.values.level_id
+                  )
+                  .map((level) => {
+                    return {
+                      value: level.id,
+                      label: level.level_name,
+                    };
+                  })}
               />
               {(getLevelsIsFetching || getLevelsIsLoading) && (
                 <div className="flex item-center text-xs text-muted-foreground">

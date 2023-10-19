@@ -13,28 +13,25 @@ import EmployeeStatusChartWidget from "@/pages/business/dashboard/components/wid
 import GenderChartWidget from "@/pages/business/dashboard/components/widgets/gender-chart";
 import EmployeeContractLeftWidget from "@/pages/business/dashboard/components/widgets/employee-contract-left";
 import { useMemo } from "react";
+import {
+  useBusinessDashboardCountActiveEmployeesQuery,
+  useBusinessDashboardCountBranchesQuery,
+  useBusinessDashboardCountDivisionsQuery,
+} from "@/redux/api/business/dashboard-api";
 
 export default function DashboardIndex() {
   // RTK Query
-  const { data: employees } = useBusinessEmployeeGetQuery();
-  const { data: branches = [] } = useBusinessBranchGetQuery();
-  const { data: divisions = [] } = useBusinessDivisionGetQuery();
-
-  const totalEmployee = useMemo(
-    () => employees?.data?.length || 0,
-    [employees]
+  const { data: employees } = useBusinessDashboardCountActiveEmployeesQuery(
+    undefined,
+    { refetchOnMountOrArgChange: true }
   );
+  const { data: branches } = useBusinessDashboardCountBranchesQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
-  const totalBranch = useMemo(
-    () => branches.filter((branch) => branch.branch_status === "active").length,
-    [branches]
-  );
-
-  const totalDivision = useMemo(
-    () =>
-      divisions.filter((division) => division.division_status === "active")
-        .length,
-    [divisions]
+  const { data: divisions } = useBusinessDashboardCountDivisionsQuery(
+    undefined,
+    { refetchOnMountOrArgChange: true }
   );
 
   return (
@@ -43,7 +40,7 @@ export default function DashboardIndex() {
         <div className="flex items-center border-0 shadow-sm rounded-md p-5 bg-card space-x-5">
           <div className="space-y-3 w-full">
             <div className="">Karyawan Aktif</div>
-            <div className="font-bold text-3xl">{totalEmployee}</div>
+            <div className="font-bold text-3xl">{employees?.count || 0}</div>
           </div>
           <div className="p-3 rounded-full bg-muted text-primary">
             <LucideContact2 className="w-8 h-8" />
@@ -52,7 +49,7 @@ export default function DashboardIndex() {
         <div className="flex items-center border-0 shadow-sm rounded-md p-5 bg-card space-x-5">
           <div className="space-y-3 w-full">
             <div className="">Cabang</div>
-            <div className="font-bold text-3xl">{totalBranch}</div>
+            <div className="font-bold text-3xl">{branches?.count || 0}</div>
           </div>
           <div className="p-3 rounded-full bg-muted text-primary">
             <LucideWarehouse className="w-8 h-8" />
@@ -61,7 +58,7 @@ export default function DashboardIndex() {
         <div className="flex items-center border-0 shadow-sm rounded-md p-5 bg-card space-x-5">
           <div className="space-y-3 w-full">
             <div className="">Divisi</div>
-            <div className="font-bold text-3xl">{totalDivision}</div>
+            <div className="font-bold text-3xl">{divisions?.count || 0}</div>
           </div>
           <div className="p-3 rounded-full bg-muted text-primary">
             <LucideNetwork className="w-8 h-8" />

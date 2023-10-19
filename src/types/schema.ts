@@ -224,3 +224,15 @@ export type inventory = {
   readonly updated_at: Date | string;
   employee?: employee;
 };
+
+export type event = {
+  readonly id: string;
+  organization_id: string;
+  event_name: string;
+  event_start_date: Date | string;
+  event_end_date: Date | string;
+  event_description: string;
+  event_location: string;
+  readonly created_at: Date | string;
+  readonly updated_at: Date | string;
+};
