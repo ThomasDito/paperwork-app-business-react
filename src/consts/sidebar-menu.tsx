@@ -3,7 +3,6 @@ import {
   LucideFolderCog,
   LucideHome,
   LucideInfo,
-  LucideLayoutGrid,
   LucideLayoutPanelLeft,
 } from "lucide-react";
 

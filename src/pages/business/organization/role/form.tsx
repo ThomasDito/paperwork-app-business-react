@@ -78,8 +78,7 @@ export default function RoleForm() {
   const [storeRole, { isLoading: storeRoleIsLoading }] =
     useBusinessRoleStoreMutation();
 
-  const [updateRole, { isLoading: updateRoleIsLoading }] =
-    useBusinessRoleUpdateMutation();
+  const [updateRole] = useBusinessRoleUpdateMutation();
 
   // States
   const [initialValues, setInitialValues] = useState<RoleFormSchema>({

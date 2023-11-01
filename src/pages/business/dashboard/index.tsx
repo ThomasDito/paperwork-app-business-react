@@ -1,6 +1,3 @@
-import { useBusinessBranchGetQuery } from "@/redux/api/business/branch-api";
-import { useBusinessDivisionGetQuery } from "@/redux/api/business/division-api";
-import { useBusinessEmployeeGetQuery } from "@/redux/api/business/employee-api";
 import {
   LucideContact2,
   LucideCrown,
@@ -12,7 +9,6 @@ import DivisionChartWidget from "@/pages/business/dashboard/components/widgets/d
 import EmployeeStatusChartWidget from "@/pages/business/dashboard/components/widgets/employee-status-chart";
 import GenderChartWidget from "@/pages/business/dashboard/components/widgets/gender-chart";
 import EmployeeContractLeftWidget from "@/pages/business/dashboard/components/widgets/employee-contract-left";
-import { useMemo } from "react";
 import {
   useBusinessDashboardCountActiveEmployeesQuery,
   useBusinessDashboardCountBranchesQuery,

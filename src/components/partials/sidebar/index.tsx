@@ -1,10 +1,5 @@
 import SidebarLogo from "@/components/partials/sidebar/logo";
-import SidebarMenu from "@/components/partials/sidebar/menu";
 import { ScrollArea, cn } from "paperwork-ui";
-import {
-  businessSidebarMenus,
-  employeeSidebarMenus,
-} from "@/consts/sidebar-menu";
 import useSidebar from "@/hooks/useSidebar";
 import { useState } from "react";
 import { LogOut } from "lucide-react";

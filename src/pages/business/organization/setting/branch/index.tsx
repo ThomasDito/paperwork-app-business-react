@@ -1,4 +1,3 @@
-import CheckRole from "@/components/check-role";
 import { toastError, toastSuccess } from "@/components/ui/toast";
 import useRole from "@/hooks/useRole";
 import BranchSkeleton from "@/pages/business/organization/setting/branch/components/skeleton";
@@ -7,7 +6,7 @@ import {
   useLazyBusinessBranchGetQuery,
 } from "@/redux/api/business/branch-api";
 import { branch_status } from "@/types/schema";
-import { Check, LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
+import { LucideEdit, LucidePlus, LucideTrash } from "lucide-react";
 import {
   Button,
   Switch,

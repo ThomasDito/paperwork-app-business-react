@@ -22,7 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from "paperwork-ui";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 export default function RoleIndex() {
