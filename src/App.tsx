@@ -56,6 +56,7 @@ import {
 } from "@/redux/api/business/employee/account-api";
 import { CheckRoleOutlet } from "@/components/check-role";
 import EventForm from "@/pages/business/manage/event/form";
+import ApplicationInstall from "@/pages/business/application/install";
 
 export default function App() {
   // Hooks
@@ -221,6 +222,9 @@ export default function App() {
         {previousLocation && (
           <Routes>
             <Route path="modal">
+              <Route path="application">
+                <Route path="install/:id" element={<ApplicationInstall />} />
+              </Route>
               <Route path="branch">
                 <Route path="form/:id?" element={<BranchForm />} />
                 <Route path="delete/:id" element={<BranchDelete />} />

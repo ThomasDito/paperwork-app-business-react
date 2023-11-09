@@ -236,3 +236,28 @@ export type event = {
   readonly created_at: Date | string;
   readonly updated_at: Date | string;
 };
+
+export type organization_application = {
+  readonly id: string;
+  organization_id: string;
+  application_id: string;
+  readonly created_at: Date | string;
+  readonly updated_at: Date | string;
+};
+
+export type application_type = "all" | "company";
+export type application_status = "active" | "inactive";
+
+export type application = {
+  readonly id: string;
+  organization_id: string;
+  application_type: application_type;
+  aplication_status: application_status;
+  application_name: string;
+  application_description: string;
+  application_path: string;
+  application_image: string | null;
+  readonly created_at: Date | string;
+  readonly updated_at: Date | string;
+  organization_applications: Array<organization_application>;
+};

@@ -92,11 +92,11 @@ export const employeeSidebarMenus: SidebarMenuItem[] = [
     title: "pegawai",
     isHeader: true,
   },
-  {
-    title: "Beranda",
-    icon: <LucideHome className="w-5 h-5" />,
-    link: "/employee/dashboard",
-  },
+  // {
+  //   title: "Beranda",
+  //   icon: <LucideHome className="w-5 h-5" />,
+  //   link: "/employee/dashboard",
+  // },
   {
     title: "Informasi",
     icon: <LucideInfo className="w-5 h-5" />,
