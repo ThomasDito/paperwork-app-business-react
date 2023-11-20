@@ -1,4 +1,4 @@
-import { useLazyBusinessEmployeeInformationGetQuery } from "@/redux/api/business/employee/information-api";
+import { useLazyBusinessEmployeeInformationGetQuery } from "@/redux/api/business/member/information-api";
 import { LucideCalendar } from "lucide-react";
 import moment from "moment";
 import { Tabs, TabsList, TabsTrigger } from "paperwork-ui";

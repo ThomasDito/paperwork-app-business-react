@@ -39,12 +39,6 @@ export const businessBaseApi = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: () => ({}),
   tagTypes: [
-    "Branch",
-    "Division",
-    "Position",
-    "Level",
-    "Employee",
-    "Employee Status",
     "Role",
     "Module",
     "Information",
@@ -52,9 +46,10 @@ export const businessBaseApi = createApi({
     "Event",
     "Application",
     "Member",
-    // EMPLOYEE
-    "Employee/Account",
-    "Employee/Information",
-    "Employee/Event",
+
+    // MEMBER
+    "Member/Account",
+    "Member/Information",
+    "Member/Event",
   ],
 });

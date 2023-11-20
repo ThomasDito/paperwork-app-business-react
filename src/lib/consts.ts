@@ -21,46 +21,9 @@ export const REGEX = {
 
 export const MODULES = [
   "member",
-  "employee",
   "organization_setting",
-  "branch",
-  "division",
-  "position",
-  "level",
-  "employee_status",
   "role",
   "information",
-  "inventory",
 ] as const;
 
 export type ModulesType = (typeof MODULES)[number];
-
-export const EMPLOYEE_GENDERS = ["male", "female"] as const;
-
-export const EMPLOYEE_MARITAL_STATUSES = [
-  "married",
-  "single",
-  "divorced",
-] as const;
-
-export const EMPLOYEE_RELIGIONS = [
-  "buddha",
-  "catholic",
-  "christian",
-  "hindu",
-  "islam",
-  "konghucu",
-] as const;
-
-export const EMPLOYEE_EDUCATION_LEVELS = [
-  "SD",
-  "SMP",
-  "SMA",
-  "D1",
-  "D2",
-  "D3",
-  "D4",
-  "S1",
-  "S2",
-  "S3",
-] as const;

@@ -1,7 +1,7 @@
 import { FormikComboBox } from "@/components/formik";
 import LoadingPage from "@/components/loading-page";
+import { useLazyBusinessMemberGetQuery } from "@/redux/api/business/member-api";
 import { useLazyBusinessModuleGetQuery } from "@/redux/api/business/module-api";
-import { useLazyBusinessPositionGetQuery } from "@/redux/api/business/position-api";
 import {
   useBusinessRoleStoreMutation,
   useBusinessRoleUpdateMutation,
@@ -47,14 +47,14 @@ export default function RoleForm() {
 
   // RTK Query
   const [
-    getPositions,
+    getMembers,
     {
-      isLoading: getPositionsIsLoading,
-      isFetching: getPositionsIsFetching,
-      isError: getPositionsIsError,
-      data: positions = [],
+      isLoading: getMembersIsLoading,
+      isFetching: getMembersIsFetching,
+      isError: getMembersIsError,
+      data: members,
     },
-  ] = useLazyBusinessPositionGetQuery();
+  ] = useLazyBusinessMemberGetQuery();
 
   const [
     getModules,
@@ -92,7 +92,7 @@ export default function RoleForm() {
   }>({});
 
   useEffect(() => {
-    getPositions();
+    getMembers();
     getModules();
   }, []);
 
@@ -213,31 +213,35 @@ export default function RoleForm() {
                 <div className="pb-4">
                   <div className="space-y-2">
                     <FormikComboBox
-                      label="Jabatan"
-                      name="position_id"
+                      label="Anggota"
+                      name="user_id"
                       className="w-full"
-                      placeholder="Pilih Jabatan"
-                      placeholderNotFound="Jabatan tidak ditemukan"
-                      placeholderSearch="Cari Jabatan..."
+                      placeholder="Pilih Anggota"
+                      placeholderNotFound="Anggota tidak ditemukan"
+                      placeholderSearch="Cari Anggota..."
                       required
-                      values={positions.map((position) => {
-                        return {
-                          value: position.id,
-                          label: position.position_name,
-                        };
-                      })}
+                      values={
+                        members?.data
+                          ? members?.data.map((member) => {
+                              return {
+                                value: member.id,
+                                label: member.user_fullname,
+                              };
+                            })
+                          : []
+                      }
                     />
-                    {(getPositionsIsFetching || getPositionsIsLoading) && (
+                    {(getMembersIsFetching || getMembersIsLoading) && (
                       <div className="flex item-center text-xs text-muted-foreground">
                         <LucideLoader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Memuat data jabatan...
+                        Memuat data anggota...
                       </div>
                     )}
-                    {getPositionsIsError && (
+                    {getMembersIsError && (
                       <span className="mt-2 text-xs text-destructive">
                         Gagal memuat data.{" "}
                         <span
-                          onClick={() => getPositions()}
+                          onClick={() => getMembers()}
                           className="font-bold hover:underline cursor-pointer"
                         >
                           Ulangi

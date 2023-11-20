@@ -1,14 +1,14 @@
 import SidebarMenu from "@/components/partials/sidebar/menu";
 import {
   businessSidebarMenus,
-  employeeSidebarMenus,
+  memberSidebarMenus,
 } from "@/consts/sidebar-menu";
 import { useAppSelector } from "@/redux/hooks";
-import { selectEmployee, selectRoles } from "@/redux/slices/auth-slice";
+import { selectMember, selectRoles } from "@/redux/slices/auth-slice";
 import { useMemo } from "react";
 
 export default function GenerateSidebarMenu() {
-  const employee = useAppSelector(selectEmployee);
+  const member = useAppSelector(selectMember);
   const roles = useAppSelector(selectRoles);
 
   const sidebarMenus = useMemo(() => {
@@ -18,12 +18,12 @@ export default function GenerateSidebarMenu() {
       menus = [...businessSidebarMenus];
     }
 
-    if (employee) {
-      menus = [...menus, ...employeeSidebarMenus];
+    if (member) {
+      menus = [...menus, ...memberSidebarMenus];
     }
 
     return menus;
-  }, [roles, employee]);
+  }, [roles, member]);
 
   return <SidebarMenu menus={sidebarMenus} />;
 }

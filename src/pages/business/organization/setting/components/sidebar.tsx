@@ -57,34 +57,4 @@ const sidebarNavItems: Array<{
     icon: <LucideBuilding className="w-5 h-5 mr-3" />,
     moduleKey: "organization_setting",
   },
-  {
-    title: "Cabang",
-    href: "/business/organization/setting/branch",
-    icon: <LucideWarehouse className="w-5 h-5 mr-3 mb-0.5" />,
-    moduleKey: "branch",
-  },
-  {
-    title: "Divisi",
-    href: "/business/organization/setting/division",
-    icon: <LucideNetwork className="w-5 h-5 mr-3" />,
-    moduleKey: "division",
-  },
-  {
-    title: "Jabatan",
-    href: "/business/organization/setting/position",
-    icon: <LucideHardHat className="w-5 h-5 mr-3" />,
-    moduleKey: "position",
-  },
-  {
-    title: "Level",
-    href: "/business/organization/setting/level",
-    icon: <LucideWorkflow className="w-5 h-5 mr-3" />,
-    moduleKey: "level",
-  },
-  {
-    title: "Status Kepegawaian",
-    href: "/business/organization/setting/employee-status",
-    icon: <LucideFileClock className="flex-shrink-0 w-5 h-5 mr-3" />,
-    moduleKey: "employee_status",
-  },
 ];

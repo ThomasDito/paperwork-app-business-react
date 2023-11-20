@@ -19,25 +19,12 @@ export const businessSidebarMenus: SidebarMenuItem[] = [
   {
     title: "Organisasi",
     icon: <LucideBuilding className="w-5 h-5" />,
-    moduleKey: [
-      "employee",
-      "role",
-      "branch",
-      "division",
-      "position",
-      "level",
-      "employee_status",
-    ],
+    moduleKey: ["role", "member"],
     children: [
       {
         title: "Anggota",
         link: "/business/organization/member",
         moduleKey: "member",
-      },
-      {
-        title: "Karyawan",
-        link: "/business/organization/employee",
-        moduleKey: "employee",
       },
       {
         title: "Hak Akses",
@@ -47,14 +34,7 @@ export const businessSidebarMenus: SidebarMenuItem[] = [
       {
         title: "Pengaturan",
         link: "/business/organization/setting",
-        moduleKey: [
-          "organization_setting",
-          "branch",
-          "division",
-          "position",
-          "level",
-          "employee_status",
-        ],
+        moduleKey: ["organization_setting"],
       },
     ],
   },
@@ -62,37 +42,28 @@ export const businessSidebarMenus: SidebarMenuItem[] = [
     title: "Aplikasi",
     icon: <LucideLayoutPanelLeft className="w-5 h-5" />,
     link: "/business/application",
-    moduleKey: "employee",
+    moduleKey: "member",
   },
   {
     title: "Pengelolaan",
     icon: <LucideFolderCog className="w-5 h-5" />,
-    moduleKey: ["employee"],
+    moduleKey: ["member"],
     children: [
       {
         title: "Kalender",
         link: "/business/manage/event",
-        moduleKey: "employee",
+        moduleKey: "event",
       },
       {
         title: "Pengumuman",
         link: "/business/manage/information",
-        moduleKey: "role",
+        moduleKey: "information",
       },
-      {
-        title: "Inventaris",
-        link: "/business/manage/inventory",
-        moduleKey: "employee",
-      },
-      // {
-      //   title: "Landing Page",
-      //   link: "/business/manage/landing-page",
-      // },
     ],
   },
 ];
 
-export const employeeSidebarMenus: SidebarMenuItem[] = [
+export const memberSidebarMenus: SidebarMenuItem[] = [
   {
     title: "pegawai",
     isHeader: true,
@@ -100,7 +71,7 @@ export const employeeSidebarMenus: SidebarMenuItem[] = [
   // {
   //   title: "Beranda",
   //   icon: <LucideHome className="w-5 h-5" />,
-  //   link: "/employee/dashboard",
+  //   link: "/member/dashboard",
   // },
   {
     title: "Informasi",
@@ -108,19 +79,19 @@ export const employeeSidebarMenus: SidebarMenuItem[] = [
     children: [
       {
         title: "Kalender",
-        link: "/employee/information/event",
+        link: "/member/information/event",
       },
       {
         title: "Pengumuman",
-        link: "/employee/information/information",
+        link: "/member/information/information",
       },
       // {
       //   title: "Aktivitas",
-      //   link: "/employee/information/activity",
+      //   link: "/member/information/activity",
       // },
       // {
       //   title: "Bantuan dan Dukungan",
-      //   link: "/employee/information/help",
+      //   link: "/member/information/help",
       // },
     ],
   },

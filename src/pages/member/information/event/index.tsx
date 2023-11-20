@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import moment from "moment";
 import { CalendarEvent, momentLocalizer } from "paperwork-ui";
-import { useBusinessEmployeeEventGetQuery } from "@/redux/api/business/employee/event-api";
+import { useBusinessEmployeeEventGetQuery } from "@/redux/api/business/member/event-api";
 
 const now = new Date();
 const localizer = momentLocalizer(moment);
