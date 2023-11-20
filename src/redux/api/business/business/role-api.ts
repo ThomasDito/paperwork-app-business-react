@@ -16,7 +16,7 @@ const businessRoleApi = businessBaseApi.injectEndpoints({
       PaginationParams<role> | void
     >({
       query: (params) => ({
-        url: `role`,
+        url: `business/role`,
         method: "GET",
         params: typeof params === "object" ? params : undefined,
       }),
@@ -30,7 +30,7 @@ const businessRoleApi = businessBaseApi.injectEndpoints({
       string
     >({
       query: (id) => ({
-        url: `role/${id}`,
+        url: `business/role/${id}`,
         method: "GET",
       }),
       providesTags: ["Role"],
@@ -45,7 +45,7 @@ const businessRoleApi = businessBaseApi.injectEndpoints({
     }),
     businessRoleStore: builder.mutation<ApiResponse<role>, RoleFormSchema>({
       query: (payload) => ({
-        url: `role`,
+        url: `business/role`,
         method: "POST",
         body: payload,
       }),
@@ -56,7 +56,7 @@ const businessRoleApi = businessBaseApi.injectEndpoints({
       { id: string; payload: RoleFormSchema }
     >({
       query: ({ id, payload }) => ({
-        url: `role/${id}`,
+        url: `business/role/${id}`,
         method: "PUT",
         body: payload,
       }),
@@ -67,7 +67,7 @@ const businessRoleApi = businessBaseApi.injectEndpoints({
       { id: string; payload: Pick<role, "role_status"> }
     >({
       query: ({ id, payload }) => ({
-        url: `role/${id}/change-status`,
+        url: `business/role/${id}/change-status`,
         method: "PUT",
         body: payload,
       }),
@@ -75,7 +75,7 @@ const businessRoleApi = businessBaseApi.injectEndpoints({
     }),
     businessRoleDelete: builder.mutation<ApiResponse<role>, string>({
       query: (id) => ({
-        url: `role/${id}`,
+        url: `business/role/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (_, error) => (!error ? ["Role", "Member/Account"] : []),

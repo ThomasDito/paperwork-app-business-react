@@ -5,7 +5,7 @@ import {
   useBusinessEventStoreMutation,
   useBusinessEventUpdateMutation,
   useLazyBusinessEventShowQuery,
-} from "@/redux/api/business/event-api";
+} from "@/redux/api/business/business/event-api";
 import { Form, Formik } from "formik";
 import { withZodSchema } from "formik-validator-zod";
 import { LucideLoader2 } from "lucide-react";

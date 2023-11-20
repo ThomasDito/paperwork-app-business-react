@@ -1,17 +1,17 @@
 import { businessBaseApi } from "@/redux/api/business/base-api";
 import { information } from "@/types/schema";
 
-const businessEmployeeInformationApi = businessBaseApi.injectEndpoints({
+const businessMemberInformationApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({
-    businessEmployeeInformationGet: builder.query<
+    businessMemberInformationGet: builder.query<
       Array<information>,
       { date: Date | string; type: "active" | "history" }
     >({
       query: ({ date, type }) => ({
-        url: `employee/information/${date}/${type}`,
+        url: `member/information/${date}/${type}`,
         method: "GET",
       }),
-      providesTags: ["Employee/Information"],
+      providesTags: ["Member/Information"],
       transformResponse: (response: ApiResponse<Array<information>>) =>
         response.data,
       transformErrorResponse: (response) => response.data,
@@ -21,6 +21,6 @@ const businessEmployeeInformationApi = businessBaseApi.injectEndpoints({
 });
 
 export const {
-  useBusinessEmployeeInformationGetQuery,
-  useLazyBusinessEmployeeInformationGetQuery,
-} = businessEmployeeInformationApi;
+  useBusinessMemberInformationGetQuery,
+  useLazyBusinessMemberInformationGetQuery,
+} = businessMemberInformationApi;

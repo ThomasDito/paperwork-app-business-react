@@ -5,7 +5,7 @@ const businessModuleApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     businessModuleGet: builder.query<Array<module>, void>({
       query: () => ({
-        url: `module`,
+        url: `business/module`,
         method: "GET",
       }),
       providesTags: ["Module"],
@@ -15,7 +15,7 @@ const businessModuleApi = businessBaseApi.injectEndpoints({
     }),
     businessModuleShow: builder.query<module, string>({
       query: (id) => ({
-        url: `module/${id}`,
+        url: `business/module/${id}`,
         method: "GET",
       }),
       providesTags: ["Module"],

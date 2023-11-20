@@ -9,7 +9,7 @@ import DashboardIndex from "@/pages/business/dashboard";
 import { useMeQuery } from "@/redux/api/paperwork/auth-api";
 import SettingIndex from "@/pages/business/organization/setting";
 import OrganizationIndex from "@/pages/business/organization/setting/organization";
-import { useBusinessOrganizationGetQuery } from "@/redux/api/business/organization-api";
+import { useBusinessOrganizationGetQuery } from "@/redux/api/business/business/organization-api";
 import RoleIndex from "@/pages/business/organization/role";
 import ApplicationIndex from "@/pages/business/application";
 import EventIndex from "@/pages/business/manage/event";

@@ -1,6 +1,6 @@
 import TableSkeleton from "@/components/ui/skeleton";
 import useRole from "@/hooks/useRole";
-import { useLazyBusinessMemberGetQuery } from "@/redux/api/business/member-api";
+import { useLazyBusinessMemberGetQuery } from "@/redux/api/business/business/member-api";
 import { user } from "@/types/schema";
 import { debounce } from "lodash";
 import { LucidePlus, LucideSearch, LucideTrash } from "lucide-react";

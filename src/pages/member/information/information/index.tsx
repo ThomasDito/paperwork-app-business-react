@@ -1,4 +1,4 @@
-import { useLazyBusinessEmployeeInformationGetQuery } from "@/redux/api/business/member/information-api";
+import { useLazyBusinessMemberInformationGetQuery } from "@/redux/api/business/member/information-api";
 import { LucideCalendar } from "lucide-react";
 import moment from "moment";
 import { Tabs, TabsList, TabsTrigger } from "paperwork-ui";
@@ -7,7 +7,7 @@ import { useEffect, useState, useTransition } from "react";
 export default function UserInformationIndex() {
   // RTK Query
   const [getInformations, { data: informations }] =
-    useLazyBusinessEmployeeInformationGetQuery();
+    useLazyBusinessMemberInformationGetQuery();
 
   // States
   const [type, setType] = useState<"active" | "history">("active");

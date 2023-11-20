@@ -5,7 +5,7 @@ const businessEventApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     businessEventGet: builder.query<Array<event>, void>({
       query: () => ({
-        url: `event`,
+        url: `business/event`,
         method: "GET",
       }),
       providesTags: ["Event"],
@@ -14,7 +14,7 @@ const businessEventApi = businessBaseApi.injectEndpoints({
     }),
     businessEventShow: builder.query<event, string>({
       query: (id) => ({
-        url: `event/${id}`,
+        url: `business/event/${id}`,
         method: "GET",
       }),
       providesTags: ["Event"],
@@ -22,7 +22,7 @@ const businessEventApi = businessBaseApi.injectEndpoints({
     }),
     businessEventStore: builder.mutation<ApiResponse<event>, Partial<event>>({
       query: (payload) => ({
-        url: `event`,
+        url: `business/event`,
         method: "POST",
         body: payload,
       }),
@@ -33,7 +33,7 @@ const businessEventApi = businessBaseApi.injectEndpoints({
       { id: string; payload: Partial<event> }
     >({
       query: ({ id, payload }) => ({
-        url: `event/${id}`,
+        url: `business/event/${id}`,
         method: "PUT",
         body: payload,
       }),
@@ -41,7 +41,7 @@ const businessEventApi = businessBaseApi.injectEndpoints({
     }),
     businessEventDelete: builder.mutation<ApiResponse<event>, string>({
       query: (id) => ({
-        url: `event/${id}`,
+        url: `business/event/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Event"],

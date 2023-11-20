@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import moment from "moment";
 import { CalendarEvent, momentLocalizer } from "paperwork-ui";
-import { useBusinessEmployeeEventGetQuery } from "@/redux/api/business/member/event-api";
+import { useBusinessMemberEventGetQuery } from "@/redux/api/business/member/event-api";
 
 const now = new Date();
 const localizer = momentLocalizer(moment);
@@ -16,7 +16,7 @@ export interface Event {
 
 export default function UserEventIndex() {
   // RTK Query
-  const { data = [] } = useBusinessEmployeeEventGetQuery(undefined, {
+  const { data = [] } = useBusinessMemberEventGetQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
 

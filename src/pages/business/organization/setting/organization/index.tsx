@@ -5,7 +5,7 @@ import config from "@/lib/config";
 import {
   useLazyBusinessRegionGetCitiesByProvinceIdQuery,
   useLazyBusinessRegionGetProvincesQuery,
-} from "@/redux/api/business/region-api";
+} from "@/redux/api/business/business/region-api";
 import { useAppSelector } from "@/redux/hooks";
 import { selectOrganization } from "@/redux/slices/auth-slice";
 import { Form, Formik, FormikProps } from "formik";

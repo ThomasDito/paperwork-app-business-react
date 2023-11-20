@@ -1,5 +1,5 @@
 import { toastError, toastSuccess } from "@/components/ui/toast";
-import { useBusinessRoleDeleteMutation } from "@/redux/api/business/role-api";
+import { useBusinessRoleDeleteMutation } from "@/redux/api/business/business/role-api";
 import { LucideLoader2 } from "lucide-react";
 import {
   Button,

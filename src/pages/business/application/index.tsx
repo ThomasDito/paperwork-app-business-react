@@ -1,4 +1,4 @@
-import { useBusinessApplicationGetQuery } from "@/redux/api/business/application-api";
+import { useBusinessApplicationGetQuery } from "@/redux/api/business/business/application-api";
 import { useAppSelector } from "@/redux/hooks";
 import { selectOrganization } from "@/redux/slices/auth-slice";
 import { application } from "@/types/schema";

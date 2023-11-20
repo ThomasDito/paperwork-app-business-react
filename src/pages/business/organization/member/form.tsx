@@ -3,7 +3,7 @@ import { toastError, toastSuccess } from "@/components/ui/toast";
 import {
   useBusinessMemberStoreMutation,
   useLazyBusinessMemberCheckByEmailQuery,
-} from "@/redux/api/business/member-api";
+} from "@/redux/api/business/business/member-api";
 import { user } from "@/types/schema";
 import { Form, Formik } from "formik";
 import { withZodSchema } from "formik-validator-zod";

@@ -8,7 +8,7 @@ const businessApplicationApi = businessBaseApi.injectEndpoints({
       "all" | "installed" | "not-installed" | undefined
     >({
       query: (type) => ({
-        url: `application/${type}`,
+        url: `business/application/${type}`,
         method: "GET",
       }),
       providesTags: ["Application"],
@@ -22,7 +22,7 @@ const businessApplicationApi = businessBaseApi.injectEndpoints({
       string
     >({
       query: (id) => ({
-        url: `application/${id}/install`,
+        url: `business/application/${id}/install`,
         method: "POST",
       }),
       invalidatesTags: ["Application"],

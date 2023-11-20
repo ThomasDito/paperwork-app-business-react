@@ -1,6 +1,6 @@
 import TableSkeleton from "@/components/ui/skeleton";
 import useRole from "@/hooks/useRole";
-import { useLazyBusinessRoleGetQuery } from "@/redux/api/business/role-api";
+import { useLazyBusinessRoleGetQuery } from "@/redux/api/business/business/role-api";
 import { role } from "@/types/schema";
 import { debounce } from "lodash";
 import {

@@ -3,7 +3,7 @@ import moment from "moment";
 import { Button, CalendarEvent, momentLocalizer, SlotInfo } from "paperwork-ui";
 import { LucidePlus } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useBusinessEventGetQuery } from "@/redux/api/business/event-api";
+import { useBusinessEventGetQuery } from "@/redux/api/business/business/event-api";
 
 const now = new Date();
 const localizer = momentLocalizer(moment);

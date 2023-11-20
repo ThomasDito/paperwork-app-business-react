@@ -4,7 +4,7 @@ import {
   useBusinessInformationStoreMutation,
   useBusinessInformationUpdateMutation,
   useLazyBusinessInformationShowQuery,
-} from "@/redux/api/business/information-api";
+} from "@/redux/api/business/business/information-api";
 import { Form, Formik, FormikHelpers } from "formik";
 import { withZodSchema } from "formik-validator-zod";
 import { LucideLoader2, LucideSave } from "lucide-react";

@@ -10,7 +10,7 @@ const businessMemberApi = businessBaseApi.injectEndpoints({
       PaginationParams<user> | void
     >({
       query: (params) => ({
-        url: `member`,
+        url: `business/member`,
         method: "GET",
         params: typeof params === "object" ? params : undefined,
       }),
@@ -18,7 +18,7 @@ const businessMemberApi = businessBaseApi.injectEndpoints({
     }),
     businessMemberShow: builder.query<user, string>({
       query: (id) => ({
-        url: `member/${id}`,
+        url: `business/member/${id}`,
         method: "GET",
       }),
       providesTags: ["Member"],
@@ -26,7 +26,7 @@ const businessMemberApi = businessBaseApi.injectEndpoints({
     }),
     businessMemberCheckByEmail: builder.query<user, string>({
       query: (email) => ({
-        url: `member/check-by-email/${email}`,
+        url: `business/member/check-by-email/${email}`,
         method: "GET",
       }),
       transformResponse: (response: ApiResponse<user>) => response.data,
@@ -36,7 +36,7 @@ const businessMemberApi = businessBaseApi.injectEndpoints({
       { user_email: string }
     >({
       query: (payload) => ({
-        url: `member`,
+        url: `business/member`,
         method: "POST",
         body: payload,
       }),
@@ -47,7 +47,7 @@ const businessMemberApi = businessBaseApi.injectEndpoints({
       { id: string; payload: Partial<user> }
     >({
       query: ({ id, payload }) => ({
-        url: `member/${id}`,
+        url: `business/member/${id}`,
         method: "PUT",
         body: payload,
       }),
@@ -55,7 +55,7 @@ const businessMemberApi = businessBaseApi.injectEndpoints({
     }),
     businessMemberDelete: builder.mutation<ApiResponse<user>, string>({
       query: (id) => ({
-        url: `member/${id}`,
+        url: `business/member/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Member"],
@@ -65,7 +65,7 @@ const businessMemberApi = businessBaseApi.injectEndpoints({
       { id: string; payload: Pick<user, "user_status"> }
     >({
       query: ({ id, payload }) => ({
-        url: `member/${id}/change-status`,
+        url: `business/member/${id}/change-status`,
         method: "PUT",
         body: payload,
       }),

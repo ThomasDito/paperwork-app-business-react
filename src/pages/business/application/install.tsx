@@ -1,5 +1,5 @@
 import { toastError, toastSuccess } from "@/components/ui/toast";
-import { useBusinessApplicationInstallMutation } from "@/redux/api/business/application-api";
+import { useBusinessApplicationInstallMutation } from "@/redux/api/business/business/application-api";
 import { LucideLoader2 } from "lucide-react";
 import {
   Button,

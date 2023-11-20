@@ -5,7 +5,7 @@ const businessOrganizationApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({
     businessOrganizationGet: builder.query<organization, void>({
       query: () => ({
-        url: `organization`,
+        url: `business/organization`,
         method: "GET",
       }),
       transformResponse: (response: ApiResponse<organization>) => response.data,

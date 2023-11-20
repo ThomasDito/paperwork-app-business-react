@@ -8,7 +8,7 @@ const businessInformationApi = businessBaseApi.injectEndpoints({
       PaginationParams<information> | void
     >({
       query: (params) => ({
-        url: `information`,
+        url: `business/information`,
         method: "GET",
         params: typeof params === "object" ? params : undefined,
       }),
@@ -16,7 +16,7 @@ const businessInformationApi = businessBaseApi.injectEndpoints({
     }),
     businessInformationShow: builder.query<information, string>({
       query: (id) => ({
-        url: `information/${id}`,
+        url: `business/information/${id}`,
         method: "GET",
       }),
       providesTags: ["Information"],
@@ -27,7 +27,7 @@ const businessInformationApi = businessBaseApi.injectEndpoints({
       Partial<information>
     >({
       query: (payload) => ({
-        url: `information`,
+        url: `business/information`,
         method: "POST",
         body: payload,
       }),
@@ -38,7 +38,7 @@ const businessInformationApi = businessBaseApi.injectEndpoints({
       { id: string; payload: Partial<information> }
     >({
       query: ({ id, payload }) => ({
-        url: `information/${id}`,
+        url: `business/information/${id}`,
         method: "PUT",
         body: payload,
       }),
@@ -49,7 +49,7 @@ const businessInformationApi = businessBaseApi.injectEndpoints({
       string
     >({
       query: (id) => ({
-        url: `information/${id}`,
+        url: `business/information/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Information"],
