@@ -196,7 +196,7 @@ export type role_status = "active" | "inactive";
 export type role = {
   readonly id: string;
   role_status: role_status;
-  position_id: string;
+  user_id: string;
   organization_id: string;
   readonly created_at: Date | string;
   readonly updated_at: Date | string;

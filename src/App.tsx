@@ -2,12 +2,7 @@ import Layout from "@/components/layout";
 import LoadingPage from "@/components/loading-page";
 import PageLayout from "@/pages/layout";
 import { useAppDispatch } from "@/redux/hooks";
-import {
-  login,
-  setMember,
-  setOrganization,
-  setRoles,
-} from "@/redux/slices/auth-slice";
+import { login, setOrganization, setRoles } from "@/redux/slices/auth-slice";
 import { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import DashboardIndex from "@/pages/business/dashboard";
@@ -29,10 +24,7 @@ import RoleForm from "@/pages/business/organization/role/form";
 import RoleDelete from "@/pages/business/organization/role/delete";
 import InformationForm from "@/pages/business/manage/information/form";
 import InformationDelete from "@/pages/business/manage/information/delete";
-import {
-  useBusinessMemberAccountMemberQuery,
-  useBusinessMemberAccountModulesQuery,
-} from "@/redux/api/business/member/account-api";
+import { useBusinessMemberAccountModulesQuery } from "@/redux/api/business/member/account-api";
 import { CheckRoleOutlet } from "@/components/check-role";
 import EventForm from "@/pages/business/manage/event/form";
 import ApplicationInstall from "@/pages/business/application/install";
@@ -50,8 +42,6 @@ export default function App() {
   const { data: me, isSuccess: meIsSuccess } = useMeQuery();
   const { data: organization, isSuccess: organizationIsSuccess } =
     useBusinessOrganizationGetQuery();
-  const { data: member, isSuccess: memberIsSuccess } =
-    useBusinessMemberAccountMemberQuery();
   const { data: roles, isSuccess: rolesIsSuccess } =
     useBusinessMemberAccountModulesQuery();
 
@@ -69,23 +59,12 @@ export default function App() {
   }, [organization]);
 
   useEffect(() => {
-    if (member) {
-      dispatch(setMember(member));
-    }
-  }, [member]);
-
-  useEffect(() => {
     if (roles) {
       dispatch(setRoles(roles));
     }
   }, [roles]);
 
-  if (
-    meIsSuccess &&
-    organizationIsSuccess &&
-    rolesIsSuccess &&
-    memberIsSuccess
-  ) {
+  if (meIsSuccess && organizationIsSuccess && rolesIsSuccess) {
     return (
       <Layout>
         <Routes location={previousLocation || location}>

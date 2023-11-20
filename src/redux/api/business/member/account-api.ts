@@ -3,9 +3,9 @@ import { role_item_type, user } from "@/types/schema";
 
 const businessMemberAccountApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({
-    businessMemberAccountMember: builder.query<user, void>({
+    businessMemberAccountMe: builder.query<user, void>({
       query: () => ({
-        url: `member/account/member`,
+        url: `member/account/me`,
         method: "GET",
       }),
       providesTags: ["Member/Account"],
@@ -32,8 +32,8 @@ const businessMemberAccountApi = businessBaseApi.injectEndpoints({
 });
 
 export const {
-  useBusinessMemberAccountMemberQuery,
+  useBusinessMemberAccountMeQuery,
   useBusinessMemberAccountModulesQuery,
-  useLazyBusinessMemberAccountMemberQuery,
+  useLazyBusinessMemberAccountMeQuery,
   useLazyBusinessMemberAccountModulesQuery,
 } = businessMemberAccountApi;

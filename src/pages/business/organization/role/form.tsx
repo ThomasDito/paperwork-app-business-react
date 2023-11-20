@@ -28,7 +28,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import z from "zod";
 
 const formSchema = z.object({
-  position_id: z.string().min(1, "Harus dipilih"),
+  user_id: z.string().min(1, "Harus dipilih"),
   role_status: z.enum(["active", "inactive"]),
   roles: z.array(
     z.object({
@@ -82,7 +82,7 @@ export default function RoleForm() {
 
   // States
   const [initialValues, setInitialValues] = useState<RoleFormSchema>({
-    position_id: "",
+    user_id: "",
     role_status: "active",
     roles: [],
   });
@@ -106,7 +106,7 @@ export default function RoleForm() {
       .unwrap()
       .then((role) => {
         setInitialValues({
-          position_id: role.position_id,
+          user_id: role.user_id,
           role_status: role.role_status,
           roles: [],
         });

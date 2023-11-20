@@ -120,7 +120,7 @@ export default function RoleIndex() {
           <Table className="whitespace-nowrap">
             <TableHeader>
               <TableRow>
-                <TableHead className="p-5">Jabatan</TableHead>
+                <TableHead className="p-5">Nama Anggota</TableHead>
                 <TableHead className="p-5 text-center">Jumlah Modul</TableHead>
                 <TableHead className="p-5 text-center">Aktif</TableHead>
                 {canWrite && (
@@ -144,9 +144,7 @@ export default function RoleIndex() {
                 roles.data.map((role) => {
                   return (
                     <TableRow key={role.id}>
-                      <TableCell className="px-5">
-                        {role.position.position_name}
-                      </TableCell>
+                      <TableCell className="px-5">{role.user_id}</TableCell>
                       <TableCell className="px-5 text-center">
                         {
                           role.role_items.filter(

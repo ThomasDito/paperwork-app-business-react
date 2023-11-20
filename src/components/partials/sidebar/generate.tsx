@@ -4,11 +4,11 @@ import {
   memberSidebarMenus,
 } from "@/consts/sidebar-menu";
 import { useAppSelector } from "@/redux/hooks";
-import { selectMember, selectRoles } from "@/redux/slices/auth-slice";
+import { selectMe, selectRoles } from "@/redux/slices/auth-slice";
 import { useMemo } from "react";
 
 export default function GenerateSidebarMenu() {
-  const member = useAppSelector(selectMember);
+  const me = useAppSelector(selectMe);
   const roles = useAppSelector(selectRoles);
 
   const sidebarMenus = useMemo(() => {
@@ -18,12 +18,12 @@ export default function GenerateSidebarMenu() {
       menus = [...businessSidebarMenus];
     }
 
-    if (member) {
+    if (me) {
       menus = [...menus, ...memberSidebarMenus];
     }
 
     return menus;
-  }, [roles, member]);
+  }, [roles, me]);
 
   return <SidebarMenu menus={sidebarMenus} />;
 }
