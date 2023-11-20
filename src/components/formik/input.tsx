@@ -9,6 +9,7 @@ type InputProps = {
   key?: React.Key | null;
   label?: string;
   containerClassName?: string;
+  rightComponent?: React.ReactNode;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 const FormikInput: React.FC<InputProps> = ({
@@ -16,6 +17,7 @@ const FormikInput: React.FC<InputProps> = ({
   className,
   label,
   containerClassName,
+  rightComponent,
   ...props
 }) => {
   const [field, meta] = useField(props);
@@ -28,17 +30,21 @@ const FormikInput: React.FC<InputProps> = ({
           {props.required && <Required />}
         </Label>
       )}
-      <Input
-        type={type}
-        className={cn(
-          className,
-          meta.touched &&
-            meta.error &&
-            "border-destructive ring-danger border focus-visible:ring-0",
-        )}
-        {...field}
-        {...props}
-      />
+
+      <div className="flex flex-row space-x-5">
+        <Input
+          type={type}
+          className={cn(
+            className,
+            meta.touched &&
+              meta.error &&
+              "border-destructive ring-danger border focus-visible:ring-0"
+          )}
+          {...field}
+          {...props}
+        />
+        {rightComponent}
+      </div>
 
       {meta.touched && meta.error && (
         <span className="text-xs text-destructive">

@@ -20,6 +20,7 @@ export const REGEX = {
 } as const;
 
 export const MODULES = [
+  "member",
   "employee",
   "organization_setting",
   "branch",

@@ -57,6 +57,9 @@ import {
 import { CheckRoleOutlet } from "@/components/check-role";
 import EventForm from "@/pages/business/manage/event/form";
 import ApplicationInstall from "@/pages/business/application/install";
+import MemberIndex from "@/pages/business/organization/member";
+import MemberForm from "@/pages/business/organization/member/form";
+import MemberDelete from "@/pages/business/organization/member/delete";
 
 export default function App() {
   // Hooks
@@ -120,11 +123,18 @@ export default function App() {
                 />
 
                 <Route
+                  path="member"
+                  element={<CheckRoleOutlet module={"member"} />}
+                >
+                  <Route index element={<MemberIndex />} />
+                  <Route path="form/:id?" element={<MemberForm />} />
+                </Route>
+
+                <Route
                   path="employee"
                   element={<CheckRoleOutlet module={"employee"} />}
                 >
                   <Route index element={<EmployeeIndex />} />
-                  <Route path="form/:id?" element={<EmployeeForm />} />
                 </Route>
 
                 <Route
@@ -222,6 +232,10 @@ export default function App() {
         {previousLocation && (
           <Routes>
             <Route path="modal">
+              <Route path="member">
+                <Route path="form/:id?" element={<MemberForm />} />
+                <Route path="delete/:id" element={<MemberDelete />} />
+              </Route>
               <Route path="application">
                 <Route path="install/:id" element={<ApplicationInstall />} />
               </Route>

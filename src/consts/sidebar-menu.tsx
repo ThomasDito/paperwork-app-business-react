@@ -30,6 +30,11 @@ export const businessSidebarMenus: SidebarMenuItem[] = [
     ],
     children: [
       {
+        title: "Anggota",
+        link: "/business/organization/member",
+        moduleKey: "member",
+      },
+      {
         title: "Karyawan",
         link: "/business/organization/employee",
         moduleKey: "employee",

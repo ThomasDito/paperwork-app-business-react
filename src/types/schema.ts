@@ -27,6 +27,18 @@ export type user = {
   readonly updated_at: Date | string;
 };
 
+export type user_organization_type = "founder" | "member";
+export type user_organization_status = "waiting" | "accepted" | "declined";
+export type user_organization = {
+  readonly id: string;
+  user_id: string;
+  organization_id: string;
+  user_organization_type: user_organization_type;
+  user_organization_status: user_organization_status;
+  readonly created_at: Date | string;
+  readonly updated_at: Date | string;
+};
+
 export type region = {
   readonly id: string;
   region_name: string;
