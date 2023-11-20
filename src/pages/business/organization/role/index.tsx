@@ -10,6 +10,9 @@ import {
   LucideTrash,
 } from "lucide-react";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   Button,
   Input,
   PaginationButton,
@@ -144,7 +147,27 @@ export default function RoleIndex() {
                 roles.data.map((role) => {
                   return (
                     <TableRow key={role.id}>
-                      <TableCell className="px-5">{role.user_id}</TableCell>
+                      <TableCell className="px-5">
+                        <div className="flex items-center space-x-4">
+                          <Avatar className="w-12 h-12">
+                            <AvatarImage
+                              src={role.user.user_avatar || ""}
+                              alt={role.user.user_fullname}
+                            />
+                            <AvatarFallback className="font-medium uppercase text-muted-foreground/50">
+                              {role.user.user_fullname.substring(0, 2)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex flex-col flex-1 space-y-1">
+                            <div className="text-sm font-medium">
+                              {role.user.user_fullname}
+                            </div>
+                            <div className="text-sm text-muted-foreground">
+                              {role.user.user_email}
+                            </div>
+                          </div>
+                        </div>
+                      </TableCell>
                       <TableCell className="px-5 text-center">
                         {
                           role.role_items.filter(

@@ -1,6 +1,6 @@
 import { RoleFormSchema } from "@/pages/business/organization/role/form";
 import { businessBaseApi } from "@/redux/api/business/base-api";
-import { position, role, role_item } from "@/types/schema";
+import { role, role_item, user } from "@/types/schema";
 
 const businessRoleApi = businessBaseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -8,7 +8,7 @@ const businessRoleApi = businessBaseApi.injectEndpoints({
       ApiResponse<
         Array<
           role & {
-            position: position;
+            user: user;
             role_items: Array<role_item>;
           }
         >
@@ -24,7 +24,7 @@ const businessRoleApi = businessBaseApi.injectEndpoints({
     }),
     businessRoleShow: builder.query<
       role & {
-        position: position;
+        user: user;
         role_items: Array<role_item>;
       },
       string
@@ -37,7 +37,7 @@ const businessRoleApi = businessBaseApi.injectEndpoints({
       transformResponse: (
         response: ApiResponse<
           role & {
-            position: position;
+            user: user;
             role_items: Array<role_item>;
           }
         >
@@ -49,8 +49,7 @@ const businessRoleApi = businessBaseApi.injectEndpoints({
         method: "POST",
         body: payload,
       }),
-      invalidatesTags: (_, error) =>
-        !error ? ["Role", "Employee/Account"] : [],
+      invalidatesTags: (_, error) => (!error ? ["Role", "Member/Account"] : []),
     }),
     businessRoleUpdate: builder.mutation<
       ApiResponse<role>,
@@ -61,8 +60,7 @@ const businessRoleApi = businessBaseApi.injectEndpoints({
         method: "PUT",
         body: payload,
       }),
-      invalidatesTags: (_, error) =>
-        !error ? ["Role", "Employee/Account"] : [],
+      invalidatesTags: (_, error) => (!error ? ["Role", "Member/Account"] : []),
     }),
     businessRoleChangeStatus: builder.mutation<
       ApiResponse<role>,
@@ -73,16 +71,14 @@ const businessRoleApi = businessBaseApi.injectEndpoints({
         method: "PUT",
         body: payload,
       }),
-      invalidatesTags: (_, error) =>
-        !error ? ["Role", "Employee/Account"] : [],
+      invalidatesTags: (_, error) => (!error ? ["Role", "Member/Account"] : []),
     }),
     businessRoleDelete: builder.mutation<ApiResponse<role>, string>({
       query: (id) => ({
         url: `role/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: (_, error) =>
-        !error ? ["Role", "Employee/Account"] : [],
+      invalidatesTags: (_, error) => (!error ? ["Role", "Member/Account"] : []),
     }),
   }),
   overrideExisting: false,

@@ -118,7 +118,7 @@ export default function MemberIndex() {
             <TableHeader>
               <TableRow>
                 <TableHead className="p-5">Nama Anggota</TableHead>
-                <TableHead className="p-5">Email</TableHead>
+                <TableHead className="p-5">Jabatan</TableHead>
                 <TableHead className="p-5">Status</TableHead>
                 <TableHead className="p-5">Tanggal Bergabung</TableHead>
                 {canWrite && (
@@ -158,16 +158,16 @@ export default function MemberIndex() {
                               {member.user_fullname}
                             </div>
                             <div className="text-sm text-muted-foreground">
-                              {member.user_organizations[0]
-                                ?.user_organization_type == "member"
-                                ? "Anggota"
-                                : "Pendiri"}
+                              {member.user_email}
                             </div>
                           </div>
                         </div>
                       </TableCell>
                       <TableCell className="px-5">
-                        {member.user_email}
+                        {member.user_organizations[0]?.user_organization_type ==
+                        "member"
+                          ? "Anggota"
+                          : "Pendiri"}
                       </TableCell>
                       <TableCell className="px-5">
                         {member.user_organizations[0]
