@@ -125,7 +125,6 @@ export default function RoleIndex() {
               <TableRow>
                 <TableHead className="p-5">Nama Anggota</TableHead>
                 <TableHead className="p-5 text-center">Jumlah Modul</TableHead>
-                <TableHead className="p-5 text-center">Aktif</TableHead>
                 {canWrite && (
                   <TableHead className="p-5 text-center">Aksi</TableHead>
                 )}
@@ -174,12 +173,6 @@ export default function RoleIndex() {
                             (item) => item.role_item_type !== "no_access"
                           ).length
                         }
-                      </TableCell>
-                      <TableCell className="px-5 text-center">
-                        <Switch
-                          disabled={!canWrite}
-                          checked={role.role_status === "active"}
-                        />
                       </TableCell>
                       {canWrite && (
                         <TableCell className="px-5 text-center">
