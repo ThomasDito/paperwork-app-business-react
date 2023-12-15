@@ -2,14 +2,7 @@ import { ModulesType } from "@/lib/consts";
 import { checkRole } from "@/lib/role";
 import { useAppSelector } from "@/redux/hooks";
 import { selectRoles } from "@/redux/slices/auth-slice";
-import {
-  LucideBuilding,
-  LucideFileClock,
-  LucideHardHat,
-  LucideNetwork,
-  LucideWarehouse,
-  LucideWorkflow,
-} from "lucide-react";
+import { LucideBuilding } from "lucide-react";
 import { buttonVariants, cn } from "paperwork-ui";
 import { NavLink } from "react-router-dom";
 

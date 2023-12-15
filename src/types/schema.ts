@@ -1,10 +1,3 @@
-import {
-  EMPLOYEE_EDUCATION_LEVELS,
-  EMPLOYEE_GENDERS,
-  EMPLOYEE_MARITAL_STATUSES,
-  EMPLOYEE_RELIGIONS,
-} from "@/lib/consts";
-
 export type user_gender = "male" | "female";
 export type user_status = "active" | "inactive";
 export type user_level = "user" | "superadmin";
@@ -130,59 +123,6 @@ export type employee_status = {
   };
 };
 
-export type employee_gender = (typeof EMPLOYEE_GENDERS)[number];
-export type employee_marital_status =
-  (typeof EMPLOYEE_MARITAL_STATUSES)[number];
-export type employee_religion = (typeof EMPLOYEE_RELIGIONS)[number];
-export type employee_education_level =
-  (typeof EMPLOYEE_EDUCATION_LEVELS)[number];
-
-export type employee = {
-  readonly id: string;
-  employee_id: string;
-  employee_name: string;
-  employee_profile_picture: string | null;
-  employee_email: string;
-  employee_phone: string;
-  employee_telephone: string | null;
-  employee_birth_place: string;
-  employee_birth_date: Date | string;
-  employee_gender: employee_gender;
-  employee_marital_status: employee_marital_status;
-  employee_religion: employee_religion;
-  employee_ktp_number: string;
-  employee_ktp_address: string;
-  employee_domicile_address: string;
-  employee_close_family_name: string;
-  employee_close_family_phone: string;
-  employee_education_level: employee_education_level;
-  employee_education_name: string;
-  employee_education_graduate: number;
-  employee_education_score: number;
-  employee_previous_job_position: string | null;
-  employee_previous_job_division: string | null;
-  employee_previous_job_office_name: string | null;
-  employee_previous_job_office_phone: string | null;
-  employee_previous_job_office_address: string | null;
-  employee_previous_job_start_date: Date | string | null;
-  employee_previous_job_end_date: Date | string | null;
-  employee_join_date: Date | string;
-  employee_contract_start_date: Date | string;
-  employee_contract_end_date: Date | string;
-  employee_bpjs_kesehatan_number: string | null;
-  employee_bpjs_ketenagakerjaan_number: string | null;
-  employee_email_office: string | null;
-  user_id: string;
-  organization_id: string;
-  branch_id: string;
-  division_id: string;
-  position_id: string;
-  level_id: string;
-  employee_status_id: string;
-  readonly created_at: Date | string;
-  readonly updated_at: Date | string;
-};
-
 export type module = {
   readonly id: string;
   module_key: string;
@@ -234,7 +174,6 @@ export type inventory = {
   inventory_end_date: Date | string | null;
   readonly created_at: Date | string;
   readonly updated_at: Date | string;
-  employee?: employee;
 };
 
 export type event = {

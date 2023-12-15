@@ -17,7 +17,6 @@ import {
   Input,
   PaginationButton,
   PaginationLimit,
-  Switch,
   Table,
   TableBody,
   TableCell,
