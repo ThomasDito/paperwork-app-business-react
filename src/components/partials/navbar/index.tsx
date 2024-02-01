@@ -8,12 +8,7 @@ import {
   LayoutPanelLeft,
   Globe,
   Search,
-  User2,
   ArrowRight,
-  LucideHistory,
-  LucideKey,
-  LucideLayoutGrid,
-  LucideUser,
   LucideCalendar,
   LucideInfo,
 } from "lucide-react";
