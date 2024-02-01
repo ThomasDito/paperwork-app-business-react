@@ -7,7 +7,7 @@ import {
 import { user } from "@/types/schema";
 import { Form, Formik } from "formik";
 import { withZodSchema } from "formik-validator-zod";
-import { LucideLoader2, LucideSearch } from "lucide-react";
+import { LucideLoader2, LucidePlus, LucideSearch } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
@@ -117,6 +117,10 @@ export default function MemberForm() {
                       id="user_email"
                       placeholder="Alamat Email"
                       type="email"
+                      onChange={(e) => {
+                        formik.setFieldValue("user_email", e.target.value);
+                        setSelectedUser(null);
+                      }}
                       rightComponent={
                         <Button
                           disabled={!!formik.errors.user_email || isLoading}
@@ -171,13 +175,20 @@ export default function MemberForm() {
                     size={"default"}
                     type="submit"
                     className="w-full"
-                    disabled={isLoading || !(formik.dirty && formik.isValid)}
+                    disabled={
+                      !selectedUser ||
+                      isLoading ||
+                      !(formik.dirty && formik.isValid)
+                    }
                     onClick={() => formik.submitForm()}
                   >
                     {isLoading && !checkByEmailIsFetching ? (
                       <LucideLoader2 className="w-4 h-4 mr-2 animate-spin" />
                     ) : (
-                      "Tambahkan"
+                      <div className="flex items-center">
+                        <LucidePlus className="w-5 h-5 mr-2" />
+                        Tambahkan
+                      </div>
                     )}
                   </Button>
                 </DialogFooter>

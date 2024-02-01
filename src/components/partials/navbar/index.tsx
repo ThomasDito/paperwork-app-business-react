@@ -10,6 +10,12 @@ import {
   Search,
   User2,
   ArrowRight,
+  LucideHistory,
+  LucideKey,
+  LucideLayoutGrid,
+  LucideUser,
+  LucideCalendar,
+  LucideInfo,
 } from "lucide-react";
 import {
   Avatar,
@@ -87,12 +93,12 @@ export function Navbar() {
           <Button
             variant="ghost"
             size="icon"
-            className="border-transparent rounded-full text-primary hover:text-primary"
+            className="hidden border-transparent rounded-full text-primary hover:text-primary"
           >
             <Bell className="w-5 h-5" />
           </Button>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger asChild className="hidden">
               <Button
                 variant="ghost"
                 size="icon"
@@ -115,7 +121,7 @@ export function Navbar() {
           <Button
             variant="ghost"
             size="icon"
-            className="border-transparent rounded-full text-primary hover:text-primary"
+            className="hidden border-transparent rounded-full text-primary hover:text-primary"
           >
             <LayoutPanelLeft className="w-5 h-5" />
           </Button>
@@ -177,7 +183,7 @@ export function Navbar() {
                   );
                 })}
                 <Button onClick={doLogout} variant="ghost" className="w-full">
-                  <span className="mr-6 text-primary">Logout</span>
+                  <span className="mr-6 text-primary">Keluar</span>
                   <span className="p-0.5 rounded-full text-primary-foreground ring-4 ring-primary/20 bg-primary">
                     <ArrowRight className="w-3 h-3" />
                   </span>
@@ -193,28 +199,13 @@ export function Navbar() {
 
 const profileMenus = [
   {
-    title: "View Profile",
-    href: "/",
-    icon: <User2 className="w-4 h-4 mr-3" />,
+    title: "Kalender",
+    href: "/member/information/event",
+    icon: <LucideCalendar className="w-4 h-4 mr-3" />,
   },
   {
-    title: "Invite Colleagues",
-    href: "/",
-    icon: <User2 className="w-4 h-4 mr-3" />,
-  },
-  {
-    title: "Community",
-    href: "/",
-    icon: <User2 className="w-4 h-4 mr-3" />,
-  },
-  {
-    title: "Team",
-    href: "/",
-    icon: <User2 className="w-4 h-4 mr-3" />,
-  },
-  {
-    title: "Support",
-    href: "/",
-    icon: <User2 className="w-4 h-4 mr-3" />,
+    title: "Pengumuman",
+    href: "/member/information/information",
+    icon: <LucideInfo className="w-4 h-4 mr-3" />,
   },
 ];

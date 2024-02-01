@@ -1,7 +1,6 @@
 import {
   LucideBuilding,
   LucideFolderCog,
-  LucideHome,
   LucideInfo,
   LucideLayoutPanelLeft,
 } from "lucide-react";
@@ -11,11 +10,11 @@ export const businessSidebarMenus: SidebarMenuItem[] = [
     title: "bisnis",
     isHeader: true,
   },
-  {
-    title: "Beranda",
-    icon: <LucideHome className="w-5 h-5" />,
-    link: "/business/dashboard",
-  },
+  // {
+  //   title: "Beranda",
+  //   icon: <LucideHome className="w-5 h-5" />,
+  //   link: "/business/dashboard",
+  // },
   {
     title: "Organisasi",
     icon: <LucideBuilding className="w-5 h-5" />,

@@ -69,7 +69,10 @@ export default function App() {
       <Layout>
         <Routes location={previousLocation || location}>
           <Route element={<PageLayout />}>
-            <Route index element={<Navigate to={"/business/dashboard"} />} />
+            <Route
+              index
+              element={<Navigate to={"/business/organization/member"} />}
+            />
 
             <Route path="business">
               <Route path="dashboard" element={<DashboardIndex />} />

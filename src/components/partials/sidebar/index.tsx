@@ -60,7 +60,7 @@ export default function Sidebar() {
             <span className="inline-flex items-center justify-center mr-2">
               <LogOut className="w-5 h-5" />
             </span>
-            <div className={cn("menu-text")}>Logout</div>
+            <div className={cn("menu-text")}>Keluar</div>
           </div>
         </div>
       </div>
