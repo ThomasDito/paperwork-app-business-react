@@ -39,6 +39,7 @@ export const businessBaseApi = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: () => ({}),
   tagTypes: [
+    "Organization",
     "Role",
     "Module",
     "Information",

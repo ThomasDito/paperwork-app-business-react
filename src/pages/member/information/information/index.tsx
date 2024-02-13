@@ -48,7 +48,10 @@ export default function UserInformationIndex() {
         {informations &&
           informations.map((information) => {
             return (
-              <div key={information.id} className="bg-card border rounded-md">
+              <div
+                key={information.id}
+                className="bg-card shadow-sm rounded-md"
+              >
                 <div className="p-5 flex flex-col space-y-2">
                   <h3 className="text-2xl font-semibold tracking-tight scroll-m-20">
                     {information.information_title}

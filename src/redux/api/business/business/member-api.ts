@@ -33,10 +33,21 @@ const businessMemberApi = businessBaseApi.injectEndpoints({
     }),
     businessMemberStore: builder.mutation<
       ApiResponse<user>,
-      { user_email: string }
+      { user_email: string; user_fullname: string }
     >({
       query: (payload) => ({
         url: `business/member`,
+        method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: ["Member"],
+    }),
+    businessMemberInvite: builder.mutation<
+      ApiResponse<user>,
+      { user_email: string }
+    >({
+      query: (payload) => ({
+        url: `business/member/invite`,
         method: "POST",
         body: payload,
       }),
@@ -86,4 +97,5 @@ export const {
   useBusinessMemberDeleteMutation,
   useBusinessMemberUpdateMutation,
   useBusinessMemberChangeStatusMutation,
+  useBusinessMemberInviteMutation,
 } = businessMemberApi;

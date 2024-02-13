@@ -117,7 +117,7 @@ export default function RoleIndex() {
           )}
         </div>
       </div>
-      <div className="border rounded-md shadow-sm bg-card">
+      <div className="rounded-md shadow-sm bg-card">
         <div>
           <Table className="whitespace-nowrap">
             <TableHeader>
@@ -210,20 +210,22 @@ export default function RoleIndex() {
             </TableBody>
           </Table>
         </div>
-        <div className="flex flex-col items-center justify-between px-5 py-3 space-y-4 border-t md:flex-row md:space-y-0">
-          <PaginationLimit
-            limit={limit}
-            handleChange={setLimit}
-            pagination={roles?.pagination}
-          />
-          {roles?.pagination && (
-            <PaginationButton
-              pageLimit={6}
-              pagination={roles.pagination}
-              handleChange={(page) => setPage(page)}
+        {(roles?.data.length || 0) > 0 && (
+          <div className="flex flex-col items-center justify-between px-5 py-3 space-y-4 border-t md:flex-row md:space-y-0">
+            <PaginationLimit
+              limit={limit}
+              handleChange={setLimit}
+              pagination={roles?.pagination}
             />
-          )}
-        </div>
+            {roles?.pagination && (
+              <PaginationButton
+                pageLimit={6}
+                pagination={roles.pagination}
+                handleChange={(page) => setPage(page)}
+              />
+            )}
+          </div>
+        )}
       </div>
     </>
   );

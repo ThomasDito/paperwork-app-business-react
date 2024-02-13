@@ -31,13 +31,18 @@ import {
   Separator,
 } from "paperwork-ui";
 import { Fragment } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 export function Navbar() {
+  // Hooks
+  const { i18n } = useTranslation();
   const me = useAppSelector(selectMe);
 
+  // RTK Query
   const [logout] = useLogoutMutation();
 
+  // Actions
   const doLogout = async () => {
     await logout()
       .unwrap()
@@ -93,7 +98,7 @@ export function Navbar() {
             <Bell className="w-5 h-5" />
           </Button>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild className="hidden">
+            <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
@@ -102,13 +107,17 @@ export function Navbar() {
                 <Globe className="w-5 h-5" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem>
-                <Globe className="w-4 h-4 mr-2" />
+            <DropdownMenuContent className="p-0">
+              <DropdownMenuItem
+                className="py-2 rounded-b-none"
+                onClick={() => i18n.changeLanguage("en")}
+              >
                 <span>English</span>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Globe className="w-4 h-4 mr-2" />
+              <DropdownMenuItem
+                className="border-t rounded-t-none py-2"
+                onClick={() => i18n.changeLanguage("id")}
+              >
                 <span>Indonesia</span>
               </DropdownMenuItem>
             </DropdownMenuContent>

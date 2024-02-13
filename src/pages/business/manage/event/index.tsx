@@ -77,7 +77,7 @@ export default function EventIndex() {
           </div>
         </div>
       </div>
-      <div className="">
+      <div className="rounded-md shadow-sm">
         <CalendarEvent
           defaultDate={now}
           events={events}

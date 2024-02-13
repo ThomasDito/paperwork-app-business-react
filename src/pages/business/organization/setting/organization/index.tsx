@@ -2,13 +2,14 @@ import { FormikComboBox, FormikInput } from "@/components/formik";
 import LoadingPage from "@/components/loading-page";
 import useRole from "@/hooks/useRole";
 import config from "@/lib/config";
+import { useBusinessOrganizationUpdateMutation } from "@/redux/api/business/business/organization-api";
 import {
   useLazyBusinessRegionGetCitiesByProvinceIdQuery,
   useLazyBusinessRegionGetProvincesQuery,
 } from "@/redux/api/business/business/region-api";
 import { useAppSelector } from "@/redux/hooks";
 import { selectOrganization } from "@/redux/slices/auth-slice";
-import { Form, Formik, FormikProps } from "formik";
+import { Form, Formik, FormikHelpers, FormikProps } from "formik";
 import { withZodSchema } from "formik-validator-zod";
 import {
   LucideImage,
@@ -17,9 +18,11 @@ import {
   LucideTrash,
   LucideUpload,
 } from "lucide-react";
-import { Button, Label, cn } from "paperwork-ui";
+import { Button, Label, cn, toastError, toastSuccess } from "paperwork-ui";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
+import { Organization } from "../../../../../../../paperwork-utils/dist";
+import { organization } from "@/types/schema";
 
 const MAX_FILE_SIZE = 1024 * 3; //3MB
 const ACCEPTED_IMAGE_TYPES = [
@@ -81,12 +84,16 @@ export const organizationSchema = z.object({
 
 export type OrganizationSchemaType = z.infer<typeof organizationSchema>;
 
-export default function OrganizationIndex() {
+export default function OrganizationSetting() {
   // Hooks
   const organization = useAppSelector(selectOrganization);
 
   // Permissions
   const canWrite = useRole("organization_setting", "write");
+
+  // RTK Query
+  const [save, { isLoading: saveIsLoading }] =
+    useBusinessOrganizationUpdateMutation();
 
   // States
   const refLogo = useRef<HTMLInputElement | null>(null);
@@ -128,206 +135,245 @@ export default function OrganizationIndex() {
     );
   };
 
+  async function onSubmit(
+    values: OrganizationSchemaType,
+    formikHelpers: FormikHelpers<OrganizationSchemaType>
+  ) {
+    const payload = new FormData();
+    Object.entries(values).forEach((value) => {
+      if (value[1]) {
+        payload.append(value[0], value[1]);
+      }
+    });
+
+    if (values.organization_logo) {
+      if (values.organization_logo instanceof File) {
+        payload.set("organization_logo", values.organization_logo);
+      } else {
+        payload.delete("organization_logo");
+      }
+    } else {
+      payload.set("organization_logo", "");
+    }
+
+    await save(payload as unknown as organization)
+      .unwrap()
+      .then((response) => {
+        toastSuccess(response.message || "Pengaturan berhasil disimpan");
+        formikHelpers.resetForm();
+      })
+      .catch((rejected: { status: number; data?: ApiResponse<unknown> }) => {
+        const message = rejected.data?.message;
+
+        if (rejected.status === 422 && rejected.data?.errors) {
+          formikHelpers.setErrors(
+            rejected.data.errors as unknown as Record<string, string>
+          );
+        }
+        toastError(message || "Terjadi kesalahan ketika menyimpan data");
+      });
+  }
+
   if (!organization) return <LoadingPage />;
 
   return (
-    <div className="border rounded-md bg-card">
-      <div className="p-5 py-6 flex flex-col items-center justify-between space-y-6 border-0 md:space-y-0 md:flex-row border-b">
-        <h3 className="text-2xl font-semibold tracking-tight scroll-m-20">
-          Organisasi
-        </h3>
-      </div>
-      <div className="p-5">
-        <Formik
-          initialValues={initialValues}
-          validate={withZodSchema(organizationSchema)}
-          onSubmit={() => {
-            console.log("submit");
-          }}
-          enableReinitialize={true}
-          validateOnBlur={false}
-        >
-          {(formik: FormikProps<OrganizationSchemaType>) => (
-            <Form className="space-y-7">
-              <FormikInput
-                label="Nama Organisasi"
-                required
-                name="organization_name"
-                id="organization_name"
-                placeholder="Nama Organisasi"
-                disabled={!canWrite}
-              />
-
-              <div className="flex item-start space-x-2">
-                <FormikInput
-                  label="Organisasi ID"
-                  name="organization_nicename"
-                  type="text"
-                  placeholder="Organisasi ID"
-                  className="w-[300px]"
-                  required
-                  disabled={!canWrite}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    const regex = /^[a-z]+$/;
-                    if (value.match(regex) || value === "") {
-                      // setErrorNicename(null);
-                      formik.setFieldValue(
-                        "organization_nicename",
-                        e.target.value.toLowerCase().trim()
-                      );
-                    }
-                  }}
-                  onBlur={async () => {
-                    formik.setFieldTouched("organization_nicename", true);
-                    // if (e.target.value) {
-                    //   await checkNicename(e.target.value);
-                    // }
-                    formik.validateForm();
-                  }}
-                />
-                <div className="text-sm flex items-start mt-8 pt-[10px] text-muted-foreground">
-                  {config.SUBDOMAIN_URL}
-                </div>
+    <Formik
+      initialValues={initialValues}
+      validate={withZodSchema(organizationSchema)}
+      onSubmit={onSubmit}
+      enableReinitialize={true}
+      validateOnBlur={false}
+    >
+      {(formik: FormikProps<OrganizationSchemaType>) => {
+        console.log(formik.errors);
+        return (
+          <Form>
+            <div className="shadow-sm rounded-md bg-card">
+              <div className="p-5 py-6 flex flex-col items-center justify-between space-y-6 border-0 md:space-y-0 md:flex-row border-b">
+                <h3 className="text-2xl font-semibold tracking-tight scroll-m-20">
+                  Organisasi
+                </h3>
               </div>
-
-              <div className="flex flex-col space-y-2">
-                <Label className="flex">Logo Organisasi</Label>
-                <input
-                  ref={refLogo}
-                  type="file"
-                  name="organization_logo"
-                  className="hidden"
-                  accept="image/png, image/jpeg, image/webp"
-                  onChange={(e) => {
-                    if (e.currentTarget.files !== null) {
-                      const image = e.currentTarget.files[0];
-                      if (image) {
-                        formik.setFieldValue(
-                          "organization_logo",
-                          e.currentTarget.files[0]
-                        );
-                        previewImage(e.currentTarget.files[0]);
-                      }
-                    }
-                  }}
+              <div className="p-5 space-y-7">
+                <FormikInput
+                  label="Nama Organisasi"
+                  required
+                  name="organization_name"
+                  id="organization_name"
+                  placeholder="Nama Organisasi"
+                  disabled={!canWrite}
                 />
-                <div
-                  className={cn(
-                    "w-full py-8 border-2 border-dashed border-spacing-8 rounded-lg flex flex-col justify-center items-center flex-1 h-full shadow-sm"
-                  )}
-                >
-                  {previewLogo ? (
-                    <img src={previewLogo} className="max-h-44 max-w-md" />
-                  ) : (
-                    <div className="flex flex-col items-center justify-center space-y-4 text-center">
-                      <LucideImage className="w-16 h-16 text-slate-400" />
-                      <div className="text-sm font-medium text-slate-400">
-                        Belum Ada Logo
-                      </div>
-                    </div>
-                  )}
 
-                  {canWrite && (
-                    <div className="flex items-center space-x-3 mt-8">
-                      <Button
-                        type="button"
-                        variant={"outline"}
-                        size="sm"
-                        onClick={() =>
-                          refLogo.current !== null
-                            ? refLogo.current.click()
-                            : null
+                <div className="flex item-start space-x-2">
+                  <FormikInput
+                    label="Organisasi ID"
+                    name="organization_nicename"
+                    type="text"
+                    placeholder="Organisasi ID"
+                    className="w-[300px]"
+                    required
+                    disabled
+                    readOnly
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const regex = /^[a-z]+$/;
+                      if (value.match(regex) || value === "") {
+                        // setErrorNicename(null);
+                        formik.setFieldValue(
+                          "organization_nicename",
+                          e.target.value.toLowerCase().trim()
+                        );
+                      }
+                    }}
+                    onBlur={async () => {
+                      formik.setFieldTouched("organization_nicename", true);
+                      // if (e.target.value) {
+                      //   await checkNicename(e.target.value);
+                      // }
+                      formik.validateForm();
+                    }}
+                  />
+                  <div className="text-sm flex items-start mt-8 pt-[10px] text-muted-foreground">
+                    {config.SUBDOMAIN_URL}
+                  </div>
+                </div>
+
+                <div className="flex flex-col space-y-2">
+                  <Label className="flex">Logo Organisasi</Label>
+                  <input
+                    ref={refLogo}
+                    type="file"
+                    name="organization_logo"
+                    className="hidden"
+                    accept="image/png, image/jpeg, image/webp"
+                    onChange={(e) => {
+                      if (e.currentTarget.files !== null) {
+                        const image = e.currentTarget.files[0];
+                        if (image) {
+                          formik.setFieldValue(
+                            "organization_logo",
+                            e.currentTarget.files[0]
+                          );
+                          previewImage(e.currentTarget.files[0]);
                         }
-                      >
-                        <LucideUpload className="w-4 h-4 mr-3" /> Upload Logo
-                      </Button>
-                      {formik.values.organization_logo && (
+                      }
+                    }}
+                  />
+                  <div
+                    className={cn(
+                      "w-full py-8 border-2 border-dashed border-spacing-8 rounded-lg flex flex-col justify-center items-center flex-1 h-full shadow-sm"
+                    )}
+                  >
+                    {previewLogo ? (
+                      <img src={previewLogo} className="max-h-44 max-w-md" />
+                    ) : (
+                      <div className="flex flex-col items-center justify-center space-y-4 text-center">
+                        <LucideImage className="w-16 h-16 text-slate-400" />
+                        <div className="text-sm font-medium text-slate-400">
+                          Tidak Ada Logo
+                        </div>
+                      </div>
+                    )}
+
+                    {canWrite && (
+                      <div className="flex items-center space-x-3 mt-8">
                         <Button
                           type="button"
+                          variant={"outline"}
                           size="sm"
-                          variant={"destructive"}
-                          onClick={() => clearLogo(formik)}
+                          onClick={() =>
+                            refLogo.current !== null
+                              ? refLogo.current.click()
+                              : null
+                          }
                         >
-                          <LucideTrash className="w-4 h-4 mr-3" /> Hapus
+                          <LucideUpload className="w-4 h-4 mr-3" /> Ubah Logo
                         </Button>
-                      )}
+                      </div>
+                    )}
+                  </div>
+
+                  {canWrite && (
+                    <div>
+                      {formik.touched.organization_logo &&
+                        formik.errors.organization_logo && (
+                          <span className="mt-2 text-xs text-destructive">
+                            {formik.errors.organization_logo}
+                          </span>
+                        )}
+                      <div className="w-full pt-1">
+                        <div className="mt-2 text-xs text-muted-foreground ">
+                          - Ukuran maksimal file adalah sebesar 3 MB
+                        </div>
+                        <div className="mt-2 text-xs text-muted-foreground">
+                          - Mendukung format file : .jpg, .jpeg, .png, .webp
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
 
-                {canWrite && (
-                  <div>
-                    {formik.touched.organization_logo &&
-                      formik.errors.organization_logo && (
-                        <span className="mt-2 text-xs text-destructive">
-                          {formik.errors.organization_logo}
-                        </span>
-                      )}
-                    <div className="w-full pt-1">
-                      <div className="mt-2 text-xs text-muted-foreground ">
-                        - Ukuran maksimal file adalah sebesar 3 MB
-                      </div>
-                      <div className="mt-2 text-xs text-muted-foreground">
-                        - Mendukung format file : .jpg, .jpeg, .png, .webp
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <FormikInput
-                label="Alamat 1"
-                placeholder="Alamat 1"
-                name="organization_address_1"
-                id="organization_address_1"
-                required
-                disabled={!canWrite}
-              />
-
-              <FormikInput
-                label="Alamat 2"
-                placeholder="Alamat 2"
-                name="organization_address_2"
-                id="organization_address_2"
-                disabled={!canWrite}
-              />
-
-              <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
-                <SelectRegion formik={formik} />
                 <FormikInput
-                  label="Kode Pos"
-                  placeholder="Kode Pos"
-                  name="organization_postal_code"
-                  id="organization_postal_code"
+                  label="Alamat 1"
+                  placeholder="Alamat 1"
+                  name="organization_address_1"
+                  id="organization_address_1"
                   required
                   disabled={!canWrite}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    const regex = /^[0-9]+$/;
-                    if (value.match(regex) || value === "") {
-                      if (value.length <= 5) {
-                        formik.setFieldValue(
-                          "organization_postal_code",
-                          e.target.value.trim()
-                        );
-                      }
-                    }
-                  }}
                 />
+
+                <FormikInput
+                  label="Alamat 2"
+                  placeholder="Alamat 2"
+                  name="organization_address_2"
+                  id="organization_address_2"
+                  disabled={!canWrite}
+                />
+
+                <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+                  <SelectRegion formik={formik} />
+                  <FormikInput
+                    label="Kode Pos"
+                    placeholder="Kode Pos"
+                    name="organization_postal_code"
+                    id="organization_postal_code"
+                    required
+                    disabled={!canWrite}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const regex = /^[0-9]+$/;
+                      if (value.match(regex) || value === "") {
+                        if (value.length <= 5) {
+                          formik.setFieldValue(
+                            "organization_postal_code",
+                            e.target.value.trim()
+                          );
+                        }
+                      }
+                    }}
+                  />
+                </div>
               </div>
-            </Form>
-          )}
-        </Formik>
-      </div>
-      {canWrite && (
-        <div className="flex justify-end p-5 border-t">
-          <Button>
-            <LucideSave className="w-5 h-5 mr-2" /> Simpan
-          </Button>
-        </div>
-      )}
-    </div>
+              {canWrite && (
+                <div className="flex justify-end p-5 border-t">
+                  <Button type="submit" disabled={saveIsLoading}>
+                    {saveIsLoading ? (
+                      <>
+                        <LucideLoader2 className="w-5 h-5 mr-2" /> Menyimpan
+                      </>
+                    ) : (
+                      <>
+                        <LucideSave className="w-5 h-5 mr-2" /> Simpan
+                      </>
+                    )}
+                  </Button>
+                </div>
+              )}
+            </div>
+          </Form>
+        );
+      }}
+    </Formik>
   );
 }
 
@@ -366,7 +412,9 @@ function SelectRegion({
 
   useEffect(() => {
     if (formik.values.province_id) {
-      formik.setFieldTouched("city_id");
+      if (!formik.values.city_id.includes(formik.values.province_id)) {
+        formik.setFieldValue("city_id", "");
+      }
       getCitiesByProvinceId(formik.values.province_id);
     }
   }, [formik.values.province_id]);

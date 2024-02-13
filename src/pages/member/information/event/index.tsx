@@ -39,7 +39,7 @@ export default function UserEventIndex() {
           Kalender
         </h3>
       </div>
-      <div className="">
+      <div className="rounded-md shadow-sm">
         <CalendarEvent
           defaultDate={now}
           events={events}

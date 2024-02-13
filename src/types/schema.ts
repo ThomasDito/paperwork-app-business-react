@@ -45,6 +45,8 @@ export type organization_status =
   | "revised"
   | "declined";
 
+export type organization_language = "id" | "en";
+
 export type organization = {
   readonly id: string;
   organization_name: string;
@@ -56,6 +58,7 @@ export type organization = {
   organization_address_2: string | null;
   organization_logo: string | null;
   organization_postal_code: string;
+  organization_language: organization_language | null;
   city_id: string;
   province_id: string;
   founder_id: string;
@@ -182,8 +185,9 @@ export type event = {
   event_name: string;
   event_start_date: Date | string;
   event_end_date: Date | string;
-  event_description: string;
-  event_location: string;
+  event_description: string | null;
+  event_location: string | null;
+  event_is_holiday: boolean;
   readonly created_at: Date | string;
   readonly updated_at: Date | string;
 };

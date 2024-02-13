@@ -120,7 +120,7 @@ export default function InformationIndex() {
         </div>
       </div>
 
-      <div className="border rounded-sm shadow-sm bg-card">
+      <div className="rounded-md shadow-sm bg-card">
         <div>
           <Table className="whitespace-nowrap">
             <TableHeader>

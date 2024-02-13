@@ -8,7 +8,7 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import DashboardIndex from "@/pages/business/dashboard";
 import { useMeQuery } from "@/redux/api/paperwork/auth-api";
 import SettingIndex from "@/pages/business/organization/setting";
-import OrganizationIndex from "@/pages/business/organization/setting/organization";
+import OrganizationSetting from "@/pages/business/organization/setting/organization";
 import { useBusinessOrganizationGetQuery } from "@/redux/api/business/business/organization-api";
 import RoleIndex from "@/pages/business/organization/role";
 import ApplicationIndex from "@/pages/business/application";
@@ -29,8 +29,10 @@ import { CheckRoleOutlet } from "@/components/check-role";
 import EventForm from "@/pages/business/manage/event/form";
 import ApplicationInstall from "@/pages/business/application/install";
 import MemberIndex from "@/pages/business/organization/member";
-import MemberForm from "@/pages/business/organization/member/form";
+import MemberInvite from "@/pages/business/organization/member/invite";
 import MemberDelete from "@/pages/business/organization/member/delete";
+import MemberCreate from "@/pages/business/organization/member/create";
+import LanguageSetting from "@/pages/business/organization/setting/language";
 
 export default function App() {
   // Hooks
@@ -88,7 +90,6 @@ export default function App() {
                   element={<CheckRoleOutlet module={"member"} />}
                 >
                   <Route index element={<MemberIndex />} />
-                  <Route path="form/:id?" element={<MemberForm />} />
                 </Route>
 
                 <Route
@@ -120,8 +121,9 @@ export default function App() {
                   >
                     <Route
                       path="organization"
-                      element={<OrganizationIndex />}
+                      element={<OrganizationSetting />}
                     />
+                    <Route path="language" element={<LanguageSetting />} />
                   </Route>
                 </Route>
               </Route>
@@ -161,7 +163,8 @@ export default function App() {
           <Routes>
             <Route path="modal">
               <Route path="member">
-                <Route path="form/:id?" element={<MemberForm />} />
+                <Route path="invite" element={<MemberInvite />} />
+                <Route path="create" element={<MemberCreate />} />
                 <Route path="delete/:id" element={<MemberDelete />} />
               </Route>
               <Route path="application">

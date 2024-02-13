@@ -203,7 +203,7 @@ export default function RoleForm() {
       {() => {
         return (
           <Form>
-            <div className="bg-card border rounded-md max-w-4xl mx-auto">
+            <div className="bg-card shadow-sm rounded-md max-w-4xl mx-auto">
               <div className="p-5 flex flex-col items-center justify-between space-y-6 border-0 md:space-y-0 md:flex-row">
                 <h3 className="text-2xl font-semibold tracking-tight scroll-m-20">
                   Tambah Hak Akses
@@ -222,12 +222,18 @@ export default function RoleForm() {
                       required
                       values={
                         members?.data
-                          ? members?.data.map((member) => {
-                              return {
-                                value: member.id,
-                                label: member.user_fullname,
-                              };
-                            })
+                          ? members?.data
+                              .filter(
+                                (member) =>
+                                  member.user_organizations[0]
+                                    .user_organization_type === "member"
+                              )
+                              .map((member) => {
+                                return {
+                                  value: member.id,
+                                  label: member.user_fullname,
+                                };
+                              })
                           : []
                       }
                     />

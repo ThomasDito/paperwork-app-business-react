@@ -9,7 +9,7 @@ import { Link, useLocation } from "react-router-dom";
 
 type TabType = "all" | "installed" | "not-installed";
 
-export default function ApplicationIndex() {
+export default function MemberApplicationIndex() {
   // Hooks
   const location = useLocation();
   const organization = useAppSelector(selectOrganization);
@@ -42,20 +42,6 @@ export default function ApplicationIndex() {
 
   return (
     <div>
-      <div className="mb-8">
-        <Tabs
-          value={tab}
-          onValueChange={(value) => selectTab(value as TabType)}
-          className="w-[400px]"
-        >
-          <TabsList className="bg-transparent">
-            <TabsTrigger value="all">Semua Aplikasi</TabsTrigger>
-            <TabsTrigger value="installed">Terpasang</TabsTrigger>
-            <TabsTrigger value="not-installed">Belum Dipasang</TabsTrigger>
-          </TabsList>
-        </Tabs>
-      </div>
-
       {isSuccess && (
         <div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

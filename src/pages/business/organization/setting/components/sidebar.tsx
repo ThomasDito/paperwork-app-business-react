@@ -2,7 +2,7 @@ import { ModulesType } from "@/lib/consts";
 import { checkRole } from "@/lib/role";
 import { useAppSelector } from "@/redux/hooks";
 import { selectRoles } from "@/redux/slices/auth-slice";
-import { LucideBuilding } from "lucide-react";
+import { LucideBuilding, LucideLanguages } from "lucide-react";
 import { buttonVariants, cn } from "paperwork-ui";
 import { NavLink } from "react-router-dom";
 
@@ -48,6 +48,12 @@ const sidebarNavItems: Array<{
     title: "Organisasi",
     href: "/business/organization/setting/organization",
     icon: <LucideBuilding className="w-5 h-5 mr-3" />,
+    moduleKey: "organization_setting",
+  },
+  {
+    title: "Bahasa",
+    href: "/business/organization/setting/language",
+    icon: <LucideLanguages className="w-5 h-5 mr-3" />,
     moduleKey: "organization_setting",
   },
 ];

@@ -3,13 +3,26 @@ import useRole from "@/hooks/useRole";
 import { useLazyBusinessMemberGetQuery } from "@/redux/api/business/business/member-api";
 import { user } from "@/types/schema";
 import { debounce } from "lodash";
-import { LucidePlus, LucideSearch, LucideTrash } from "lucide-react";
+import {
+  LucideChevronDown,
+  LucideCrown,
+  LucideMail,
+  LucidePlus,
+  LucideSearch,
+  LucideTrash,
+} from "lucide-react";
 import moment from "moment";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
   Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
   Input,
   PaginationButton,
   PaginationLimit,
@@ -19,12 +32,16 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  cn,
 } from "paperwork-ui";
 import { useCallback, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function MemberIndex() {
   // Hooks
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   const location = useLocation();
 
   // Permissions
@@ -99,28 +116,48 @@ export default function MemberIndex() {
           </div>
           {canWrite && (
             <div className="flex items-center space-x-4">
-              <Link
-                to={"/modal/member/form"}
-                state={{ previousLocation: location }}
-              >
-                <Button>
-                  <LucidePlus className="w-5 h-5 mr-2" /> Tambah Anggota
-                </Button>
-              </Link>
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <Button className="flex flex-1 space-x-2">
+                    <span className="w-full">{t("add_member")}</span>
+                    <LucideChevronDown className="w-5 h-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>{t("add_member")}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <Link
+                    to={"/modal/member/create"}
+                    state={{ previousLocation: location }}
+                  >
+                    <DropdownMenuItem>
+                      <LucidePlus className="w-4 h-4 mr-3" /> Buat Anggota Baru
+                    </DropdownMenuItem>
+                  </Link>
+                  <Link
+                    to={"/modal/member/invite"}
+                    state={{ previousLocation: location }}
+                  >
+                    <DropdownMenuItem>
+                      <LucideMail className="w-4 h-4 mr-3" />
+                      Undang Melalui Email
+                    </DropdownMenuItem>
+                  </Link>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           )}
         </div>
       </div>
 
-      <div className="border rounded-md shadow-sm bg-card">
+      <div className="rounded-md shadow-sm bg-card">
         <div>
           <Table className="whitespace-nowrap">
             <TableHeader>
               <TableRow>
                 <TableHead className="p-5">Nama Anggota</TableHead>
-                <TableHead className="p-5">Jabatan</TableHead>
-                <TableHead className="p-5">Status</TableHead>
                 <TableHead className="p-5">Tanggal Bergabung</TableHead>
+                <TableHead className="p-5 text-center">Status</TableHead>
                 {canWrite && (
                   <TableHead className="py-4 px-5 text-center">Aksi</TableHead>
                 )}
@@ -154,8 +191,15 @@ export default function MemberIndex() {
                             </AvatarFallback>
                           </Avatar>
                           <div className="flex flex-col flex-1 space-y-1">
-                            <div className="text-sm font-medium">
+                            <div className="flex items-center text-sm font-medium">
                               {member.user_fullname}
+                              {member.user_organizations[0]
+                                ?.user_organization_type == "founder" && (
+                                <span className="ml-3 inline-flex items-center rounded-full bg-amber-500 text-white px-2 py-0.5 text-xs">
+                                  <LucideCrown className="w-3 h-3 mr-2" />{" "}
+                                  Pendiri
+                                </span>
+                              )}
                             </div>
                             <div className="text-sm text-muted-foreground">
                               {member.user_email}
@@ -164,44 +208,44 @@ export default function MemberIndex() {
                         </div>
                       </TableCell>
                       <TableCell className="px-5">
-                        {member.user_organizations[0]?.user_organization_type ==
-                        "member"
-                          ? "Anggota"
-                          : "Pendiri"}
-                      </TableCell>
-                      <TableCell className="px-5">
-                        {member.user_organizations[0]
-                          ?.user_organization_status === "waiting" &&
-                          "Menunggu"}
-
-                        {member.user_organizations[0]
-                          ?.user_organization_status === "accepted" &&
-                          "Dikonfirmasi"}
-                      </TableCell>
-                      <TableCell className="px-5">
                         {moment(member.created_at).format("DD MMMM YYYY")}
+                      </TableCell>
+                      <TableCell className="px-5 text-center">
+                        <div
+                          className={cn(
+                            "inline-flex px-3 py-1.5 rounded-full text-center border text-xs",
+                            member.user_organizations[0]
+                              ?.user_organization_status === "accepted"
+                              ? "border-success text-success"
+                              : "border-muted-foreground text-muted-foreground"
+                          )}
+                        >
+                          {member.user_organizations[0]
+                            ?.user_organization_status === "accepted"
+                            ? "Dikonfirmasi"
+                            : "Menunggu"}
+                        </div>
                       </TableCell>
                       {canWrite && (
                         <TableCell className="px-5 text-center">
                           <div className="flex justify-center space-x-2">
-                            {member.user_organizations[0]
-                              ?.user_organization_type === "member" ? (
-                              <Link
-                                to={`/modal/member/delete/${member.id}`}
-                                state={{ previousLocation: location }}
-                              >
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="relative text-destructive hover:text-destructive"
-                                >
-                                  <LucideTrash className="w-4 h-4" />
-                                  <span className="sr-only">Hapus</span>
-                                </Button>
-                              </Link>
-                            ) : (
-                              "-"
-                            )}
+                            <Button
+                              disabled={
+                                member.user_organizations[0]
+                                  ?.user_organization_type === "founder"
+                              }
+                              onClick={() => {
+                                navigate(`/modal/member/delete/${member.id}`, {
+                                  state: { previousLocation: location },
+                                });
+                              }}
+                              variant="ghost"
+                              size="icon"
+                              className="relative text-destructive hover:text-destructive"
+                            >
+                              <LucideTrash className="w-4 h-4" />
+                              <span className="sr-only">Hapus</span>
+                            </Button>
                           </div>
                         </TableCell>
                       )}
@@ -211,20 +255,22 @@ export default function MemberIndex() {
             </TableBody>
           </Table>
         </div>
-        <div className="flex flex-col items-center justify-between px-5 py-3 space-y-4 border-t md:flex-row md:space-y-0">
-          <PaginationLimit
-            limit={limit}
-            handleChange={setLimit}
-            pagination={members?.pagination}
-          />
-          {members?.pagination && (
-            <PaginationButton
-              pageLimit={6}
-              pagination={members.pagination}
-              handleChange={(page) => setPage(page)}
+        {(members?.data.length || 0) > 0 && (
+          <div className="flex flex-col items-center justify-between px-5 py-3 space-y-4 border-t md:flex-row md:space-y-0">
+            <PaginationLimit
+              limit={limit}
+              handleChange={setLimit}
+              pagination={members?.pagination}
             />
-          )}
-        </div>
+            {members?.pagination && (
+              <PaginationButton
+                pageLimit={6}
+                pagination={members.pagination}
+                handleChange={(page) => setPage(page)}
+              />
+            )}
+          </div>
+        )}
       </div>
     </>
   );

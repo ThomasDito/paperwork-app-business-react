@@ -8,8 +8,20 @@ const businessOrganizationApi = businessBaseApi.injectEndpoints({
         url: `business/organization`,
         method: "GET",
       }),
+      providesTags: ["Organization"],
       transformResponse: (response: ApiResponse<organization>) => response.data,
       transformErrorResponse: (response) => response.data,
+    }),
+    businessOrganizationUpdate: builder.mutation<
+      ApiResponse<organization>,
+      Partial<organization>
+    >({
+      query: (body) => ({
+        url: `business/organization`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["Organization"],
     }),
   }),
   overrideExisting: false,
@@ -18,4 +30,5 @@ const businessOrganizationApi = businessBaseApi.injectEndpoints({
 export const {
   useBusinessOrganizationGetQuery,
   useLazyBusinessOrganizationGetQuery,
+  useBusinessOrganizationUpdateMutation,
 } = businessOrganizationApi;

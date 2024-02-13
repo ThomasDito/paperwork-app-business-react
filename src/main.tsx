@@ -13,6 +13,8 @@ import "paperwork-ui/index.min.css";
 
 moment.locale("id");
 
+import "@/lib/i18n.ts";
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>

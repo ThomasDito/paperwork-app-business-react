@@ -6,7 +6,7 @@ import {
   useBusinessEventUpdateMutation,
   useLazyBusinessEventShowQuery,
 } from "@/redux/api/business/business/event-api";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import { withZodSchema } from "formik-validator-zod";
 import { LucideLoader2 } from "lucide-react";
 import moment from "moment";
@@ -17,6 +17,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  Switch,
 } from "paperwork-ui";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -32,14 +33,19 @@ const formSchema = z.object({
     .string()
     .trim()
     .min(1, "Harus diisi")
-    .max(150, "Maksimal 150 karakter"),
+    .max(150, "Maksimal 150 karakter")
+    .nullish()
+    .or(z.literal("")),
   event_location: z
     .string()
     .trim()
     .min(1, "Harus diisi")
-    .max(150, "Maksimal 150 karakter"),
+    .max(150, "Maksimal 150 karakter")
+    .nullish()
+    .or(z.literal("")),
   event_start_date: z.date({ coerce: true }),
   event_end_date: z.date({ coerce: true }),
+  event_is_holiday: z.boolean(),
 });
 
 export type EventFormSchema = z.infer<typeof formSchema>;
@@ -71,6 +77,7 @@ export default function EventForm() {
       ? moment(start).utc(true).toDate()
       : moment().toDate(),
     event_end_date: end ? moment(end).utc(true).toDate() : moment().toDate(),
+    event_is_holiday: false,
   });
 
   useEffect(() => {
@@ -83,13 +90,14 @@ export default function EventForm() {
       .then((event) => {
         setInitialValues({
           event_name: event.event_name,
-          event_description: event.event_description,
-          event_location: event.event_location,
+          event_description: event.event_description ?? "",
+          event_location: event.event_location ?? "",
           event_start_date: moment(event.event_start_date).toDate(),
           event_end_date: moment(event.event_end_date).toDate(),
+          event_is_holiday: event.event_is_holiday,
         });
       })
-      .catch((rejected: { message?: string; data?: ApiResponse<unknown> }) => {
+      .catch((rejected: { status?: number; data?: ApiResponse<unknown> }) => {
         toastError(
           rejected?.data?.message || "Terjadi kesalahan ketika mengambil data"
         );
@@ -97,37 +105,50 @@ export default function EventForm() {
       });
   };
 
-  const onSubmit = async (values: EventFormSchema) => {
+  const onSubmit = async (
+    values: EventFormSchema,
+    formikHelpers: FormikHelpers<EventFormSchema>
+  ) => {
+    const payload = {
+      ...values,
+      event_description: values.event_description || null,
+      event_location: values.event_location || null,
+    };
+
     if (!id) {
-      await storeEvent(values)
+      await storeEvent(payload)
         .unwrap()
         .then((response) => {
           toastSuccess(response?.message || "Acara berhasil ditambahkan");
           closeModal();
         })
-        .catch(
-          (rejected: { message?: string; data?: ApiResponse<unknown> }) => {
-            toastError(
-              rejected?.data?.message ||
-                "Terjadi kesalahan ketika menyimpan data"
+        .catch((rejected: { status: number; data?: ApiResponse<unknown> }) => {
+          const message = rejected.data?.message;
+
+          if (rejected.status === 422 && rejected.data?.errors) {
+            formikHelpers.setErrors(
+              rejected.data.errors as unknown as Record<string, string>
             );
           }
-        );
+          toastError(message || "Terjadi kesalahan ketika menyimpan data");
+        });
     } else {
-      await updateEvent({ id, payload: values })
+      await updateEvent({ id, payload })
         .unwrap()
         .then((response) => {
           toastSuccess(response?.message || "Acara berhasil diubah");
           closeModal();
         })
-        .catch(
-          (rejected: { message?: string; data?: ApiResponse<unknown> }) => {
-            toastError(
-              rejected?.data?.message ||
-                "Terjadi kesalahan ketika menyimpan data"
+        .catch((rejected: { status: number; data?: ApiResponse<unknown> }) => {
+          const message = rejected.data?.message;
+
+          if (rejected.status === 422 && rejected.data?.errors) {
+            formikHelpers.setErrors(
+              rejected.data.errors as unknown as Record<string, string>
             );
           }
-        );
+          toastError(message || "Terjadi kesalahan ketika menyimpan data");
+        });
     }
   };
 
@@ -182,15 +203,25 @@ export default function EventForm() {
                             className="flex w-full"
                           />
                         </div>
+                        <div className="flex items-center space-x-4 py-3">
+                          <Switch
+                            name="event_is_holiday"
+                            checked={formik.values.event_is_holiday}
+                            onCheckedChange={(checked) =>
+                              formik.setFieldValue("event_is_holiday", checked)
+                            }
+                          />
+                          <div className="text-sm font-medium">
+                            Hari Libur Perusahaan
+                          </div>
+                        </div>
                         <FormikInput
-                          required
                           label="Lokasi Acara"
                           name="event_location"
                           id="event_location"
                           placeholder="Lokasi Acara"
                         />
                         <FormikTextarea
-                          required
                           label="Deskripsi Acara"
                           name="event_description"
                           id="event_description"

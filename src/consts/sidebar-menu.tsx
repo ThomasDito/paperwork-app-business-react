@@ -73,6 +73,12 @@ export const memberSidebarMenus: SidebarMenuItem[] = [
   //   link: "/member/dashboard",
   // },
   {
+    title: "Aplikasi",
+    icon: <LucideLayoutPanelLeft className="w-5 h-5" />,
+    link: "/business/application",
+    moduleKey: "application",
+  },
+  {
     title: "Informasi",
     icon: <LucideInfo className="w-5 h-5" />,
     children: [
