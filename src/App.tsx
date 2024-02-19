@@ -33,6 +33,8 @@ import MemberInvite from "@/pages/business/organization/member/invite";
 import MemberDelete from "@/pages/business/organization/member/delete";
 import MemberCreate from "@/pages/business/organization/member/create";
 import LanguageSetting from "@/pages/business/organization/setting/language";
+import MemberResend from "@/pages/business/organization/member/resend";
+import MemberApplicationIndex from "@/pages/member/application";
 
 export default function App() {
   // Hooks
@@ -146,6 +148,7 @@ export default function App() {
             <Route path="member">
               <Route index element={<Navigate to={"/user/dashboard"} />} />
               <Route path="dashboard" element={<UserDashboardIndex />} />
+              <Route path="application" element={<MemberApplicationIndex />} />
 
               <Route path="information">
                 <Route path="event" element={<UserEventIndex />} />
@@ -166,6 +169,7 @@ export default function App() {
                 <Route path="invite" element={<MemberInvite />} />
                 <Route path="create" element={<MemberCreate />} />
                 <Route path="delete/:id" element={<MemberDelete />} />
+                <Route path="resend/:id" element={<MemberResend />} />
               </Route>
               <Route path="application">
                 <Route path="install/:id" element={<ApplicationInstall />} />

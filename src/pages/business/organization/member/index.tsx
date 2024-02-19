@@ -7,6 +7,8 @@ import {
   LucideChevronDown,
   LucideCrown,
   LucideMail,
+  LucideMailWarning,
+  LucideMoreHorizontal,
   LucidePlus,
   LucideSearch,
   LucideTrash,
@@ -229,23 +231,53 @@ export default function MemberIndex() {
                       {canWrite && (
                         <TableCell className="px-5 text-center">
                           <div className="flex justify-center space-x-2">
-                            <Button
-                              disabled={
-                                member.user_organizations[0]
-                                  ?.user_organization_type === "founder"
-                              }
-                              onClick={() => {
-                                navigate(`/modal/member/delete/${member.id}`, {
-                                  state: { previousLocation: location },
-                                });
-                              }}
-                              variant="ghost"
-                              size="icon"
-                              className="relative text-destructive hover:text-destructive"
-                            >
-                              <LucideTrash className="w-4 h-4" />
-                              <span className="sr-only">Hapus</span>
-                            </Button>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger>
+                                <Button variant="ghost" size="icon">
+                                  <LucideMoreHorizontal className="w-4 h-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent>
+                                <DropdownMenuLabel>Aksi</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+
+                                {member.user_organizations[0]
+                                  ?.user_organization_status !== "accepted" && (
+                                  <DropdownMenuItem
+                                    onClick={() => {
+                                      navigate(
+                                        `/modal/member/resend/${member.id}`,
+                                        {
+                                          state: { previousLocation: location },
+                                        }
+                                      );
+                                    }}
+                                  >
+                                    <LucideMailWarning className="w-4 h-4 mr-3" />{" "}
+                                    Kirim Undangan Baru
+                                  </DropdownMenuItem>
+                                )}
+
+                                <DropdownMenuItem
+                                  disabled={
+                                    member.user_organizations[0]
+                                      ?.user_organization_type === "founder"
+                                  }
+                                  onClick={() => {
+                                    navigate(
+                                      `/modal/member/delete/${member.id}`,
+                                      {
+                                        state: { previousLocation: location },
+                                      }
+                                    );
+                                  }}
+                                  className="text-destructive hover:!text-destructive"
+                                >
+                                  <LucideTrash className="w-4 h-4 mr-3" />
+                                  Hapus Anggota
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
                           </div>
                         </TableCell>
                       )}

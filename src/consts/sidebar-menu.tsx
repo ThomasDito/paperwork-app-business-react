@@ -64,7 +64,7 @@ export const businessSidebarMenus: SidebarMenuItem[] = [
 
 export const memberSidebarMenus: SidebarMenuItem[] = [
   {
-    title: "pegawai",
+    title: "anggota",
     isHeader: true,
   },
   // {
@@ -75,8 +75,7 @@ export const memberSidebarMenus: SidebarMenuItem[] = [
   {
     title: "Aplikasi",
     icon: <LucideLayoutPanelLeft className="w-5 h-5" />,
-    link: "/business/application",
-    moduleKey: "application",
+    link: "/member/application",
   },
   {
     title: "Informasi",

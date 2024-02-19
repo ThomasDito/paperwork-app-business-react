@@ -49,6 +49,7 @@ export const businessBaseApi = createApi({
     "Member",
 
     // MEMBER
+    "Member/Application",
     "Member/Account",
     "Member/Information",
     "Member/Event",

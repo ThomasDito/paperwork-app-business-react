@@ -1,44 +1,12 @@
-import { useBusinessApplicationGetQuery } from "@/redux/api/business/business/application-api";
-import { useAppSelector } from "@/redux/hooks";
-import { selectOrganization } from "@/redux/slices/auth-slice";
-import { application } from "@/types/schema";
-import { LucideDownloadCloud, LucideExternalLink } from "lucide-react";
-import { Button, Tabs, TabsList, TabsTrigger } from "paperwork-ui";
-import { useCallback, useState, useTransition } from "react";
-import { Link, useLocation } from "react-router-dom";
-
-type TabType = "all" | "installed" | "not-installed";
+import { useBusinessMemberApplicationGetQuery } from "@/redux/api/business/member/application-api";
+import { LucideExternalLink } from "lucide-react";
+import { Button } from "paperwork-ui";
+import { Link } from "react-router-dom";
 
 export default function MemberApplicationIndex() {
-  // Hooks
-  const location = useLocation();
-  const organization = useAppSelector(selectOrganization);
-
-  // States
-  const [tab, setTab] = useState<TabType>("all");
-  const [, startTransition] = useTransition();
-
   // RTK Query
   const { data: applications = [], isSuccess } =
-    useBusinessApplicationGetQuery(tab);
-
-  // Actions
-  const selectTab = (tab: TabType) => {
-    startTransition(() => {
-      setTab(tab);
-    });
-  };
-
-  const isInstalled = useCallback(
-    (application: application) => {
-      return application.organization_applications.find(
-        (item) => item.organization_id === organization?.id
-      )
-        ? true
-        : false;
-    },
-    [applications, organization]
-  );
+    useBusinessMemberApplicationGetQuery();
 
   return (
     <div>
@@ -70,26 +38,14 @@ export default function MemberApplicationIndex() {
                     </div>
                   </div>
                   <div className="p-5 py-4 flex justify-center border-t">
-                    {isInstalled(application) ? (
-                      <Link
-                        to={`/${application.application_path}`}
-                        target="_blank"
-                      >
-                        <Button>
-                          <LucideExternalLink className="mr-2 w-4 h-4" /> Buka
-                        </Button>
-                      </Link>
-                    ) : (
-                      <Link
-                        to={`/modal/application/install/${application.id}`}
-                        state={{ previousLocation: location }}
-                      >
-                        <Button variant="outline">
-                          <LucideDownloadCloud className="mr-2 w-4 h-4" />
-                          Pasang
-                        </Button>
-                      </Link>
-                    )}
+                    <Link
+                      to={`/${application.application_path}`}
+                      target="_blank"
+                    >
+                      <Button>
+                        <LucideExternalLink className="mr-2 w-4 h-4" /> Buka
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               );

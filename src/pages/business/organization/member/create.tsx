@@ -1,7 +1,7 @@
 import { FormikInput } from "@/components/formik";
 import { toastError, toastSuccess } from "@/components/ui/toast";
 import { useBusinessMemberStoreMutation } from "@/redux/api/business/business/member-api";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import { withZodSchema } from "formik-validator-zod";
 import { LucideLoader2, LucideSave } from "lucide-react";
 import {
@@ -49,7 +49,10 @@ export default function MemberCreate() {
     user_email: "",
   });
 
-  const onSubmit = async (values: MemberCreateSchema) => {
+  const onSubmit = async (
+    values: MemberCreateSchema,
+    formikHelpers: FormikHelpers<MemberCreateSchema>
+  ) => {
     await storeMember(values)
       .unwrap()
       .then((response) => {
@@ -59,11 +62,15 @@ export default function MemberCreate() {
         );
         closeModal();
       })
-      .catch((rejected: { message?: string; data?: ApiResponse<unknown> }) => {
-        toastError(
-          rejected?.data?.message ||
-            "Terjadi kesalahan ketika menambahkan anggota"
-        );
+      .catch((rejected: { status: number; data?: ApiResponse<unknown> }) => {
+        const message = rejected.data?.message;
+
+        if (rejected.status === 422 && rejected.data?.errors) {
+          formikHelpers.setErrors(
+            rejected.data.errors as unknown as Record<string, string>
+          );
+        }
+        toastError(message || "Terjadi kesalahan ketika menambahkan anggota");
       });
   };
 
