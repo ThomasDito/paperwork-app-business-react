@@ -1,3 +1,5 @@
+import { Navigate } from "react-router-dom";
+
 export default function RestrictedPage() {
-  return <div>Anda tidak memiliki hak akses</div>;
+  return <Navigate to={"/member/application"} replace />;
 }

@@ -19,7 +19,7 @@ export default function GenerateSidebarMenu() {
     }
 
     if (me) {
-      menus = [...menus, ...memberSidebarMenus];
+      menus = [...memberSidebarMenus, ...menus];
     }
 
     return menus;

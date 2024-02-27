@@ -21,9 +21,9 @@ export function Header({ className }: HeaderProps) {
 
   return (
     <header
-      className={cn("container w-full mx-auto mt-6 hidden md:block", className)}
+      className={cn("container w-full mx-auto mt-8 hidden md:block", className)}
     >
-      <Breadcrumbs separator={"/"} className="mb-1 lg:mb-2">
+      <Breadcrumbs separator={"/"} className="mb-1 lg:mb-2 hidden">
         {breadcrumbs.map(({ match, breadcrumb }) => (
           <Link
             key={match.pathname}

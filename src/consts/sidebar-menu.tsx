@@ -7,7 +7,7 @@ import {
 
 export const businessSidebarMenus: SidebarMenuItem[] = [
   {
-    title: "bisnis",
+    title: "administrator",
     isHeader: true,
   },
   // {

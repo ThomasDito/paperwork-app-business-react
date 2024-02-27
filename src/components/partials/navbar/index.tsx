@@ -11,6 +11,7 @@ import {
   ArrowRight,
   LucideCalendar,
   LucideInfo,
+  LucideLayoutPanelLeft,
 } from "lucide-react";
 import {
   Avatar,
@@ -102,7 +103,7 @@ export function Navbar() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="border-transparent rounded-full text-primary hover:text-primary"
+                className="border-transparent rounded-full text-primary hover:text-primary hidden"
               >
                 <Globe className="w-5 h-5" />
               </Button>
@@ -202,6 +203,11 @@ export function Navbar() {
 }
 
 const profileMenus = [
+  {
+    title: "Aplikasi",
+    href: "/member/application",
+    icon: <LucideLayoutPanelLeft className="w-4 h-4 mr-3" />,
+  },
   {
     title: "Kalender",
     href: "/member/information/event",

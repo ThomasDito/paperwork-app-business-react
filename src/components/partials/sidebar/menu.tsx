@@ -66,7 +66,12 @@ export default function SidebarMenu({ menus }: { menus: SidebarMenuItem[] }) {
           >
             {/* Menu item is header */}
             {item.isHeader && !item.children && (
-              <div className="my-2 text-xs font-semibold uppercase menu-header">
+              <div
+                className={cn(
+                  "my-2 text-xs font-semibold uppercase menu-header",
+                  i > 0 && "mt-6"
+                )}
+              >
                 <div className="menu-header-text">{item.title}</div>
               </div>
             )}

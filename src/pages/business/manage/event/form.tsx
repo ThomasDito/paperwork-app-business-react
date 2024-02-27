@@ -45,7 +45,8 @@ const formSchema = z.object({
     .or(z.literal("")),
   event_start_date: z.date({ coerce: true }),
   event_end_date: z.date({ coerce: true }),
-  event_is_holiday: z.boolean(),
+  event_is_national_holiday: z.boolean(),
+  event_is_company_holiday: z.boolean(),
 });
 
 export type EventFormSchema = z.infer<typeof formSchema>;
@@ -77,7 +78,8 @@ export default function EventForm() {
       ? moment(start).utc(true).toDate()
       : moment().toDate(),
     event_end_date: end ? moment(end).utc(true).toDate() : moment().toDate(),
-    event_is_holiday: false,
+    event_is_national_holiday: false,
+    event_is_company_holiday: false,
   });
 
   useEffect(() => {
@@ -94,7 +96,8 @@ export default function EventForm() {
           event_location: event.event_location ?? "",
           event_start_date: moment(event.event_start_date).toDate(),
           event_end_date: moment(event.event_end_date).toDate(),
-          event_is_holiday: event.event_is_holiday,
+          event_is_company_holiday: event.event_is_company_holiday,
+          event_is_national_holiday: event.event_is_national_holiday,
         });
       })
       .catch((rejected: { status?: number; data?: ApiResponse<unknown> }) => {
@@ -205,10 +208,13 @@ export default function EventForm() {
                         </div>
                         <div className="flex items-center space-x-4 py-3">
                           <Switch
-                            name="event_is_holiday"
-                            checked={formik.values.event_is_holiday}
+                            name="event_is_company_holiday"
+                            checked={formik.values.event_is_company_holiday}
                             onCheckedChange={(checked) =>
-                              formik.setFieldValue("event_is_holiday", checked)
+                              formik.setFieldValue(
+                                "event_is_company_holiday",
+                                checked
+                              )
                             }
                           />
                           <div className="text-sm font-medium">

@@ -187,7 +187,9 @@ export type event = {
   event_end_date: Date | string;
   event_description: string | null;
   event_location: string | null;
-  event_is_holiday: boolean;
+  event_is_national_holiday: boolean;
+  event_is_special_holiday: boolean;
+  event_is_company_holiday: boolean;
   readonly created_at: Date | string;
   readonly updated_at: Date | string;
 };

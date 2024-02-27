@@ -33,7 +33,7 @@ const businessMemberApi = businessBaseApi.injectEndpoints({
     }),
     businessMemberStore: builder.mutation<
       ApiResponse<user>,
-      { user_email: string; user_fullname: string }
+      { user_email: string; user_fullname: string; user_password?: string }
     >({
       query: (payload) => ({
         url: `business/member`,

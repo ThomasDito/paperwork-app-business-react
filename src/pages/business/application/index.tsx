@@ -2,7 +2,11 @@ import { useBusinessApplicationGetQuery } from "@/redux/api/business/business/ap
 import { useAppSelector } from "@/redux/hooks";
 import { selectOrganization } from "@/redux/slices/auth-slice";
 import { application } from "@/types/schema";
-import { LucideDownloadCloud, LucideExternalLink } from "lucide-react";
+import {
+  LucideAppWindow,
+  LucideDownloadCloud,
+  LucideExternalLink,
+} from "lucide-react";
 import { Button, Tabs, TabsList, TabsTrigger } from "paperwork-ui";
 import { useCallback, useState, useTransition } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -65,31 +69,32 @@ export default function ApplicationIndex() {
                   key={application.id}
                   className="rounded-md shadow-sm bg-card"
                 >
-                  <div className="p-5 pt-8 flex justify-center">
-                    <div className="border rounded-md">
-                      {/* <img
-                        src="https://cdn.paperwork.local/961ce5b7-ab59-4881-b9a0-51f6e7aac8e8.png"
-                        alt="logo"
-                        className="m-2 w-24 h-24 object-cover"
-                      /> */}
-                      <div className="m-2 w-24 h-24 bg-muted rounded-full"></div>
+                  <div className="p-4 flex items-center space-x-4">
+                    <div className="flex items-center p-3 bg-primary/5 rounded-full">
+                      <LucideAppWindow className="w-8 h-8 text-primary" />
+                    </div>
+                    <div className="flex flex-col space-y-0.5 w-full">
+                      <div className="font-bold text-lg">
+                        {application.application_name}
+                      </div>
+                      <div className="text-muted-foreground text-xs">
+                        {isInstalled(application)
+                          ? "Terpasang"
+                          : "Belum Dipasang"}
+                      </div>
                     </div>
                   </div>
-                  <div className="p-5 pt-2 pb-7 flex flex-col text-center space-y-1">
-                    <div className="font-bold text-lg">
-                      {application.application_name}
-                    </div>
-                    <div className="text-muted-foreground text-sm">
-                      {application.application_description}
-                    </div>
+                  <div className="border-t pt-5 p-4 text-muted-foreground text-sm min-h-[130px]">
+                    {application.application_description}
                   </div>
-                  <div className="p-5 py-4 flex justify-center border-t">
+                  <div className="p-4 py-4 flex border-t w-full bg-accent/30">
                     {isInstalled(application) ? (
                       <Link
                         to={`/${application.application_path}`}
                         target="_blank"
+                        className="w-full"
                       >
-                        <Button>
+                        <Button className="w-full">
                           <LucideExternalLink className="mr-2 w-4 h-4" /> Buka
                         </Button>
                       </Link>
@@ -97,8 +102,9 @@ export default function ApplicationIndex() {
                       <Link
                         to={`/modal/application/install/${application.id}`}
                         state={{ previousLocation: location }}
+                        className="w-full"
                       >
-                        <Button variant="outline">
+                        <Button className="w-full" variant="outline">
                           <LucideDownloadCloud className="mr-2 w-4 h-4" />
                           Pasang
                         </Button>
