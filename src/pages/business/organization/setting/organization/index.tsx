@@ -15,13 +15,11 @@ import {
   LucideImage,
   LucideLoader2,
   LucideSave,
-  LucideTrash,
   LucideUpload,
 } from "lucide-react";
 import { Button, Label, cn, toastError, toastSuccess } from "paperwork-ui";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
-import { Organization } from "../../../../../../../paperwork-utils/dist";
 import { organization } from "@/types/schema";
 
 const MAX_FILE_SIZE = 1024 * 3; //3MB
@@ -120,13 +118,6 @@ export default function OrganizationSetting() {
       previewImage(organization.organization_logo);
     }
   }, [organization]);
-
-  // Functions
-  const clearLogo = (formik: FormikProps<OrganizationSchemaType>): void => {
-    setPreviewLogo("");
-    formik.setFieldValue("organization_logo", null);
-    if (refLogo.current) refLogo.current.value = "";
-  };
 
   const previewImage = (image: Blob | string | null): void => {
     if (!image) return;
