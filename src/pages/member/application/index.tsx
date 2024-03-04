@@ -6,7 +6,9 @@ import { Link } from "react-router-dom";
 export default function MemberApplicationIndex() {
   // RTK Query
   const { data: applications = [], isSuccess } =
-    useBusinessMemberApplicationGetQuery();
+    useBusinessMemberApplicationGetQuery(undefined, {
+      refetchOnMountOrArgChange: true,
+    });
 
   return (
     <div>

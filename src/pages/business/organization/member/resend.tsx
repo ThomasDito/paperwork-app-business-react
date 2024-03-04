@@ -1,5 +1,5 @@
 import { toastError, toastSuccess } from "@/components/ui/toast";
-import { useBusinessMemberDeleteMutation } from "@/redux/api/business/business/member-api";
+import { useBusinessMemberResendInvitationMutation } from "@/redux/api/business/business/member-api";
 import { LucideLoader2 } from "lucide-react";
 import {
   Button,
@@ -18,20 +18,22 @@ export default function MemberResend() {
   const { id } = useParams();
 
   // RTK Query
-  const [deleteMember, { isLoading }] = useBusinessMemberDeleteMutation();
+  const [resendInvitation, { isLoading }] =
+    useBusinessMemberResendInvitationMutation();
 
-  const doDelete = async () => {
+  const doResend = async () => {
     if (!id) return;
 
-    await deleteMember(id)
+    await resendInvitation(id)
       .unwrap()
       .then((response) => {
-        toastSuccess(response?.message || "Anggota berhasil dihapus");
+        toastSuccess(response?.message || "Undangan baru berhasil dikirimkan");
         closeModal();
       })
       .catch((rejected: { message?: string; data?: ApiResponse<unknown> }) => {
         toastError(
-          rejected?.data?.message || "Terjadi kesalahan ketika menghapus data"
+          rejected?.data?.message ||
+            "Terjadi kesalahan ketika mengirim undangan"
         );
       });
   };
@@ -61,7 +63,7 @@ export default function MemberResend() {
             type="submit"
             className="w-full"
             disabled={isLoading}
-            onClick={() => doDelete()}
+            onClick={() => doResend()}
           >
             {isLoading ? (
               <LucideLoader2 className="w-4 h-4 mr-2 animate-spin" />

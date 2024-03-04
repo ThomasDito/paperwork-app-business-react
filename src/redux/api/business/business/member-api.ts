@@ -53,6 +53,15 @@ const businessMemberApi = businessBaseApi.injectEndpoints({
       }),
       invalidatesTags: ["Member"],
     }),
+    businessMemberResendInvitation: builder.mutation<ApiResponse<user>, string>(
+      {
+        query: (id) => ({
+          url: `business/member/${id}/resend-invitation`,
+          method: "POST",
+        }),
+        invalidatesTags: ["Member"],
+      }
+    ),
     businessMemberUpdate: builder.mutation<
       ApiResponse<user>,
       { id: string; payload: Partial<user> }
@@ -98,4 +107,5 @@ export const {
   useBusinessMemberUpdateMutation,
   useBusinessMemberChangeStatusMutation,
   useBusinessMemberInviteMutation,
+  useBusinessMemberResendInvitationMutation,
 } = businessMemberApi;
