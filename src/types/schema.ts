@@ -59,6 +59,7 @@ export type organization = {
   organization_logo: string | null;
   organization_postal_code: string;
   organization_language: organization_language | null;
+  organization_timezone: string;
   city_id: string;
   province_id: string;
   founder_id: string;

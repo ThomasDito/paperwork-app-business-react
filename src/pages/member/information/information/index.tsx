@@ -1,6 +1,6 @@
 import { useLazyBusinessMemberInformationGetQuery } from "@/redux/api/business/member/information-api";
 import { LucideCalendar } from "lucide-react";
-import moment from "moment";
+import moment from "moment-timezone";
 import { Tabs, TabsList, TabsTrigger } from "paperwork-ui";
 import { useEffect, useState, useTransition } from "react";
 

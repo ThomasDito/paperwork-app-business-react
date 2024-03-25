@@ -9,7 +9,7 @@ import {
 import { Form, Formik, FormikHelpers } from "formik";
 import { withZodSchema } from "formik-validator-zod";
 import { LucideLoader2 } from "lucide-react";
-import moment from "moment";
+import moment from "moment-timezone";
 import {
   Button,
   Dialog,
@@ -74,10 +74,8 @@ export default function EventForm() {
     event_name: "",
     event_description: "",
     event_location: "",
-    event_start_date: start
-      ? moment(start).utc(true).toDate()
-      : moment().toDate(),
-    event_end_date: end ? moment(end).utc(true).toDate() : moment().toDate(),
+    event_start_date: start ? moment(start).toDate() : moment().toDate(),
+    event_end_date: end ? moment(end).toDate() : moment().toDate(),
     event_is_national_holiday: false,
     event_is_company_holiday: false,
   });
@@ -206,7 +204,22 @@ export default function EventForm() {
                             className="flex w-full"
                           />
                         </div>
-                        <div className="flex items-center space-x-4 py-3">
+                        <div className="flex items-center space-x-4 pt-3">
+                          <Switch
+                            name="event_is_national_holiday"
+                            checked={formik.values.event_is_national_holiday}
+                            onCheckedChange={(checked) =>
+                              formik.setFieldValue(
+                                "event_is_national_holiday",
+                                checked
+                              )
+                            }
+                          />
+                          <div className="text-sm font-medium">
+                            Hari Libur Nasional
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-4 pb-3">
                           <Switch
                             name="event_is_company_holiday"
                             checked={formik.values.event_is_company_holiday}

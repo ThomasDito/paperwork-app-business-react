@@ -13,7 +13,7 @@ import {
   LucideSearch,
   LucideTrash,
 } from "lucide-react";
-import moment from "moment";
+import moment from "moment-timezone";
 import {
   Avatar,
   AvatarFallback,

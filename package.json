@@ -21,6 +21,7 @@
     "lodash": "^4.17.21",
     "lucide-react": "^0.268.0",
     "moment": "^2.29.4",
+    "moment-timezone": "^0.5.45",
     "paperwork-ui": "file:../paperwork-ui/dist",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",

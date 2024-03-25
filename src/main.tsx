@@ -6,14 +6,13 @@ import { BrowserRouter } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store.ts";
-import "moment/dist/locale/id";
-import moment from "moment";
 import ScrollToTop from "@/components/scroll-to-top.tsx";
 import "paperwork-ui/index.min.css";
-
-moment.locale("id");
+import "moment/dist/locale/id";
+import moment from "moment-timezone";
 
 import "@/lib/i18n.ts";
+moment.locale("id");
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>

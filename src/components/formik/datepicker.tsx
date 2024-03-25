@@ -1,8 +1,10 @@
 import * as React from "react";
 import { FieldHookConfig, useField } from "formik";
 import { DayPickerSingleProps } from "react-day-picker";
-import { cn, ButtonProps, DatePicker, Label, Required } from "paperwork-ui";
-import moment from "moment";
+import { cn, ButtonProps, Label, Required } from "paperwork-ui";
+import moment from "moment-timezone";
+import { id as Indonesia } from "date-fns/locale";
+import { DatePicker } from "@/components/ui/datepicker";
 
 type InputProps = {
   className?: string;
@@ -41,10 +43,11 @@ const FormikDatePicker: React.FC<
         placeholder={placeholder}
         selected={field.value}
         onOpenChange={() => helpers.setTouched(true, true)}
+        locale={Indonesia}
         {...props}
         {...field}
         onSelect={(date) => {
-          const value = moment(date).utc(true).toDate();
+          const value = moment(date).toDate();
           helpers.setValue(value, true);
           helpers.setTouched(true, true);
         }}

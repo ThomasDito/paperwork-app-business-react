@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import moment from "moment";
+import moment from "moment-timezone";
 import { Button, CalendarEvent, momentLocalizer, SlotInfo } from "paperwork-ui";
 import { LucidePlus } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -32,8 +32,8 @@ export default function EventIndex() {
         allDay: true,
         id: event.id,
         title: event.event_name,
-        start: moment(event.event_start_date).utc(true).toDate(),
-        end: moment(event.event_end_date).utc(true).toDate(),
+        start: moment(event.event_start_date).toDate(),
+        end: moment(event.event_end_date).toDate(),
       } as Event;
     });
   }, [data]);

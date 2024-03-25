@@ -35,6 +35,7 @@ import MemberCreate from "@/pages/business/organization/member/create";
 import LanguageSetting from "@/pages/business/organization/setting/language";
 import MemberResend from "@/pages/business/organization/member/resend";
 import MemberApplicationIndex from "@/pages/member/application";
+import moment from "moment-timezone";
 
 export default function App() {
   // Hooks
@@ -59,6 +60,7 @@ export default function App() {
   useEffect(() => {
     if (organization) {
       dispatch(setOrganization(organization));
+      moment.tz.setDefault(organization.organization_timezone);
     }
   }, [organization]);
 

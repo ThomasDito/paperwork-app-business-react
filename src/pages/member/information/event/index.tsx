@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import moment from "moment";
+import moment from "moment-timezone";
 import { CalendarEvent, momentLocalizer } from "paperwork-ui";
 import { useBusinessMemberEventGetQuery } from "@/redux/api/business/member/event-api";
 
@@ -26,8 +26,8 @@ export default function UserEventIndex() {
         allDay: true,
         id: event.id,
         title: event.event_name,
-        start: moment(event.event_start_date).utc(true).toDate(),
-        end: moment(event.event_end_date).utc(true).toDate(),
+        start: moment(event.event_start_date).toDate(),
+        end: moment(event.event_end_date).toDate(),
       } as Event;
     });
   }, [data]);
