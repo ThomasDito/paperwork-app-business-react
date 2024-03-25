@@ -11,7 +11,16 @@ import {
 const baseQuery = fetchBaseQuery({
   baseUrl: config.BUSINESS_API_URL,
   prepareHeaders(headers) {
-    headers.set("organization-id", window.location.hostname);
+    if (config.DEBUG.ORGANIZATION_ID) {
+      headers.set("organization-id", config.DEBUG.ORGANIZATION_ID);
+    } else {
+      headers.set("organization-id", window.location.hostname);
+    }
+
+    if (config.DEBUG.AUTH_TOKEN) {
+      headers.set("Authorization", `Bearer ${config.DEBUG.AUTH_TOKEN}`);
+    }
+
     return headers;
   },
   credentials: "include",

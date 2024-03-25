@@ -11,6 +11,10 @@ import {
 const baseQuery = fetchBaseQuery({
   baseUrl: config.API_URL,
   prepareHeaders(headers) {
+    if (config.DEBUG.AUTH_TOKEN) {
+      headers.set("Authorization", `Bearer ${config.DEBUG.AUTH_TOKEN}`);
+    }
+
     return headers;
   },
   credentials: "include",
