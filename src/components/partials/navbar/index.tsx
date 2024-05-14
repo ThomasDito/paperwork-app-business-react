@@ -123,6 +123,37 @@ export function Navbar() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="border-transparent rounded-full text-primary hover:text-primary"
+              >
+                <div className="w-5 h-5 flex items-center justify-center rounded-full bg-primary hover:bg-primary-light">
+                  <span className="text-white">i</span>
+                </div>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="p-0">
+              <DropdownMenuItem>
+                <Link
+                  to="/member/information/information"
+                  className="block px-4 py-3 text-sm text-primary hover:bg-primary-light hover:text-primary-hover"
+                >
+                  Sedang Tayang
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link
+                  to="/member/information/information"
+                  className="block px-4 py-3 text-sm text-primary hover:bg-primary-light hover:text-primary-hover"
+                >
+                  Riwayat
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Button
             variant="ghost"
             size="icon"
@@ -219,3 +250,5 @@ const profileMenus = [
     icon: <LucideInfo className="w-4 h-4 mr-3" />,
   },
 ];
+
+export default Navbar;

@@ -46,6 +46,33 @@ export default function ApplicationIndex() {
 
   return (
     <div>
+      {/* Breadcrumb */}
+      <nav className="text-sm font-medium mb-4" aria-label="Breadcrumb">
+        <ol className="flex">
+          <li className="flex items-center">
+            <Link to="/" className="text-gray-400 hover:text-gray-500">
+              Home
+            </Link>
+            <svg
+              className="flex-shrink-0 w-3 h-3 mx-2 fill-current text-gray-500"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M7.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L10.586 11H3a1 1 0 110-2h7.586L7.293 6.707a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </li>
+          <li className="flex items-center">
+            <span className="text-gray-500">Aplikasi</span>
+          </li>
+        </ol>
+      </nav>
+      
+      {/* Main Content */}
       <div className="mb-8">
         <Tabs
           value={tab}

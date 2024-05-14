@@ -99,4 +99,9 @@ export const memberSidebarMenus: SidebarMenuItem[] = [
       // },
     ],
   },
+  {
+    title: "Forum Diskusi",
+    icon: <LucideLayoutPanelLeft className="w-5 h-5" />,
+    link: "/member/information/new-feature",
+  },
 ];

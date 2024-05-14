@@ -36,6 +36,7 @@ import LanguageSetting from "@/pages/business/organization/setting/language";
 import MemberResend from "@/pages/business/organization/member/resend";
 import MemberApplicationIndex from "@/pages/member/application";
 import moment from "moment-timezone";
+import NewFeatureIndex from "@/pages/member/information/new-feature";
 
 export default function App() {
   // Hooks
@@ -157,6 +158,7 @@ export default function App() {
                 <Route path="information" element={<UserInformationIndex />} />
                 <Route path="activity" element={<UserActivityIndex />} />
                 <Route path="help" element={<UserHelpIndex />} />
+                <Route path="new-feature" element={<NewFeatureIndex />} />
               </Route>
             </Route>
           </Route>
@@ -186,6 +188,7 @@ export default function App() {
                 <Route path="form/:id" element={<EventForm />} />
                 <Route path="form/:start/:end" element={<EventForm />} />
               </Route>
+        
             </Route>
           </Routes>
         )}
